@@ -1,0 +1,34 @@
+{
+    "name": "CustomPlayerController",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "f0306848-f305-4ab7-8cc2-bb41c486aee2",
+            "actions": [
+                {
+                    "name": "PlayerMovement",
+                    "type": "Value",
+                    "id": "3d4a47ae-037e-447f-9784-0f8f0672618b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "93f07190-fc1c-475c-8efa-ce155aa27836",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerMovement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6392287751245654279
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: M_NaddiOverlay_00
+  m_Shader: {fileID: -6465566751694194690, guid: 2f22935dbd430734e9736f098fbd7e77, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _SURFACE_TYPE_TRANSPARENT
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    RenderType: Transparent
+  disabledShaderPasses:
+  - DepthOnly
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_0f44f521bf0e4a07b21901a5f2177f4a_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: aa53057aefcf7984dafa54ecad5e019b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_908ad0a4c423480f887bc19ffc20a34b_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 0ae9ef935c168834c80bfdeab8f8022b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_b6dbdc287c244d3b9fbcfed646043bac_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 0b2229b7e6c27954ea7c0e236a868044, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_d3a9b42d1e194c138ac23166488b1fb8_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 7ed611b25716be744b1fb458d9673854, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Blend: 0
+    - _CastShadows: 1
+    - _ColorLERP: 0.521
+    - _Cull: 2
+    - _DstBlend: 10
+    - _FadeInOverlay: 0
+    - _Float: 0
+    - _FrameSpeed: 4
+    - _FullscreenIntensity: 0.34389818
+    - _PulseSpeed: 7
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _SrcBlend: 5
+    - _Surface: 1
+    - _TextureOffset: 0.225
+    - _VignetteIntensity: 0.85
+    - _VignetteRadiusPower: 6
+    - _VoronoiScale: 5.01
+    - _VoronoiSpeed: 3
+    - _ZTest: 4
+    - _ZWrite: 0
+    - _ZWriteControl: 0
+    m_Colors:
+    - _AccentColor: {r: 0.3962264, g: 0, b: 0, a: 0}
+    - _Color: {r: 0.92452836, g: 0, b: 0, a: 0}
+    - _MainColor: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []

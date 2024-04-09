@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3066311670337874074
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: M_AssetZooWater_02
+  m_Shader: {fileID: -6465566751694194690, guid: e5b24da9aee346b4fa7b0561a56abe88, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _FlowTex:
+        m_Texture: {fileID: 2800000, guid: cf282b04124166943a3a1bd289c4808c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FoamTex:
+        m_Texture: {fileID: 2800000, guid: d30c6c77203e75d418a10b9e934f6cde, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_1060282347374f98bfb51756fc0544f4_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 49e6263be49932b4688b436dcbbdde06, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Alpha: 0.9
+    - _Choppiness: 0.01
+    - _DepthCompareDistance: 0.64
+    - _FlowSpeed: 0.02
+    - _FlowStrength: 4
+    - _FoamAmount: 0.4
+    - _FoamCutoff: 1.15
+    - _FoamDistance: 50.3
+    - _FoamIntensity: 2
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _Size: 185
+    - _Slimness: 1
+    - _WaveDensity: 100
+    - _WaveHeight: 0.06
+    - _WaveSpeeed: 0.007
+    m_Colors:
+    - _DarkFoamColor: {r: 0, g: 0, b: 0.066037714, a: 0}
+    - _DepthColor: {r: 0.07320221, g: 0.0900529, b: 0.3301887, a: 0}
+    - _LightFoamColor: {r: 0.16874333, g: 0.4528302, b: 0.41675568, a: 0}
+    - _WaterColor: {r: 0.051664308, g: 0.05614896, b: 0.084905684, a: 0}
+  m_BuildTextureStacks: []
