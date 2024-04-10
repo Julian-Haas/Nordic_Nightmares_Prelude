@@ -49,7 +49,7 @@ public class s_PlayerCollider : MonoBehaviour, IPlayerAction
     [SerializeField] Animator _EyeAnimator;
     private DeathManager _deathManager;
 
-    private void Start()
+    private void Awake()
     {
         _deathManager = this.GetComponent<DeathManager>();
         _soundManager = GameObject.Find("SoundManager").GetComponentInChildren<s_SoundManager>();
