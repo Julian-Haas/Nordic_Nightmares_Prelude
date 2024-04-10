@@ -267,7 +267,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _patrolPath: {fileID: 1022229196}
   _movementSpeed: 10
+  _playerPos: {fileID: 1989421826}
   PatrolPoint: {x: 0, y: 0, z: 0}
+  _coneRadius: 50
+  _coneHalfAngleDegree: 25
 --- !u!1 &218864808
 GameObject:
   m_ObjectHideFlags: 0

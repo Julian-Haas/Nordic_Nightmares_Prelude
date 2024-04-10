@@ -35,5 +35,4 @@ public class PatrolPath : MonoBehaviour
         }
         return Paths[_indexOfNextPath].transform.position; 
     }
-
 }
