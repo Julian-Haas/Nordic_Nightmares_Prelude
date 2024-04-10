@@ -135,7 +135,6 @@ GameObject:
   - component: {fileID: 26476386}
   - component: {fileID: 26476385}
   - component: {fileID: 26476384}
-  - component: {fileID: 26476383}
   - component: {fileID: 26476388}
   m_Layer: 0
   m_Name: Naddi
@@ -144,29 +143,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &26476383
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 26476382}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29a074d529cf945029ef7cf40540c9df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Target: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_LoopMode: 1
-  m_Method: 0
-  m_Duration: 1
-  m_MaxSpeed: 42.706356
-  m_EasingMode: 0
-  m_AlignmentMode: 1
-  m_ObjectForwardAxis: 2
-  m_ObjectUpAxis: 1
-  m_StartOffset: 0
 --- !u!65 &26476384
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -661,8 +637,8 @@ Transform:
   m_GameObject: {fileID: 218864808}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -44.77, y: 0.27, z: 58.2}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_LocalPosition: {x: -101.9, y: 0.27, z: 58.2}
+  m_LocalScale: {x: -3.99164, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1149,7 +1125,7 @@ Transform:
   m_GameObject: {fileID: 778082202}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.537, y: 0.27, z: -41.362206}
+  m_LocalPosition: {x: -113.1, y: 0.27, z: -41.362206}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1422,7 +1398,7 @@ Transform:
   m_GameObject: {fileID: 1657362206}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 3.4}
+  m_LocalPosition: {x: 0, y: 0, z: -22.8}
   m_LocalScale: {x: 30, y: 1, z: 30}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1440,7 +1416,6 @@ GameObject:
   - component: {fileID: 1989421825}
   - component: {fileID: 1989421824}
   - component: {fileID: 1989421823}
-  - component: {fileID: 1989421822}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1448,29 +1423,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1989421822
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1989421820}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29a074d529cf945029ef7cf40540c9df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Target: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_LoopMode: 1
-  m_Method: 0
-  m_Duration: 1
-  m_MaxSpeed: 42.706356
-  m_EasingMode: 0
-  m_AlignmentMode: 1
-  m_ObjectForwardAxis: 2
-  m_ObjectUpAxis: 1
-  m_StartOffset: 0
 --- !u!65 &1989421823
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1551,7 +1503,7 @@ Transform:
   m_GameObject: {fileID: 1989421820}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.6, y: 0.32, z: 10.232355}
+  m_LocalPosition: {x: -67.02, y: 0.32, z: -36.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

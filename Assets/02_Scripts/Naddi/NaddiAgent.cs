@@ -3,24 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Splines; 
 using UnityEngine.AI;
+using Unity.VisualScripting;
 
 public class NaddiAgent : MonoBehaviour
 {
-    public static NaddiAgent Naddi; 
+    public static NaddiAgent Naddi;
     private NaddiSM _stateMachine;
-    private NaddiEyeSight _naddiEye; 
+    private NaddiEyeSight _naddiEye;
     [SerializeField]
     private PatrolPath _patrolPath;
     [SerializeField]
     private float _movementSpeed;
     [SerializeField]
-    private Transform _playerPos; 
+    private Transform _playerPos;
 
     private NavMeshAgent _agent;
     private SplineAnimate _splineAnimate;
-    private float _digPosition;
-
-    
+    private float _digDownHeight;
+    private float _digUpHeight;
+    private float _lerp=0; 
+    private NaddiStates _state;
+    private bool _diggingFinished = false; 
 
     public Vector3 PatrolPoint;
     [Header("Player visibility Check")]
@@ -29,20 +32,23 @@ public class NaddiAgent : MonoBehaviour
 
     private Color _debugPlayerInsideCone = Color.blue;
     private Color _debugPlayerOutsideCone = Color.red;
-
+    private bool _isDoingSomething=false; 
 
     private void Awake()
     {
         Naddi = this;
         _stateMachine = new NaddiSM();
-        _splineAnimate = this.GetComponent<SplineAnimate>();
-        _splineAnimate.PlayOnAwake = false; 
+        _splineAnimate = this.AddComponent<SplineAnimate>();
         _splineAnimate.enabled = false; 
+        _splineAnimate.PlayOnAwake = false;
         _agent = this.GetComponent<NavMeshAgent>();
-        _digPosition = transform.position.y - (transform.localScale.y * 2);
-        _naddiEye = new NaddiEyeSight(_coneRadius, _playerPos, this.transform, _coneHalfAngleDegree); 
+        _digDownHeight = transform.position.y - (transform.localScale.y * 2);
+        _digUpHeight = transform.position.y;
+        _naddiEye = new NaddiEyeSight(_coneRadius, _playerPos, this.transform, _coneHalfAngleDegree);
+        _state = new NaddiStates();
+        _state = NaddiStates.Digging;
     }
-
+  
     private void Update()
     {
         bool seesPlayer = _naddiEye.isInsideCone();
@@ -54,30 +60,67 @@ public class NaddiAgent : MonoBehaviour
         {
             this.GetComponent<MeshRenderer>().material.color = _debugPlayerOutsideCone;
         }
+        HandleState(); 
     }
-
 
     private void WalkOnPatrol()
     {
+        _isDoingSomething = true;
         transform.position = PatrolPoint; 
         _splineAnimate.enabled = true;
         _splineAnimate.Container = _patrolPath.ActivatePatrolPath();
         _splineAnimate.Play();
+        _isDoingSomething = false; 
+    }
+    void HandleState()
+    {
+        if (!_isDoingSomething)
+        {
+            switch (_state)
+            {
+                case NaddiStates.Digging:
+                    StartCoroutine(DigAndPatrol(_digDownHeight, _digUpHeight));
+                    break;
+                case NaddiStates.Patrol:
+                    WalkOnPatrol();
+                    break;
+            }
+        }
     }
 
-    private void Digging()
+    private IEnumerator DigAndPatrol(float digDownHeight, float digUpHeight)
     {
-        float lerp = 0f; 
-        Vector3 digPos = new Vector3(transform.position.x, _digPosition, transform.position.z);
-        if (Vector3.Distance(transform.position, digPos) > 0.3f)
-        {
-            transform.position = Vector3.Lerp(transform.position, digPos, lerp += (1.3f*Time.deltaTime));
-        }
-        else
-        {
-            WalkOnPatrol();
-        }
+        yield return StartCoroutine(Dig(digDownHeight));
+        Vector3 newPos = _patrolPath.GetFathesPoint();
+        newPos.y = _digDownHeight;
+        this.transform.position = newPos; 
+        yield return StartCoroutine(Dig(digUpHeight));
+        _state = NaddiStates.Patrol;
     }
+
+    private IEnumerator Dig(float newHeight)
+    {
+        Vector3 digPos = new Vector3(transform.position.x, newHeight, transform.position.z);
+        float duration = 2;
+        float elapsedTime = 0f;
+
+        float startPosition = transform.position.y;
+
+        while (elapsedTime < duration)
+        {
+            float t = elapsedTime / duration;
+            float finalYPos = Mathf.Lerp(startPosition, digPos.y, t);
+            Vector3 finalPos = transform.position;
+            finalPos.y = finalYPos;
+            transform.position = finalPos;
+            Debug.Log(transform.position);
+            elapsedTime += duration*Time.deltaTime;
+            yield return null;
+        }
+
+        _diggingFinished = true;
+    }
+
 
     private void ChasePlayer()
     {
@@ -86,6 +129,6 @@ public class NaddiAgent : MonoBehaviour
 
     private void LookForPlayer()
     {
-
+        throw new System.NotImplementedException(); 
     }
 }

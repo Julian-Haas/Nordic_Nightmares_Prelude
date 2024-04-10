@@ -16,11 +16,11 @@ public class PatrolPath : MonoBehaviour
 
     public SplineContainer ActivatePatrolPath()
     {
-        NaddiAgent.Naddi.PatrolPoint = GetFathesPoint();
+        Vector3 fathesPoint = GetFathesPoint(); 
         SplineContainer patrolWay = Paths[_indexOfNextPath].GetComponent<SplineContainer>();
         return patrolWay; 
     }
-    private Vector3 GetFathesPoint()
+    public Vector3 GetFathesPoint()
     {
         float distance;
         float maxDistance = 0;
