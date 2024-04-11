@@ -4,22 +4,17 @@ using UnityEngine;
 
 public class NaddiEyeSight : MonoBehaviour
 {
+    [SerializeField]
     private float _coneRadius;
+    [SerializeField]
     private Transform _player;
+    [SerializeField]
     private Transform _coneOrigin;
+    [SerializeField]
     private float _coneHalfAngleDegree;
 
-    private Color _debugPlayerInsideCone = Color.blue;
-    private Color _debugPlayerOutsideCone = Color.red;
-
-
-    public NaddiEyeSight(float coneRadius, Transform player, Transform origin, float coneHalfAngleDegree)
-    {
-        _coneRadius = coneRadius;
-        _player = player;
-        _coneOrigin = origin;
-        _coneHalfAngleDegree = coneHalfAngleDegree;
-    }
+    [SerializeField]
+    private LayerMask selfLayer; 
 
     public bool isInsideCone()
     {
@@ -34,7 +29,16 @@ public class NaddiEyeSight : MonoBehaviour
             float angleDegree = angleRad * Mathf.Rad2Deg;
             if (angleDegree <= _coneHalfAngleDegree)
             {
-                return true; 
+                RaycastHit hit;
+                Vector3 raycastDir = _player.position - _coneOrigin.position;
+                raycastDir.Normalize(); 
+                if (Physics.Raycast(_coneOrigin.position,raycastDir, out hit, _coneRadius, ~selfLayer))
+                {
+                    if (hit.collider.gameObject.CompareTag("Player"))
+                    {
+                        return true;
+                    }
+                }
             }
         }
         return false; 

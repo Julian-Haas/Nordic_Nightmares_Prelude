@@ -24,15 +24,22 @@ public class PatrolPath : MonoBehaviour
     {
         float distance;
         float maxDistance = 0;
-        for(int i = 0;  i < Paths.Length; i++)
+        Vector3 fathesPoint = Vector3.zero; 
+        for (int i = 0; i < Paths.Length; i++)
         {
-            distance = Vector3.Distance(_playerPosition.position, Paths[i].transform.position);
-            if (distance >= maxDistance)
+            SplineContainer spline = Paths[i].GetComponent<SplineContainer>();
+            BezierKnot[] knots = spline.Spline.ToArray();
+            foreach (BezierKnot knot in knots)
             {
-                maxDistance = distance;
-                _indexOfNextPath = i; 
+                distance = Vector3.Distance(knot.Position, _playerPosition.position);
+                if (distance > maxDistance)
+                {
+                    maxDistance = distance;
+                    fathesPoint = knots[0].Position;
+                    _indexOfNextPath = i;
+                }
             }
         }
-        return Paths[_indexOfNextPath].transform.position; 
+        return fathesPoint; 
     }
 }
