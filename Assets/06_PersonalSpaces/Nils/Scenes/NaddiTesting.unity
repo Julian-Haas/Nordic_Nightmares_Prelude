@@ -1358,6 +1358,69 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bebb6fc2d61b4ff47a02c67a6cabd4f0, type: 3}
+--- !u!1 &1376786860
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1376786862}
+  - component: {fileID: 1376786861}
+  m_Layer: 0
+  m_Name: NavMesh Surface (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1376786861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1376786860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: fa302c4f551564b90b95483c7799a8e0, type: 2}
+  m_BuildHeightMesh: 0
+--- !u!4 &1376786862
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1376786860}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -12.086986, y: 13.477365, z: -43.821358}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1519622048
 GameObject:
   m_ObjectHideFlags: 0
@@ -1646,6 +1709,7 @@ GameObject:
   - component: {fileID: 2032171979}
   - component: {fileID: 2032171983}
   - component: {fileID: 2032171984}
+  - component: {fileID: 2032171985}
   m_Layer: 0
   m_Name: SM_Naadi_01
   m_TagString: Untagged
@@ -1672,6 +1736,7 @@ MonoBehaviour:
   PatrolPoint: {x: 0, y: 0, z: 0}
   _naddiMR: {fileID: 2032171980}
   _debugPlayerInsideCone: {fileID: 2100000, guid: 8b7457d299ace4316b2f551f001607a9, type: 2}
+  _naddiStateMachiene: {fileID: 2032171985}
 --- !u!23 &2032171980
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1778,6 +1843,19 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &2032171985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032171978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a73f796ffaee439bb847ddcf7bf5f23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _naddi: {fileID: 2032171979}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1793,3 +1871,4 @@ SceneRoots:
   - {fileID: 2032171982}
   - {fileID: 1244731844}
   - {fileID: 1788355737}
+  - {fileID: 1376786862}

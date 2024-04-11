@@ -13,57 +13,43 @@ public class NaddiSM : MonoBehaviour
 {
     private NaddiStates _state;
     [SerializeField]
-    private NaddiAgent _naddi; 
+    private NaddiAgent _naddi;
     private bool _canSwitchState = false;
 
-
-    public void SelectNewState()
+    public void LookForPlayer()
     {
-        _state = _naddi.State;
-        switch (_state)
+        _naddi.State = NaddiStates.LookForPlayer; 
+    }
+
+    public void FoundPlayer()
+    {
+        _naddi.State = NaddiStates.Chase; 
+    }
+
+    public void LostPlayer()
+    {
+        _naddi.State = NaddiStates.LookForPlayer;
+    }
+
+    public void FinishedLookForPlayer()
+    {
+        if (_naddi.FoundPlayer)
         {
-            case NaddiStates.Patrol: 
-            {
-                if (_naddi.FoundPlayer)
-                {
-                    _naddi.State = NaddiStates.Chase; 
-                }
-                break; 
-            }
-            case NaddiStates.Chase:
-            {
-                if (_naddi.FoundPlayer == false)
-                {
-                    _naddi.State = NaddiStates.LookForPlayer;
-                }
-                break; 
-            }
-            case NaddiStates.Digging:
-            {
-                if (_naddi.FoundPlayer == false)
-                {
-                    _naddi.State = NaddiStates.Patrol;
-                }
-                else
-                {
-                    _naddi.State = NaddiStates.Chase; 
-                }
-                break;
-            }
-            case NaddiStates.LookForPlayer:
-            {
-                if (_naddi.FoundPlayer == false)
-                {
-                    _naddi.State = NaddiStates.Digging;
-                }
-                else
-                {
-                    _naddi.State = NaddiStates.Chase;
-                }
-                break;
-            }
+            FoundPlayer();
+        }
+        else
+        {
+            StartDigging();  
         }
     }
 
-}
+    public void StartDigging()
+    {
+        _naddi.State = NaddiStates.Digging; 
+    }
 
+    public void FinishedDigging()
+    {
+        _naddi.State = NaddiStates.Patrol;
+    }
+}
