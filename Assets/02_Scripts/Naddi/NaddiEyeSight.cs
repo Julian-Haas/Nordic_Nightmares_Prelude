@@ -14,7 +14,7 @@ public class NaddiEyeSight : MonoBehaviour
     private float _coneHalfAngleDegree;
 
     [SerializeField]
-    private LayerMask selfLayer; 
+    private LayerMask selfLayer;
 
     public bool isInsideCone()
     {

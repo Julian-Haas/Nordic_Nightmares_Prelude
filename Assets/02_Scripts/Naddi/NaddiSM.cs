@@ -33,16 +33,8 @@ public class NaddiSM : MonoBehaviour
 
     public void FinishedLookForPlayer()
     {
-        if (_naddi.FoundPlayer)
-        {
-            FoundPlayer();
-        }
-        else
-        {
-            StartDigging();  
-        }
+        StartDigging();
     }
-
     public void StartDigging()
     {
         _naddi.State = NaddiStates.Digging; 
