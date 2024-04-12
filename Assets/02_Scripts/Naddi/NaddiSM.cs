@@ -4,17 +4,15 @@ using UnityEngine;
 
 public enum NaddiStates
 {
-    Patrol = 0,
-    Chase = 1,
-    LookForPlayer = 2,
-    Digging = 3
+    Patrol,
+    Chase,
+    LookForPlayer,
+    Digging
 }
 public class NaddiSM : MonoBehaviour
 {
-    private NaddiStates _state;
     [SerializeField]
     private NaddiAgent _naddi;
-    private bool _canSwitchState = false;
 
     public void LookForPlayer()
     {

@@ -12,9 +12,8 @@ public class NaddiEyeSight : MonoBehaviour
     private Transform _coneOrigin;
     [SerializeField]
     private float _coneHalfAngleDegree;
-
     [SerializeField]
-    private LayerMask selfLayer;
+    private LayerMask ignoreLayer;
 
     public bool isInsideCone()
     {
@@ -32,7 +31,7 @@ public class NaddiEyeSight : MonoBehaviour
                 RaycastHit hit;
                 Vector3 raycastDir = _player.position - _coneOrigin.position;
                 raycastDir.Normalize(); 
-                if (Physics.Raycast(_coneOrigin.position,raycastDir, out hit, _coneRadius, ~selfLayer))
+                if (Physics.Raycast(_coneOrigin.position,raycastDir, out hit, _coneRadius, ~ignoreLayer))
                 {
                     if (hit.collider.gameObject.CompareTag("Player"))
                     {

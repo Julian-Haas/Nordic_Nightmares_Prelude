@@ -8,48 +8,32 @@ using Unity.VisualScripting;
 public class NaddiAgent : MonoBehaviour
 {
     public static NaddiAgent Naddi;
-    private NaddiSM _stateMachine;
     [SerializeField]
     private NaddiEyeSight _naddiEye;
     [SerializeField]
     private PatrolPath _patrolPath;
     [SerializeField]
-    private float _movementSpeed;
-    [SerializeField]
     private Transform _playerPos;
+    [SerializeField]
+    private NaddiSM _naddiStateMachiene;
 
     private NavMeshAgent _agent;
     private SplineAnimate _splineAnimate;
+    private NaddiStates _state = NaddiStates.Digging;
+    private bool _executingState = false;
+    private bool _foundPlayer;
+    private Vector3 _playerPosLastSeen;
+
     private float _digDownHeight;
     private float _digUpHeight;
-    private float _lerp = 0;
-    private NaddiStates _state;
-    private bool _diggingFinished = false;
-    public Vector3 PatrolPoint;
 
-    [Header("Prototyping Variables")]
-    [SerializeField]
-    private MeshRenderer _naddiMR;
-    [SerializeField]
-    private Material _debugPlayerInsideCone;
-    private Material _debugPlayerOutsideCone;
-    private bool _isDoingSomething = false;
-    private bool _foundPlayer;
-    [SerializeField]
-    private NaddiSM _naddiStateMachiene;
-    private Vector3 _playerPosLastSeen;
-    private bool _onPatrol = false;
+   
+    public Vector3 PatrolPoint;
 
     public NaddiStates State
     {
-        get
-        {
-            return _state;
-        }
-        set
-        {
-            _state = value;
-        }
+        get{ return _state; }
+        set { _state = value; }
     }
 
     public bool FoundPlayer
@@ -59,19 +43,25 @@ public class NaddiAgent : MonoBehaviour
 
     private void Awake()
     {
-         Naddi = this;
+        Naddi = this;
+        InitSplineAnimate();
+        SetUpDiggingHeight(); //prototyping -> will be removed when digging animations are ready 
+        _agent = GetComponent<NavMeshAgent>();
+    }
+
+    void InitSplineAnimate()
+    {
         _splineAnimate = gameObject.AddComponent<SplineAnimate>();
         _splineAnimate.enabled = false;
         _splineAnimate.PlayOnAwake = false;
-        _splineAnimate.Duration = 15f;
-        _splineAnimate.MaxSpeed = _movementSpeed;
-        _debugPlayerOutsideCone = _naddiMR.material;
-        _agent = GetComponent<NavMeshAgent>();
-        _digDownHeight = transform.position.y - (transform.localScale.y * 2);
-        _digUpHeight = transform.position.y;
-        _state = NaddiStates.Digging;
+        _splineAnimate.Duration = 15f; // magic number will be replaced with a function that calculate the duration with a function, so that the speed is on every patroll path equal 
     }
 
+    private void SetUpDiggingHeight()
+    {
+        _digDownHeight = transform.position.y - (transform.localScale.y * 2);
+        _digUpHeight = transform.position.y;
+    }
     private void Update()
     {
         _foundPlayer = _naddiEye.isInsideCone();
@@ -79,13 +69,8 @@ public class NaddiAgent : MonoBehaviour
         {
             _playerPosLastSeen = _playerPos.position;
             _naddiStateMachiene.FoundPlayer();
-            _naddiMR.material = _debugPlayerInsideCone;
         }
-        else
-        {
-            _naddiMR.material = _debugPlayerOutsideCone;
-        }
-        HandleState();
+       HandleState();
     }
 
     private void WalkOnPatrol()
@@ -97,16 +82,15 @@ public class NaddiAgent : MonoBehaviour
         {
             _splineAnimate.Pause();
             _splineAnimate.enabled = false;
-            _onPatrol = false;
         }
     }
 
-    void HandleState()
+    private void HandleState()
     {
         switch (_state)
         {
             case NaddiStates.Digging:
-                if (_isDoingSomething == false)
+                if (_executingState == false) //-> die courintine startet mehrmals ohne die if abfrage todo: bessere lösung finden
                 {
                     StartCoroutine(Digging());
                 }
@@ -118,7 +102,7 @@ public class NaddiAgent : MonoBehaviour
                 ChasePlayer();
                 break;
             case NaddiStates.LookForPlayer:
-                if (_isDoingSomething == false)
+                if (_executingState == false)
                 {
                     WalkToLastPlayerPosition();
                 }
@@ -128,14 +112,14 @@ public class NaddiAgent : MonoBehaviour
 
     private IEnumerator Digging()
     {
-        _isDoingSomething = true;
+        _executingState = true;
         yield return StartCoroutine(Dig(_digDownHeight));
         Vector3 newPos = _patrolPath.GetFathesPoint();
         newPos.y = _digDownHeight;
         transform.position = newPos;
         yield return StartCoroutine(Dig(_digUpHeight));
         _naddiStateMachiene.FinishedDigging();
-        _isDoingSomething = false;
+        _executingState = false;
     }
 
     private IEnumerator Dig(float newHeight)
@@ -156,8 +140,6 @@ public class NaddiAgent : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-
-        _diggingFinished = true;
     }
 
 
@@ -167,12 +149,12 @@ public class NaddiAgent : MonoBehaviour
         {
             _agent.isStopped = false; 
             _splineAnimate.enabled = false;
-            _isDoingSomething = true;
+            _executingState = true;
             _agent.SetDestination(_playerPos.position);
         }
         else
         {
-            _isDoingSomething = false;
+            _executingState = false;
             _naddiStateMachiene.LostPlayer();
         }
 
@@ -180,7 +162,7 @@ public class NaddiAgent : MonoBehaviour
 
     private IEnumerator LookForPlayer()
     {
-        _isDoingSomething = true;
+        _executingState = true;
         Quaternion localRot = transform.localRotation;
         Quaternion rotRight = localRot;
         Quaternion rotLeft = localRot;
@@ -190,7 +172,7 @@ public class NaddiAgent : MonoBehaviour
         yield return StartCoroutine(TurnNaddiAroundY(rotRight, localRot));
         yield return StartCoroutine(TurnNaddiAroundY(localRot, rotLeft));
         yield return StartCoroutine(TurnNaddiAroundY(rotLeft, localRot));
-        _isDoingSomething = false;
+        _executingState = false;
         if (_naddiEye.isInsideCone())
         {
             _naddiStateMachiene.FoundPlayer();
@@ -201,7 +183,7 @@ public class NaddiAgent : MonoBehaviour
         }
 
     }
-    void WalkToLastPlayerPosition()
+    private void WalkToLastPlayerPosition()
     {
         _agent.SetDestination(_playerPosLastSeen);
         if (Vector3.Distance(_playerPosLastSeen, transform.position) <= 20)
@@ -210,7 +192,7 @@ public class NaddiAgent : MonoBehaviour
             StartCoroutine(LookForPlayer());
         }
     }
-    IEnumerator TurnNaddiAroundY(Quaternion localRot, Quaternion rotDir)
+    private IEnumerator TurnNaddiAroundY(Quaternion localRot, Quaternion rotDir)
     {
         float duration = 4f;
         float timeElapsed = 0f;
