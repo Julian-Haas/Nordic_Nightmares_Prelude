@@ -3,21 +3,22 @@ using UnityEngine;
 using UnityEngine.Splines;
 using UnityEngine.AI;
 
-public class NaddiAgent : MonoBehaviour
+public class Naddi : MonoBehaviour
 {
-    public static NaddiAgent Naddi;
+    public static Naddi m_Naddi;
     [SerializeField]
-    private NaddiEyeSight _naddiEye;
+    private NaddiViewField _naddiEye;
     [SerializeField]
     private PatrolPath _patrolPath;
     [SerializeField]
     private Transform _playerPos;
     [SerializeField]
-    private NaddiSM _naddiStateMachiene;
-
+    private NaddiStateMaschine _naddiStateMachiene;
+    [SerializeField]
+    private float _speed; 
     private NavMeshAgent _agent;
     private SplineAnimate _splineAnimate;
-    private NaddiStates _state = NaddiStates.Digging;
+    private NaddiStateEnum _state = NaddiStateEnum.Digging;
     private bool _executingState = false;
     private bool _foundPlayer;
     private Vector3 _playerPosLastSeen;
@@ -28,7 +29,7 @@ public class NaddiAgent : MonoBehaviour
    
     private Vector3 PatrolPoint;
 
-    public NaddiStates State
+    public NaddiStateEnum State
     {
         get{ return _state; }
         set { _state = value; }
@@ -41,18 +42,20 @@ public class NaddiAgent : MonoBehaviour
 
     private void Awake()
     {
-        Naddi = this;
+        m_Naddi = this;
         InitSplineAnimate();
         SetUpDiggingHeight(); //prototyping -> will be removed when digging animations are ready 
         _agent = GetComponent<NavMeshAgent>();
+        _agent.speed = _speed; 
     }
 
     void InitSplineAnimate()
     {
         _splineAnimate = gameObject.AddComponent<SplineAnimate>();
+        _splineAnimate.AnimationMethod = SplineAnimate.Method.Speed; 
         _splineAnimate.enabled = false;
         _splineAnimate.PlayOnAwake = false;
-        _splineAnimate.Duration = 15f; // magic number will be replaced with a function that calculate the duration with a function, so that the speed is on every patroll path equal 
+        _splineAnimate.MaxSpeed = _speed; // magic number will be replaced with a function that calculate the duration with a function, so that the speed is on every patroll path equal 
     }
 
     private void SetUpDiggingHeight()
@@ -87,19 +90,19 @@ public class NaddiAgent : MonoBehaviour
     {
         switch (_state)
         {
-            case NaddiStates.Digging:
+            case NaddiStateEnum.Digging:
                 if (_executingState == false) //-> die courintine startet mehrmals ohne die if abfrage todo: bessere lösung finden
                 {
                     StartCoroutine(Digging());
                 }
                 break;
-            case NaddiStates.Patrol:
+            case NaddiStateEnum.Patrol:
                 WalkOnPatrol();
                 break;
-            case NaddiStates.Chase:
+            case NaddiStateEnum.Chase:
                 ChasePlayer();
                 break;
-            case NaddiStates.LookForPlayer:
+            case NaddiStateEnum.LookForPlayer:
                 if (_executingState == false)
                 {
                     WalkToLastPlayerPosition();

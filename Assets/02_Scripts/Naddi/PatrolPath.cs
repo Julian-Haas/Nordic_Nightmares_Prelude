@@ -8,49 +8,82 @@ public class PatrolPath : MonoBehaviour
     [SerializeField]
     private Transform _playerPosition;
     private int _indexOfNextPath;
-    private GameObject _closestPath; 
+    private SplineContainer _closestPath;
     public List<GameObject> Paths = new List<GameObject>();
 
 
     public SplineContainer ActivatePatrolPath()
     {
         float minDistance = float.MaxValue;
-        SplineContainer patrolPath = null; 
+        SplineContainer patrolPath = null;
         foreach (GameObject spline in Paths)
         {
-            patrolPath = spline.GetComponent<SplineContainer>(); 
+            patrolPath = spline.GetComponent<SplineContainer>();
             float dist = Vector3.Distance(_playerPosition.position, patrolPath.Spline[0].Position);
             if (dist < minDistance)
             {
-                Debug.Log("Distance: " + dist + " minDist: " + minDistance); 
+                Debug.Log("Distance: " + dist + " minDist: " + minDistance);
                 minDistance = dist;
-                _closestPath = spline; 
+                _closestPath = patrolPath;
             }
         }
-        //SplineContainer patrolWay = _closestPath.GetComponent<SplineContainer>();
-        return patrolPath; 
+
+        return _closestPath;
     }
     public Vector3 GetFarthesPoint()
-    { 
-        return CalculateDistanceForEachKnot(); 
+    {
+        return CalculateDistanceForEachKnot();
     }
 
     private Vector3 CalculateDistanceForEachKnot()
     {
         SplineContainer spline = _closestPath.GetComponent<SplineContainer>();
-        Vector3 fathesPoint = Vector3.zero; 
-        BezierKnot[] knots = spline.Spline.ToArray();
-        float distance = 0;
+        Vector3 farthestPoint = Vector3.zero;
+        var knots = spline.Spline.Knots;
         float maxDistance = 0;
-        foreach (BezierKnot knot in knots)
+        int indexOfNewStartKnot = 0;
+        int i =0; 
+        foreach(BezierKnot knot in knots)
         {
-            distance = Vector3.Distance(knot.Position, _playerPosition.position);
+            float distance = Vector3.Distance(knot.Position, _playerPosition.position);
             if (distance > maxDistance)
             {
                 maxDistance = distance;
-                fathesPoint = knot.Position;
+                farthestPoint = knot.Position;
+                indexOfNewStartKnot = i;
             }
+            i++; 
         }
-        return fathesPoint; 
+        int x = 0; 
+        foreach (BezierKnot knot in knots)
+        {
+            Debug.Log("index: "+ x +"Position: " + knot.Position); 
+            x++; 
+        }
+        spline.Spline.Knots = SwapKnotPoints(spline.Spline, indexOfNewStartKnot);
+        x = 0; 
+        foreach (BezierKnot knot in knots)
+        {
+            Debug.Log("index: " + x + "Position: " + knot.Position);
+            x++;
+        }
+        return farthestPoint;
+    }
+
+    private List<BezierKnot> SwapKnotPoints(Spline spline, int indexStartSwapping)
+    {
+        List<BezierKnot> swappedKnots = new List<BezierKnot>();
+
+        for (int i = indexStartSwapping; i < spline.Count; i++)
+        {
+            swappedKnots.Add(spline[i]);
+        }
+
+        for (int i = 0; i < indexStartSwapping; i++)
+        {
+            swappedKnots.Add(spline[i]);
+        }
+
+        return swappedKnots;
     }
 }

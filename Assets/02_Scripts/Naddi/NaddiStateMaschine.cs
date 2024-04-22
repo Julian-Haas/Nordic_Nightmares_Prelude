@@ -1,30 +1,30 @@
 using UnityEngine;
 
-public enum NaddiStates
+public enum NaddiStateEnum
 {
     Patrol,
     Chase,
     LookForPlayer,
     Digging
 }
-public class NaddiSM : MonoBehaviour
+public class NaddiStateMaschine : MonoBehaviour
 {
     [SerializeField]
-    private NaddiAgent _naddi;
+    private Naddi _naddi;
 
     public void LookForPlayer()
     {
-        _naddi.State = NaddiStates.LookForPlayer; 
+        _naddi.State = NaddiStateEnum.LookForPlayer; 
     }
 
     public void FoundPlayer()
     {
-        _naddi.State = NaddiStates.Chase; 
+        _naddi.State = NaddiStateEnum.Chase; 
     }
 
     public void LostPlayer()
     {
-        _naddi.State = NaddiStates.LookForPlayer;
+        _naddi.State = NaddiStateEnum.LookForPlayer;
     }
 
     public void FinishedLookForPlayer()
@@ -33,11 +33,11 @@ public class NaddiSM : MonoBehaviour
     }
     public void StartDigging()
     {
-        _naddi.State = NaddiStates.Digging; 
+        _naddi.State = NaddiStateEnum.Digging; 
     }
 
     public void FinishedDigging()
     {
-        _naddi.State = NaddiStates.Patrol;
+        _naddi.State = NaddiStateEnum.Patrol;
     }
 }

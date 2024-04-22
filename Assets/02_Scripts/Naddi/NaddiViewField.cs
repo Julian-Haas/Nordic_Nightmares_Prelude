@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NaddiEyeSight : MonoBehaviour
+public class NaddiViewField : MonoBehaviour
 {
     [SerializeField]
     private float _coneRadius;
