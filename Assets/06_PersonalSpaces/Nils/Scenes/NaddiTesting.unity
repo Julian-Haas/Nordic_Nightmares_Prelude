@@ -1260,7 +1260,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerPosition: {fileID: 26476387}
-  _naddi: {fileID: 2032171978}
   Paths:
   - {fileID: 778082202}
   - {fileID: 218864808}
@@ -1731,11 +1730,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _naddiEye: {fileID: 2032171983}
   _patrolPath: {fileID: 1022229196}
-  _movementSpeed: 0
   _playerPos: {fileID: 26476387}
-  PatrolPoint: {x: 0, y: 0, z: 0}
-  _naddiMR: {fileID: 2032171980}
-  _debugPlayerInsideCone: {fileID: 2100000, guid: 8b7457d299ace4316b2f551f001607a9, type: 2}
   _naddiStateMachiene: {fileID: 2032171985}
 --- !u!23 &2032171980
 MeshRenderer:
@@ -1818,9 +1813,9 @@ MonoBehaviour:
   _player: {fileID: 26476387}
   _coneOrigin: {fileID: 2032171982}
   _coneHalfAngleDegree: 45
-  selfLayer:
+  ignoreLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
 --- !u!195 &2032171984
 NavMeshAgent:
   m_ObjectHideFlags: 0
