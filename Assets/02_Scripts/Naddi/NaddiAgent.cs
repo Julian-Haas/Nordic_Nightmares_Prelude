@@ -1,9 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Splines;
 using UnityEngine.AI;
-using Unity.VisualScripting;
 
 public class NaddiAgent : MonoBehaviour
 {
@@ -28,7 +26,7 @@ public class NaddiAgent : MonoBehaviour
     private float _digUpHeight;
 
    
-    public Vector3 PatrolPoint;
+    private Vector3 PatrolPoint;
 
     public NaddiStates State
     {
@@ -114,7 +112,8 @@ public class NaddiAgent : MonoBehaviour
     {
         _executingState = true;
         yield return StartCoroutine(Dig(_digDownHeight));
-        Vector3 newPos = _patrolPath.GetFathesPoint();
+        _patrolPath.ActivatePatrolPath(); 
+        Vector3 newPos = _patrolPath.GetFarthesPoint();
         newPos.y = _digDownHeight;
         transform.position = newPos;
         yield return StartCoroutine(Dig(_digUpHeight));

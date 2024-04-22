@@ -1,48 +1,54 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Splines;
+using System.Collections.Generic;
 
 public class PatrolPath : MonoBehaviour
 {
 
     [SerializeField]
     private Transform _playerPosition;
-    private int _indexOfNextPath; 
-    public GameObject[] Paths = new GameObject[2];
+    private int _indexOfNextPath;
+    private GameObject _closestPath; 
+    public List<GameObject> Paths = new List<GameObject>();
 
 
     public SplineContainer ActivatePatrolPath()
     {
-        GetFathesPoint(); 
-        SplineContainer patrolWay = Paths[_indexOfNextPath].GetComponent<SplineContainer>();
-        return patrolWay; 
-    }
-    public Vector3 GetFathesPoint()
-    {
-        float distance = 0;
-        float maxDistance = 0;
-        Vector3 fathesPoint = Vector3.zero; 
-        for (int i = 0; i < Paths.Length; i++)
+        float minDistance = float.MaxValue;
+        SplineContainer patrolPath = null; 
+        foreach (GameObject spline in Paths)
         {
-           fathesPoint =  CalculateDistanceForEachKnot(distance, maxDistance, i); 
+            patrolPath = spline.GetComponent<SplineContainer>(); 
+            float dist = Vector3.Distance(_playerPosition.position, patrolPath.Spline[0].Position);
+            if (dist < minDistance)
+            {
+                Debug.Log("Distance: " + dist + " minDist: " + minDistance); 
+                minDistance = dist;
+                _closestPath = spline; 
+            }
         }
-        return fathesPoint; 
+        //SplineContainer patrolWay = _closestPath.GetComponent<SplineContainer>();
+        return patrolPath; 
+    }
+    public Vector3 GetFarthesPoint()
+    { 
+        return CalculateDistanceForEachKnot(); 
     }
 
-    private Vector3 CalculateDistanceForEachKnot(float distance, float maxDistance, int i)
+    private Vector3 CalculateDistanceForEachKnot()
     {
-        SplineContainer spline = Paths[i].GetComponent<SplineContainer>();
+        SplineContainer spline = _closestPath.GetComponent<SplineContainer>();
         Vector3 fathesPoint = Vector3.zero; 
         BezierKnot[] knots = spline.Spline.ToArray();
+        float distance = 0;
+        float maxDistance = 0;
         foreach (BezierKnot knot in knots)
         {
             distance = Vector3.Distance(knot.Position, _playerPosition.position);
             if (distance > maxDistance)
             {
                 maxDistance = distance;
-                fathesPoint = knots[0].Position;
-                _indexOfNextPath = i;
+                fathesPoint = knot.Position;
             }
         }
         return fathesPoint; 
