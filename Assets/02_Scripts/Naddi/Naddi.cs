@@ -22,6 +22,7 @@ public class Naddi : MonoBehaviour
     private bool _executingState = false;
     private bool _foundPlayer;
     private Vector3 _playerPosLastSeen;
+    private bool _startedPatrol = false;  
 
     private float _digDownHeight;
     private float _digUpHeight;
@@ -77,7 +78,13 @@ public class Naddi : MonoBehaviour
     private void WalkOnPatrol()
     {
         _splineAnimate.enabled = true;
-        _splineAnimate.Container = _patrolPath.ActivatePatrolPath();
+        if (_startedPatrol == false)
+        {
+            _startedPatrol = true;
+            _splineAnimate.ElapsedTime = 0;
+        }
+
+        //_splineAnimate.Container = _patrolPath.ActivatePatrolPath();
         _splineAnimate.Play();
         if (_foundPlayer)
         {
@@ -94,15 +101,18 @@ public class Naddi : MonoBehaviour
                 if (_executingState == false) //-> die courintine startet mehrmals ohne die if abfrage todo: bessere lösung finden
                 {
                     StartCoroutine(Digging());
+                    _startedPatrol = false;
                 }
                 break;
             case NaddiStateEnum.Patrol:
                 WalkOnPatrol();
                 break;
             case NaddiStateEnum.Chase:
+                _startedPatrol = false;
                 ChasePlayer();
                 break;
             case NaddiStateEnum.LookForPlayer:
+                _startedPatrol = false;
                 if (_executingState == false)
                 {
                     WalkToLastPlayerPosition();
@@ -115,7 +125,7 @@ public class Naddi : MonoBehaviour
     {
         _executingState = true;
         yield return StartCoroutine(Dig(_digDownHeight));
-        _patrolPath.ActivatePatrolPath(); 
+        _splineAnimate.Container = _patrolPath.ActivatePatrolPath(); 
         Vector3 newPos = _patrolPath.GetFarthesPoint();
         newPos.y = _digDownHeight;
         transform.position = newPos;
@@ -174,13 +184,14 @@ public class Naddi : MonoBehaviour
         yield return StartCoroutine(TurnNaddiAroundY(rotRight, localRot));
         yield return StartCoroutine(TurnNaddiAroundY(localRot, rotLeft));
         yield return StartCoroutine(TurnNaddiAroundY(rotLeft, localRot));
-        _executingState = false;
         if (_naddiEye.isInsideCone())
         {
+            _executingState = false;
             _naddiStateMachiene.FoundPlayer();
         }
         else
         {
+            _executingState = false;
             _naddiStateMachiene.FinishedLookForPlayer();
         }
 

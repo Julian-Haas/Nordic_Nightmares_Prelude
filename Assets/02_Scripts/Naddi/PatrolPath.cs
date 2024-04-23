@@ -18,14 +18,24 @@ public class PatrolPath : MonoBehaviour
         SplineContainer patrolPath = null;
         foreach (GameObject spline in Paths)
         {
-            patrolPath = spline.GetComponent<SplineContainer>();
-            float dist = Vector3.Distance(_playerPosition.position, patrolPath.Spline[0].Position);
-            if (dist < minDistance)
+           patrolPath = spline.GetComponent<SplineContainer>();
+            foreach (BezierKnot knot in patrolPath.Spline)
             {
-                Debug.Log("Distance: " + dist + " minDist: " + minDistance);
-                minDistance = dist;
-                _closestPath = patrolPath;
+                float distance = Vector3.Distance(_playerPosition.position, knot.Position);
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    _closestPath = patrolPath;
+                }
             }
+           //float dist = Vector3.Distance(_playerPosition.position, patrolPath.Spline[0].Position);
+           //if (dist < minDistance)
+           //{
+           //    Debug.Log("Distance: " + dist + " minDist: " + minDistance);
+           //    minDistance = dist;
+           //    _closestPath = patrolPath;
+           //    Debug.Log(_closestPath.name); 
+           //}
         }
 
         return _closestPath;
@@ -37,9 +47,8 @@ public class PatrolPath : MonoBehaviour
 
     private Vector3 CalculateDistanceForEachKnot()
     {
-        SplineContainer spline = _closestPath.GetComponent<SplineContainer>();
         Vector3 farthestPoint = Vector3.zero;
-        var knots = spline.Spline.Knots;
+        var knots = _closestPath.Spline.Knots;
         float maxDistance = 0;
         int indexOfNewStartKnot = 0;
         int i =0; 
@@ -54,36 +63,37 @@ public class PatrolPath : MonoBehaviour
             }
             i++; 
         }
-        int x = 0; 
-        foreach (BezierKnot knot in knots)
+        Debug.Log(_closestPath.name + " " + indexOfNewStartKnot);
+        if (indexOfNewStartKnot != 0)
         {
-            Debug.Log("index: "+ x +"Position: " + knot.Position); 
-            x++; 
-        }
-        spline.Spline.Knots = SwapKnotPoints(spline.Spline, indexOfNewStartKnot);
-        x = 0; 
-        foreach (BezierKnot knot in knots)
-        {
-            Debug.Log("index: " + x + "Position: " + knot.Position);
-            x++;
+            _closestPath.Spline = SwapKnotPoints(_closestPath.Spline, indexOfNewStartKnot);
         }
         return farthestPoint;
     }
 
-    private List<BezierKnot> SwapKnotPoints(Spline spline, int indexStartSwapping)
+    private Spline SwapKnotPoints(Spline spline, int indexStartSwapping)
     {
-        List<BezierKnot> swappedKnots = new List<BezierKnot>();
-
-        for (int i = indexStartSwapping; i < spline.Count; i++)
+        List<BezierKnot> reorderedSpline = new List<BezierKnot>();
+        if (indexStartSwapping >= 0 && indexStartSwapping < spline.Count)
         {
-            swappedKnots.Add(spline[i]);
+            for (int i = indexStartSwapping; i < spline.Count; i++)
+            {
+                reorderedSpline.Add(spline[i]); 
+            }
+            for (int i = 0; i < indexStartSwapping; i++)
+            {
+                reorderedSpline.Add(spline[i]);
+            }
+            for (int i =0; i < reorderedSpline.Count; i++)
+            {
+                spline.SetKnot(i, reorderedSpline[i]); 
+            }
+            return spline; 
         }
-
-        for (int i = 0; i < indexStartSwapping; i++)
+        else
         {
-            swappedKnots.Add(spline[i]);
+            throw new System.IndexOutOfRangeException("index was out of Range: " + indexStartSwapping);
         }
-
-        return swappedKnots;
     }
+
 }
