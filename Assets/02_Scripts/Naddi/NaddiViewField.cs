@@ -8,11 +8,14 @@ public class NaddiViewField : MonoBehaviour
     private Transform _player;
     [SerializeField]
     private Transform _coneOrigin;
-    [SerializeField]
+    [SerializeField, Range(0, 90), Tooltip("This is the Angle of the View Cone devided by two!")]
     private float _coneHalfAngleDegree;
     [SerializeField]
     private LayerMask ignoreLayer;
 
+    public float ConeRadius { get { return _coneRadius; } }
+    public float HalfAngleDegree { get { return _coneHalfAngleDegree; } }
+    public Transform ConeOrigin { get { return _coneOrigin; } }
     public bool isInsideCone()
     {
         Vector3 distance = _player.position - _coneOrigin.position;
@@ -33,6 +36,7 @@ public class NaddiViewField : MonoBehaviour
                 {
                     if (hit.collider.gameObject.CompareTag("Player"))
                     {
+                        Debug.Log("Saw Player"); 
                         return true;
                     }
                 }

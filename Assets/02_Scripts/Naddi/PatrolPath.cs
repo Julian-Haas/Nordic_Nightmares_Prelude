@@ -92,7 +92,7 @@ public class PatrolPath : MonoBehaviour
         }
         else
         {
-            throw new System.IndexOutOfRangeException("index was out of Range: " + indexStartSwapping);
+            throw new System.IndexOutOfRangeException("index was out of Range: " + indexStartSwapping + " Knot count: " + spline.Count);
         }
     }
 

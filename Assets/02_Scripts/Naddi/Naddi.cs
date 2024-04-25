@@ -53,10 +53,10 @@ public class Naddi : MonoBehaviour
     void InitSplineAnimate()
     {
         _splineAnimate = gameObject.AddComponent<SplineAnimate>();
-        _splineAnimate.AnimationMethod = SplineAnimate.Method.Speed; 
+        _splineAnimate.AnimationMethod = SplineAnimate.Method.Speed;
         _splineAnimate.enabled = false;
         _splineAnimate.PlayOnAwake = false;
-        _splineAnimate.MaxSpeed = _speed; // magic number will be replaced with a function that calculate the duration with a function, so that the speed is on every patroll path equal 
+        _splineAnimate.MaxSpeed = _speed;
     }
 
     private void SetUpDiggingHeight()
@@ -72,7 +72,7 @@ public class Naddi : MonoBehaviour
             _playerPosLastSeen = _playerPos.position;
             _naddiStateMachiene.FoundPlayer();
         }
-       HandleState();
+       //HandleState();
     }
 
     private void WalkOnPatrol()
@@ -83,7 +83,6 @@ public class Naddi : MonoBehaviour
             _startedPatrol = true;
             _splineAnimate.ElapsedTime = 0;
         }
-
         //_splineAnimate.Container = _patrolPath.ActivatePatrolPath();
         _splineAnimate.Play();
         if (_foundPlayer)
