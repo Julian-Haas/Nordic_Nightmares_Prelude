@@ -1,3 +1,4 @@
+//The person responsible for this code is Nils Oskar Henningsen 
 using UnityEngine;
 using System.Collections;
 
@@ -8,6 +9,7 @@ public enum NaddiStateEnum
     LookForPlayer=2,
     Digging=3,
     Idle = 4
+  
 }
 public class NaddiStateMaschine : MonoBehaviour
 {
@@ -20,22 +22,45 @@ public class NaddiStateMaschine : MonoBehaviour
 
     public void LookForPlayer()
     {
-        StartCoroutine(ResetState(NaddiStateEnum.LookForPlayer));
+        if (_currentState != NaddiStateEnum.LookForPlayer)
+        {
+            StartCoroutine(ResetState(NaddiStateEnum.LookForPlayer));
+        }
+        else
+        {
+            SetState(NaddiStateEnum.LookForPlayer);
+        }
     }
 
     public void FoundPlayer()
     {
-        StartCoroutine(ResetState(NaddiStateEnum.Chase));
+        StopAllCoroutines();
+        if (_currentState != NaddiStateEnum.Chase && _currentState != NaddiStateEnum.Patrol && _currentState != NaddiStateEnum.LookForPlayer)
+        {
+            StartCoroutine(ResetState(NaddiStateEnum.Chase));
+        }
+        else
+        {
+            SetState(NaddiStateEnum.Chase); 
+        }
+ 
     }
 
     public void LostPlayer()
     {
-        StartCoroutine(ResetState(NaddiStateEnum.LookForPlayer));
+        if (_currentState != NaddiStateEnum.LookForPlayer)
+        {
+            StartCoroutine(ResetState(NaddiStateEnum.LookForPlayer));
+        }
+        else
+        {
+            SetState(NaddiStateEnum.LookForPlayer); 
+        }
     }
 
     public void FinishedLookForPlayer()
     {
-        StartDigging(); 
+        StartCoroutine(ResetState(NaddiStateEnum.Digging, 3f));
     }
     public void StartDigging()
     {
@@ -57,6 +82,13 @@ public class NaddiStateMaschine : MonoBehaviour
     {
         SetState(NaddiStateEnum.Idle);
         yield return new WaitForSeconds(0.1f);
+        SetState(nextState);
+    }
+
+    private IEnumerator ResetState(NaddiStateEnum nextState, float duration)
+    {
+        SetState(NaddiStateEnum.Idle);
+        yield return new WaitForSeconds(duration);
         SetState(nextState);
     }
 

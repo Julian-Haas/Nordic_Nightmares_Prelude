@@ -1,3 +1,4 @@
+//The person responsible for this code is Nils Oskar Henningsen 
 using UnityEngine;
 
 public class NaddiViewField : MonoBehaviour

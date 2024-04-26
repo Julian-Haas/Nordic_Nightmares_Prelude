@@ -23,13 +23,13 @@ public class InGame_UI : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Time.timeScale = 1;
-        _awareness = transform.Find("NaddiAwareness")?.Find("AwarenessSlider")?.GetComponent<Slider>();
+        //_awareness = transform.Find("NaddiAwareness")?.Find("AwarenessSlider")?.GetComponent<Slider>();
         _sanity = transform.Find("PlayerSanity")?.Find("SanitySlider")?.GetComponent<Slider>();
     }
 
     private void Start()
     {
-        _naddi = GameObject.Find("Naddi").GetComponent<NaddiAwareness>();
+        //_naddi = GameObject.Find("Naddi").GetComponent<NaddiAwareness>();
         OverlayText.text = "PAUSE";
     }
 

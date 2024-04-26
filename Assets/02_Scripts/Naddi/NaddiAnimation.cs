@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+//The person responsible for this code is Nils Oskar Henningsen 
 using UnityEngine;
 
 public class NaddiAnimation : MonoBehaviour
@@ -22,11 +21,14 @@ public class NaddiAnimation : MonoBehaviour
                 StartMoving();
                 break;
             case NaddiStateEnum.Chase:
-                StartMoving(); //add hounting animation stuff lol
+                StartMoving();
                 break;
             case NaddiStateEnum.Digging:
                 StartDigging();
                 break;
+            case NaddiStateEnum.LookForPlayer:
+                StartMoving(); 
+                break; 
             case NaddiStateEnum.Idle:
                 IdleAround();
                 break;

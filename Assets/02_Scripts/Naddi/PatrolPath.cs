@@ -1,3 +1,4 @@
+//The person responsible for this code is Nils Oskar Henningsen 
 using UnityEngine;
 using UnityEngine.Splines;
 using System.Collections.Generic;
@@ -9,16 +10,16 @@ public class PatrolPath : MonoBehaviour
     private Transform _playerPosition;
     private int _indexOfNextPath;
     private SplineContainer _closestPath;
-    public List<GameObject> Paths = new List<GameObject>();
+    public List<SplineContainer> Paths = new List<SplineContainer>();
 
 
     public SplineContainer ActivatePatrolPath()
     {
         float minDistance = float.MaxValue;
         SplineContainer patrolPath = null;
-        foreach (GameObject spline in Paths)
+        foreach (SplineContainer spline in Paths)
         {
-           patrolPath = spline.GetComponent<SplineContainer>();
+            patrolPath = spline; 
             foreach (BezierKnot knot in patrolPath.Spline)
             {
                 float distance = Vector3.Distance(_playerPosition.position, knot.Position);
@@ -28,14 +29,6 @@ public class PatrolPath : MonoBehaviour
                     _closestPath = patrolPath;
                 }
             }
-           //float dist = Vector3.Distance(_playerPosition.position, patrolPath.Spline[0].Position);
-           //if (dist < minDistance)
-           //{
-           //    Debug.Log("Distance: " + dist + " minDist: " + minDistance);
-           //    minDistance = dist;
-           //    _closestPath = patrolPath;
-           //    Debug.Log(_closestPath.name); 
-           //}
         }
 
         return _closestPath;

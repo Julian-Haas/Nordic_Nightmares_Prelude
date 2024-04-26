@@ -1,3 +1,4 @@
+//The person responsible for this code is Nils Oskar Henningsen 
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Splines;
@@ -5,7 +6,6 @@ using UnityEngine.AI;
 
 public class Naddi : MonoBehaviour
 {
-    public static Naddi m_Naddi;
     [SerializeField]
     private NaddiViewField _naddiEye;
     [SerializeField]
@@ -26,12 +26,8 @@ public class Naddi : MonoBehaviour
     private bool _executingState = false;
     private bool _foundPlayer;
     private Vector3 _playerPosLastSeen;
-    private bool _startedPatrol = false;  
+    private bool _startedPatrol = false;
 
-    private float _digDownHeight;
-    private float _digUpHeight;
-
-   
     private Vector3 PatrolPoint;
 
     public NaddiStateEnum State
@@ -47,10 +43,7 @@ public class Naddi : MonoBehaviour
 
     private void Awake()
     {
-        m_Naddi = this;
         InitSplineAnimate();
-        SetUpDiggingHeight(); //prototyping -> will be removed when digging animations are ready 
-        //_agent = GetComponent<NavMeshAgent>();
         _agent.speed = _speed; 
     }
 
@@ -63,17 +56,13 @@ public class Naddi : MonoBehaviour
         _splineAnimate.MaxSpeed = _speed;
     }
 
-    private void SetUpDiggingHeight()
-    {
-        _digDownHeight = transform.position.y - (transform.localScale.y * 2);
-        _digUpHeight = transform.position.y;
-    }
     private void Update()
     {
         _foundPlayer = _naddiEye.isInsideCone();
         if (_foundPlayer)
         {
             _playerPosLastSeen = _playerPos.position;
+            //StopAllCoroutines(); 
             _naddiStateMachiene.FoundPlayer();
         }
        HandleState();
@@ -134,27 +123,6 @@ public class Naddi : MonoBehaviour
         _executingState = false;
     }
 
-// private IEnumerator Dig(float newHeight)
-// {
-//     Vector3 digPos = new Vector3(transform.position.x, newHeight, //transform.position.z);
-//     float duration = 2;
-//     float elapsedTime = 0f;
-//
-//     float startPosition = transform.position.y;
-//
-//     while (elapsedTime < duration)
-//     {
-//         float t = elapsedTime / duration;
-//         float finalYPos = Mathf.Lerp(startPosition, digPos.y, t);
-//         Vector3 finalPos = transform.position;
-//         finalPos.y = finalYPos;
-//         transform.position = finalPos;
-//         elapsedTime += Time.deltaTime;
-//         yield return null;
-//     }
-// }
-
-
     private void ChasePlayer()
     {
         if (_foundPlayer)
@@ -175,25 +143,19 @@ public class Naddi : MonoBehaviour
     private IEnumerator LookForPlayer()
     {
         _executingState = true;
-        Quaternion localRot = transform.localRotation;
-        Quaternion rotRight = localRot;
-        Quaternion rotLeft = localRot;
-        rotRight.y = localRot.y + 15;
-        rotLeft.y = localRot.y - 15;
-        yield return StartCoroutine(TurnNaddiAroundY(localRot, rotRight));
-        yield return StartCoroutine(TurnNaddiAroundY(rotRight, localRot));
-        yield return StartCoroutine(TurnNaddiAroundY(localRot, rotLeft));
-        yield return StartCoroutine(TurnNaddiAroundY(rotLeft, localRot));
-        if (_naddiEye.isInsideCone())
+        float time = 0;
+        while (time <= 3)
         {
-            _executingState = false;
-            _naddiStateMachiene.FoundPlayer();
+            if (_naddiEye.isInsideCone())
+            {
+                _naddiStateMachiene.FoundPlayer();
+                _executingState = false;
+                yield break; 
+            }
+            time += Time.deltaTime;
+            yield return null;  
         }
-        else
-        {
-            _executingState = false;
-            _naddiStateMachiene.FinishedLookForPlayer();
-        }
+        _executingState = false;
 
     }
     private void WalkToLastPlayerPosition()
@@ -202,19 +164,8 @@ public class Naddi : MonoBehaviour
         if (Vector3.Distance(_playerPosLastSeen, transform.position) <= 20)
         {
             _agent.isStopped = true;
+            _naddiStateMachiene.FinishedLookForPlayer();
             StartCoroutine(LookForPlayer());
         }
-    }
-    private IEnumerator TurnNaddiAroundY(Quaternion localRot, Quaternion rotDir)
-    {
-        float duration = 4f;
-        float timeElapsed = 0f;
-        while (timeElapsed < duration)
-        {
-            float t = timeElapsed / duration;
-            transform.rotation = Quaternion.Lerp(localRot, rotDir, t);
-            timeElapsed += Time.deltaTime;
-            yield return null;
-        }
-    }
+    }  
 }
