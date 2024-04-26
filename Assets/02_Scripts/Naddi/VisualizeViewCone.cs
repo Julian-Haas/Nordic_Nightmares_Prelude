@@ -8,22 +8,26 @@ public class VisualizeViewCone : MonoBehaviour
 {
     [SerializeField]
     private NaddiViewField _viewField;
-    public Material VisionConeMaterial;
-    public float VisionRange;
-    public float VisionAngle;
-    public LayerMask VisionObstructingLayer;//layer with objects that obstruct the enemy view, like walls, for example
-    public int VisionConeResolution = 120;//the vision cone will be made up of triangles, the higher this value is the pretier the vision cone will be
-    Mesh VisionConeMesh;
-    MeshFilter MeshFilter_;
-    //Create all of these variables, most of them are self explanatory, but for the ones that aren't i've added a comment to clue you in on what they do
-    //for the ones that you dont understand dont worry, just follow along
+    private Mesh _visionConeMesh;
+    private MeshFilter _meshFiler;
+    [SerializeField]
+    private Material _visionConeMaterial;
+    private float _viewDistance;
+    private float _coneAngle;
+    [SerializeField]
+    private LayerMask VisionObstructingLayer;
+    [SerializeField]
+    private int _visionConeResolution = 120;
+
     void Start()
     {
-        transform.GetComponent<MeshRenderer>().material = VisionConeMaterial;
-        MeshFilter_ = GetComponent<MeshFilter>(); 
-        VisionConeMesh = new Mesh();
-        VisionAngle *= Mathf.Deg2Rad;
-    }
+        transform.GetComponent<MeshRenderer>().material = _visionConeMaterial;
+        _meshFiler = GetComponent<MeshFilter>(); 
+        _visionConeMesh = new Mesh();
+        _coneAngle = _viewField.HalfAngleDegree * 2;
+        _coneAngle *= Mathf.Deg2Rad;
+        _viewDistance = _viewField.ConeRadius;
+    } 
 
 
     void Update()
@@ -33,30 +37,32 @@ public class VisualizeViewCone : MonoBehaviour
 
     void DrawVisionCone()
     {
-        int[] triangles = new int[(VisionConeResolution - 1) * 3];
-        Vector3[] Vertices = new Vector3[VisionConeResolution + 1];
+        int[] triangles = new int[(_visionConeResolution - 1) * 3];
+        Vector3[] Vertices = new Vector3[_visionConeResolution + 1];
         Vertices[0] = Vector3.zero;
-        float Currentangle = -VisionAngle / 2;
-        float angleIcrement = VisionAngle / (VisionConeResolution - 1);
+        float Currentangle = -_coneAngle / 2;
+        float angleIcrement = _coneAngle / (_visionConeResolution - 1);
         float Sine;
         float Cosine;
 
-        for (int i = 0; i < VisionConeResolution; i++)
+        for (int i = 0; i < _visionConeResolution; i++)
         {
             Sine = Mathf.Sin(Currentangle);
             Cosine = Mathf.Cos(Currentangle);
             Vector3 RaycastDirection = (transform.forward * Cosine) + (transform.right * Sine);
             Vector3 VertForward = (Vector3.forward * Cosine) + (Vector3.right * Sine);
-            if (Physics.Raycast(transform.position, RaycastDirection, out RaycastHit hit, VisionRange, VisionObstructingLayer))
+
+            //check if there is an Obstacle in range
+            if (Physics.Raycast(transform.position, RaycastDirection, out RaycastHit hit, _viewDistance, VisionObstructingLayer))
             {
+                //if thats the case, vertex lenght is the distance from origin to the hit point of the raycast 
                 Vertices[i + 1] = VertForward * hit.distance;
             }
             else
             {
-                Vertices[i + 1] = VertForward * VisionRange;
+                //if thats not the case, vertex lenght is the distance from origin times the view distance 
+                Vertices[i + 1] = VertForward * _viewDistance;
             }
-
-
             Currentangle += angleIcrement;
         }
         for (int i = 0, j = 0; i < triangles.Length; i += 3, j++)
@@ -65,10 +71,11 @@ public class VisualizeViewCone : MonoBehaviour
             triangles[i + 1] = j + 1;
             triangles[i + 2] = j + 2;
         }
-        VisionConeMesh.Clear();
-        VisionConeMesh.vertices = Vertices;
-        VisionConeMesh.triangles = triangles;
-        MeshFilter_.mesh = VisionConeMesh;
+        _visionConeMesh.Clear(); // clears old mesh data
+        //"instantiate" mesh with new triangle and vertice data. 
+        _visionConeMesh.vertices = Vertices;
+        _visionConeMesh.triangles = triangles;
+        _meshFiler.mesh = _visionConeMesh;
     }
 
 }

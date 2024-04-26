@@ -14,8 +14,12 @@ public class Naddi : MonoBehaviour
     private Transform _playerPos;
     [SerializeField]
     private NaddiStateMaschine _naddiStateMachiene;
+    [SerializeField, Tooltip("The timespan the Naddi needs to dig to a new Patrol Spline in Seconds.")]
+    private float _digDuration = 5f;
     [SerializeField]
-    private float _speed; 
+    private float _speed;
+    public float Speed { get {return _speed; }  }
+    [SerializeField]
     private NavMeshAgent _agent;
     private SplineAnimate _splineAnimate;
     private NaddiStateEnum _state = NaddiStateEnum.Digging;
@@ -46,7 +50,7 @@ public class Naddi : MonoBehaviour
         m_Naddi = this;
         InitSplineAnimate();
         SetUpDiggingHeight(); //prototyping -> will be removed when digging animations are ready 
-        _agent = GetComponent<NavMeshAgent>();
+        //_agent = GetComponent<NavMeshAgent>();
         _agent.speed = _speed; 
     }
 
@@ -72,7 +76,7 @@ public class Naddi : MonoBehaviour
             _playerPosLastSeen = _playerPos.position;
             _naddiStateMachiene.FoundPlayer();
         }
-       //HandleState();
+       HandleState();
     }
 
     private void WalkOnPatrol()
@@ -83,7 +87,6 @@ public class Naddi : MonoBehaviour
             _startedPatrol = true;
             _splineAnimate.ElapsedTime = 0;
         }
-        //_splineAnimate.Container = _patrolPath.ActivatePatrolPath();
         _splineAnimate.Play();
         if (_foundPlayer)
         {
@@ -123,35 +126,33 @@ public class Naddi : MonoBehaviour
     private IEnumerator Digging()
     {
         _executingState = true;
-        yield return StartCoroutine(Dig(_digDownHeight));
+        yield return new WaitForSeconds(_digDuration);
         _splineAnimate.Container = _patrolPath.ActivatePatrolPath(); 
         Vector3 newPos = _patrolPath.GetFarthesPoint();
-        newPos.y = _digDownHeight;
         transform.position = newPos;
-        yield return StartCoroutine(Dig(_digUpHeight));
         _naddiStateMachiene.FinishedDigging();
         _executingState = false;
     }
 
-    private IEnumerator Dig(float newHeight)
-    {
-        Vector3 digPos = new Vector3(transform.position.x, newHeight, transform.position.z);
-        float duration = 2;
-        float elapsedTime = 0f;
-
-        float startPosition = transform.position.y;
-
-        while (elapsedTime < duration)
-        {
-            float t = elapsedTime / duration;
-            float finalYPos = Mathf.Lerp(startPosition, digPos.y, t);
-            Vector3 finalPos = transform.position;
-            finalPos.y = finalYPos;
-            transform.position = finalPos;
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-    }
+// private IEnumerator Dig(float newHeight)
+// {
+//     Vector3 digPos = new Vector3(transform.position.x, newHeight, //transform.position.z);
+//     float duration = 2;
+//     float elapsedTime = 0f;
+//
+//     float startPosition = transform.position.y;
+//
+//     while (elapsedTime < duration)
+//     {
+//         float t = elapsedTime / duration;
+//         float finalYPos = Mathf.Lerp(startPosition, digPos.y, t);
+//         Vector3 finalPos = transform.position;
+//         finalPos.y = finalYPos;
+//         transform.position = finalPos;
+//         elapsedTime += Time.deltaTime;
+//         yield return null;
+//     }
+// }
 
 
     private void ChasePlayer()
