@@ -23,9 +23,9 @@ public class DialogEvent : ScriptedEvent
         _textbox.gameObject.SetActive(true);
     }
 
-    public override void UpdateEvent(float deltaTime) {
-        if(_eventStarted == false) {
-            return;
+    public override bool UpdateEvent(float deltaTime) {
+        if(base.UpdateEvent(deltaTime) == false) {
+            return false;
         }
         _currentTime = _currentTime + deltaTime;
         if(_currentTime > duration) {
@@ -33,6 +33,8 @@ public class DialogEvent : ScriptedEvent
             _textbox.gameObject.SetActive(false);
             InvokeEventFinished();
         }
+
+        return true;
     }
 
 }

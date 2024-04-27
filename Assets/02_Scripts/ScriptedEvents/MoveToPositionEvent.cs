@@ -18,12 +18,10 @@ public class MoveToPositionEvent : ScriptedEvent
     }
 
 
-    public override void UpdateEvent(float deltaTime) {
-
-        if(_eventStarted == false) {
-            return;
+    public override bool UpdateEvent(float deltaTime) {
+        if(base.UpdateEvent(deltaTime) == false) {
+            return false;
         }
-
         Vector3 dir = position.position - _moveObject.transform.position;
 
         Vector3 moveDistance = _moveDirection * _moveSpeed * deltaTime;
@@ -36,6 +34,6 @@ public class MoveToPositionEvent : ScriptedEvent
             _moveObject.transform.position = _moveObject.transform.position + moveDistance;
         }
 
-
+        return true;
     }
 }

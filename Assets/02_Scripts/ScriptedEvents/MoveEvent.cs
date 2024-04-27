@@ -10,37 +10,29 @@ public class MoveEvent : ScriptedEvent
 
     [SerializeField] private SplineContainer _movePath;
     [SerializeField] private float _splineMoveSpeed;
-    [SerializeField] private SplineAnimate _animator;
-    private bool _enabledThisFrame;
+    [SerializeField] private SplineAnimate _splineAnimator;
 
     public override void StartEvent() {
-
-        Debug.Log("spline move start");
-        _animator.enabled = true;
-        _animator.Container = _movePath;
-        _animator.AnimationMethod = SplineAnimate.Method.Speed;
-        _animator.MaxSpeed = _splineMoveSpeed;
-
-
-        _animator.Play();
-        _enabledThisFrame = true;
-
         base.StartEvent();
+        _splineAnimator.enabled = true;
+        _splineAnimator.Container = _movePath;
+        _splineAnimator.AnimationMethod = SplineAnimate.Method.Speed;
+        _splineAnimator.MaxSpeed = _splineMoveSpeed;
+        _splineAnimator.Play();
     }
 
-    public override void UpdateEvent(float deltaTime) {
-        if(_eventStarted == false) {
-            return;
+    public override bool UpdateEvent(float deltaTime) {
+        if(base.UpdateEvent(deltaTime) == false) {
+            return false;
         }
-        if(_animator.ElapsedTime > 0 && _animator.IsPlaying == false) {
-            Debug.Log(_animator.ElapsedTime);
+        if(_splineAnimator.ElapsedTime > 0 && _splineAnimator.IsPlaying == false) {
             InvokeEventFinished();
 
         }
-        else if(_animator.IsPlaying == false) {
-            _animator.Play();
+        else if(_splineAnimator.IsPlaying == false) {
+            _splineAnimator.Play();
         }
 
-
+        return true;
     }
 }
