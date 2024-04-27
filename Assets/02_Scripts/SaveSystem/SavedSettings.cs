@@ -10,7 +10,7 @@ public class SavedSettings
     [SerializeField] private float _musicVolume;
     [SerializeField] private float _sfxVolume;
 
-    private string _filePath = Application.persistentDataPath + "/settings.json";
+    private static string _filePath = Application.persistentDataPath + "/settings.json";
 
 
     public float MasterVolume {
@@ -52,7 +52,7 @@ public class SavedSettings
         _sfxVolume = 0.5f;
     }
 
-    public SavedSettings LoadSettings() {
+    public static SavedSettings LoadSettings() {
         SavedSettings settings;
         if(File.Exists(_filePath)) {
             string json = File.ReadAllText(_filePath);
@@ -62,7 +62,7 @@ public class SavedSettings
             settings = new SavedSettings();
             settings.SaveSettings();
         }
-        ApplySettings();
+        settings.ApplySettings();
         return settings;
     }
 

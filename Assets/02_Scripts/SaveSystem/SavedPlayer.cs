@@ -13,7 +13,7 @@ public class SavedPlayer
     [SerializeField, HideInInspector] private List<(string, int)> _completedLevelsList;
     private Dictionary<string,int> _completedLevels;
 
-    private string _filePath = Application.persistentDataPath + "/player.sav";
+    private static string _filePath = Application.persistentDataPath + "/player.sav";
 
     public SavedPlayer() {
 
@@ -21,7 +21,7 @@ public class SavedPlayer
         _completedLevelsList = new List<(string, int)>();
     }
 
-    public SavedPlayer LoadPlayerSave() {
+    public static SavedPlayer LoadPlayerSave() {
 
         SavedPlayer saveData;
         if(File.Exists(_filePath)) {
@@ -32,7 +32,7 @@ public class SavedPlayer
             stream.Close();
 
             saveData = JsonUtility.FromJson<SavedPlayer>(json);
-            InitDictonary();
+            saveData.InitDictonary();
         }
         else {
             saveData = new SavedPlayer();
