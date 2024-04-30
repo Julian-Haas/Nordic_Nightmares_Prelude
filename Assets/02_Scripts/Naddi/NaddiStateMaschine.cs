@@ -8,7 +8,8 @@ public enum NaddiStateEnum
     Chase=1,
     LookForPlayer=2,
     Digging=3,
-    Idle = 4
+    Idle = 4,
+    Attack = 5 
   
 }
 public class NaddiStateMaschine : MonoBehaviour
@@ -22,74 +23,55 @@ public class NaddiStateMaschine : MonoBehaviour
 
     public void LookForPlayer()
     {
-        if (_currentState != NaddiStateEnum.LookForPlayer)
-        {
-            StartCoroutine(ResetState(NaddiStateEnum.LookForPlayer));
-        }
-        else
-        {
-            SetState(NaddiStateEnum.LookForPlayer);
-        }
+        SetState(NaddiStateEnum.LookForPlayer);
     }
 
     public void FoundPlayer()
     {
-        StopAllCoroutines();
-        if (_currentState != NaddiStateEnum.Chase && _currentState != NaddiStateEnum.Patrol && _currentState != NaddiStateEnum.LookForPlayer)
-        {
-            StartCoroutine(ResetState(NaddiStateEnum.Chase));
-        }
-        else
-        {
-            SetState(NaddiStateEnum.Chase); 
-        }
- 
+        SetState(NaddiStateEnum.Chase);
     }
 
     public void LostPlayer()
     {
-        if (_currentState != NaddiStateEnum.LookForPlayer)
-        {
-            StartCoroutine(ResetState(NaddiStateEnum.LookForPlayer));
-        }
-        else
-        {
-            SetState(NaddiStateEnum.LookForPlayer); 
-        }
+        SetState(NaddiStateEnum.LookForPlayer);
     }
 
     public void FinishedLookForPlayer()
     {
-        StartCoroutine(ResetState(NaddiStateEnum.Digging, 3f));
+        StartDigging(); 
     }
     public void StartDigging()
     {
-        StartCoroutine(ResetState(NaddiStateEnum.Digging));
+        SetState(NaddiStateEnum.Digging);
     }
 
     public void FinishedDigging()
     {
-        StartCoroutine(ResetState(NaddiStateEnum.Patrol)); 
+        SetState(NaddiStateEnum.Patrol);
     }
 
     private void SetState(NaddiStateEnum state)
-    {
+    { 
         _currentState = state;
         _naddi.State = _currentState; 
     }
-
-    private IEnumerator ResetState(NaddiStateEnum nextState)
+    public void AttackPlayer()
     {
-        SetState(NaddiStateEnum.Idle);
-        yield return new WaitForSeconds(0.1f);
-        SetState(nextState);
+        SetState(NaddiStateEnum.Attack);
     }
 
-    private IEnumerator ResetState(NaddiStateEnum nextState, float duration)
+    public void FinishedAttacking()
     {
-        SetState(NaddiStateEnum.Idle);
-        yield return new WaitForSeconds(duration);
-        SetState(nextState);
+        StartCoroutine(AttackAndDigAway()); 
     }
+
+    IEnumerator AttackAndDigAway()
+    {
+        StartDigging();
+        yield return new WaitForSeconds(0.5f); 
+    }
+
+
+
 
 }

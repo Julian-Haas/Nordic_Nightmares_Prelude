@@ -27,14 +27,30 @@ public class NaddiAnimation : MonoBehaviour
                 StartDigging();
                 break;
             case NaddiStateEnum.LookForPlayer:
-                StartMoving(); 
+
+                if (_naddiState.Naddi.Agent.isStopped)
+                {
+                    IdleAround();
+                    break;
+                }
+                StartMoving();
                 break; 
             case NaddiStateEnum.Idle:
                 IdleAround();
                 break;
+            case NaddiStateEnum.Attack:
+                StartAttacking();
+                break; 
         }
     }
-     
+    private void StartAttacking()
+    {
+        _anim.SetBool("IsAttacking", true);
+        _anim.SetFloat("Velocity", 0.5f);
+        _anim.SetBool("IsMoving", false);
+        _anim.SetFloat("Velocity", 0f);
+        _anim.SetBool("IsCamouflaging", false);
+    }
     public void StartMoving()
     {
         _anim.SetBool("IsMoving", true);
@@ -44,6 +60,9 @@ public class NaddiAnimation : MonoBehaviour
     public void StartDigging()
     {
         _anim.SetBool("IsCamouflaging", true);
+        _anim.SetBool("IsMoving", false);
+        _anim.SetFloat("Velocity", 0f);
+        _anim.SetBool("IsAttacking", false);
     }
 
     public void IdleAround()
@@ -51,6 +70,7 @@ public class NaddiAnimation : MonoBehaviour
         _anim.SetBool("IsMoving", false);
         _anim.SetFloat("Velocity", 0f);
         _anim.SetBool("IsCamouflaging", false);
+       _anim.SetBool("IsAttacking", false); 
     }
 
 }

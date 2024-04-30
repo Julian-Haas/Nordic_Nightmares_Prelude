@@ -9,29 +9,39 @@ public class PatrolPath : MonoBehaviour
     [SerializeField]
     private Transform _playerPosition;
     private int _indexOfNextPath;
+    [SerializeField]
     private SplineContainer _closestPath;
     public List<SplineContainer> Paths = new List<SplineContainer>();
+    [SerializeField]
+    private Naddi _naddi; 
 
-
-    public SplineContainer ActivatePatrolPath()
+    public void ActivatePatrolPath(SplineContainer newPath)
     {
-        float minDistance = float.MaxValue;
-        SplineContainer patrolPath = null;
-        foreach (SplineContainer spline in Paths)
-        {
-            patrolPath = spline; 
-            foreach (BezierKnot knot in patrolPath.Spline)
-            {
-                float distance = Vector3.Distance(_playerPosition.position, knot.Position);
-                if (distance < minDistance)
-                {
-                    minDistance = distance;
-                    _closestPath = patrolPath;
-                }
-            }
-        }
+        //float minDistance = float.MaxValue;
+        //SplineContainer patrolPath = null;
+        //foreach (SplineContainer spline in Paths)
+        //{
+        //    patrolPath = spline; 
+        //    foreach (BezierKnot knot in patrolPath.Spline)
+        //    {
+        //        float distance = Vector3.Distance(_playerPosition.position, knot.Position);
+        //        if (distance < minDistance)
+        //        {
+        //            minDistance = distance;
+        //            _closestPath = patrolPath;
+        //        }
+        //    }
+        //}
+        _closestPath.gameObject.SetActive(false);
+        _closestPath = newPath;
+        _closestPath.gameObject.SetActive(true);
+        _naddi.StateMachine.StartDigging(); 
+        
+    }
 
-        return _closestPath;
+    public SplineContainer GetActivePatrolPath()
+    {
+        return _closestPath; 
     }
     public Vector3 GetFarthesPoint()
     {
