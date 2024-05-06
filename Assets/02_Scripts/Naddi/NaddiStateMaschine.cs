@@ -20,7 +20,6 @@ public class NaddiStateMaschine : MonoBehaviour
     private NaddiStateEnum _currentState = NaddiStateEnum.Digging; 
     public NaddiStateEnum CurrentState { get { return _currentState; } }
 
-
     public void LookForPlayer()
     {
         SetState(NaddiStateEnum.LookForPlayer);
@@ -51,7 +50,8 @@ public class NaddiStateMaschine : MonoBehaviour
     }
 
     private void SetState(NaddiStateEnum state)
-    { 
+    {
+        _naddi._executingState = false;
         _currentState = state;
         _naddi.State = _currentState; 
     }
@@ -60,18 +60,15 @@ public class NaddiStateMaschine : MonoBehaviour
         SetState(NaddiStateEnum.Attack);
     }
 
-    public void FinishedAttacking()
+    public void FinishedAttacking(bool seesPlayer)
     {
-        StartCoroutine(AttackAndDigAway()); 
+        if (seesPlayer)
+        {
+            SetState(NaddiStateEnum.Chase);
+        }
+        else
+        {
+            SetState(NaddiStateEnum.LookForPlayer); 
+        }
     }
-
-    IEnumerator AttackAndDigAway()
-    {
-        StartDigging();
-        yield return new WaitForSeconds(0.5f); 
-    }
-
-
-
-
 }

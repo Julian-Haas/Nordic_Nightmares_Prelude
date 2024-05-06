@@ -7,11 +7,36 @@ public class NaddiAnimation : MonoBehaviour
     private Animator _anim;
     [SerializeField]
     private NaddiStateMaschine _naddiState;
+    private NaddiViewField _viewField;
+    private bool hasBitten = false; 
 
-
+    private void Start()
+    {
+        _viewField = this.GetComponent<NaddiViewField>(); 
+    }
     private void Update()
     {
-        AnimStateHandle(); 
+        AnimStateHandle();
+
+        if (_naddiState.CurrentState == NaddiStateEnum.Digging || _naddiState.CurrentState == NaddiStateEnum.Attack)
+        {
+            CheckForAnimationFinished(); 
+        }
+    }
+
+    void CheckForAnimationFinished()
+    {
+        if (_anim.GetCurrentAnimatorStateInfo(0).length >
+               _anim.GetCurrentAnimatorStateInfo(0).normalizedTime)
+        {
+            if (_naddiState.CurrentState == NaddiStateEnum.Attack)
+            {
+                if (_anim.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
+                {
+                    _naddiState.FinishedAttacking(_viewField.isInsideCone());
+                }
+            }
+         }
     }
     void AnimStateHandle()
     {
@@ -46,7 +71,6 @@ public class NaddiAnimation : MonoBehaviour
     private void StartAttacking()
     {
         _anim.SetBool("IsAttacking", true);
-        _anim.SetFloat("Velocity", 0.5f);
         _anim.SetBool("IsMoving", false);
         _anim.SetFloat("Velocity", 0f);
         _anim.SetBool("IsCamouflaging", false);
@@ -54,7 +78,8 @@ public class NaddiAnimation : MonoBehaviour
     public void StartMoving()
     {
         _anim.SetBool("IsMoving", true);
-        _anim.SetFloat("Velocity", _naddiState.Naddi.Speed); 
+        _anim.SetFloat("Velocity", _naddiState.Naddi.Speed);
+        _anim.SetBool("IsAttacking", false);
     }
 
     public void StartDigging()
