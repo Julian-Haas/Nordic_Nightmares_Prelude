@@ -1,6 +1,7 @@
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using System.Text.RegularExpressions;
+using Unity.VisualScripting;
 
 public class Willo : EditorWindow
 {
@@ -32,6 +33,10 @@ public class Willo : EditorWindow
             }
         }
 
+        if(GUILayout.Button("Add Waypoint to selected WillOTheWisp")) {
+            AddWaypoint();
+        }
+
         GUILayout.Space(20);
         GUILayout.Label("Drag and drop the WillOTheWisp prefab here:");
         willOTheWispPrefab = EditorGUILayout.ObjectField(willOTheWispPrefab,typeof(GameObject),false) as GameObject;
@@ -55,4 +60,35 @@ public class Willo : EditorWindow
         Debug.Log("Collision point: " + collisionPoint);
         return collisionPoint;
     }
+
+    private void AddWaypoint() {
+        Transform rootTransform = Selection.activeGameObject.transform.root;
+        Selection.activeGameObject = rootTransform.GetChild(1).gameObject;
+        GameObject selectedObject = Selection.activeGameObject;
+        if(selectedObject == null) {
+            Debug.LogWarning("Please select a WillOTheWisp first.");
+            return;
+        }
+        int highestIndex = 0;
+        int number;
+        for(int i = 0; i < rootTransform.childCount; i++) {
+            Transform child = rootTransform.GetChild(i);
+            Match match = Regex.Match(child.name,@"\d$");
+            if(match.Success) {
+                string numberString = match.Value;
+                int.TryParse(numberString,out number);
+                if(number > highestIndex) {
+                    highestIndex = number;
+                }
+            }
+        }
+        GameObject duplicatedObject = Instantiate(selectedObject);
+        highestIndex++;
+        duplicatedObject.name = selectedObject.name.Replace("_1","_" + highestIndex);
+        duplicatedObject.transform.SetParent(rootTransform);
+        Selection.activeGameObject = duplicatedObject;
+        Debug.Log("Object duplicated: " + duplicatedObject.name);
+    }
+
+
 }
