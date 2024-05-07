@@ -14159,7 +14159,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6346640903152727836, guid: 5fef96df39be7c34482e37ab0cc441f2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -42.93
+      value: 76.61
       objectReference: {fileID: 0}
     - target: {fileID: 6346640903152727836, guid: 5fef96df39be7c34482e37ab0cc441f2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -14167,7 +14167,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6346640903152727836, guid: 5fef96df39be7c34482e37ab0cc441f2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 120.9
+      value: 69.66
       objectReference: {fileID: 0}
     - target: {fileID: 6346640903152727836, guid: 5fef96df39be7c34482e37ab0cc441f2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -55028,6 +55028,7 @@ GameObject:
   - component: {fileID: 8024784753664694851}
   - component: {fileID: 3939324716927676349}
   - component: {fileID: 8695621930218918759}
+  - component: {fileID: 8695621930218918760}
   m_Layer: 3
   m_Name: SM_Naadi_01
   m_TagString: Naddi
@@ -55592,8 +55593,8 @@ MonoBehaviour:
   _patrolPath: {fileID: 1645558942}
   _playerPos: {fileID: 559469048}
   _naddiStateMachiene: {fileID: 3939324716927676349}
-  _digDuration: 2
-  _speed: 2
+  _digDuration: 5
+  _speed: 5
   _agent: {fileID: 8024784753664694851}
   _state: 3
   _executingState: 0
@@ -60563,6 +60564,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _anim: {fileID: 2353345184724288626}
   _naddiState: {fileID: 3939324716927676349}
+--- !u!65 &8695621930218918760
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6293724848117601723}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.52953315, y: 2.4962287, z: 1.4254535}
+  m_Center: {x: -0.063480824, y: 1.0453928, z: 0.21272683}
 --- !u!1 &8730196841661128462
 GameObject:
   m_ObjectHideFlags: 0
