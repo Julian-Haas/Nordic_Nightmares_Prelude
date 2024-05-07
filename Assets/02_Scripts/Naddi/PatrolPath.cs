@@ -32,14 +32,16 @@ public class PatrolPath : MonoBehaviour
         //        }
         //    }
         //}
-        _closestPath.gameObject.SetActive(false);
-        _closestPath = newPath;
-        _closestPath.gameObject.SetActive(true);
-        if (_naddi.ChasesPlayer == false)
+        if (newPath != _closestPath)
         {
-            _naddi.StateMachine.StartDigging();
+            _closestPath.gameObject.SetActive(false);
+            _closestPath = newPath;
+            _closestPath.gameObject.SetActive(true);
+            if (_naddi.ChasesPlayer == false)
+            {
+                _naddi.StateMachine.StartDigging();
+            }
         }
-        
     }
 
     public SplineContainer GetActivePatrolPath()
