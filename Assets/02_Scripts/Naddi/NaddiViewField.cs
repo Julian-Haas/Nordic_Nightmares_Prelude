@@ -37,7 +37,6 @@ public class NaddiViewField : MonoBehaviour
                 {
                     if (hit.collider.gameObject.CompareTag("Player"))
                     {
-                        Debug.Log("Saw Player"); 
                         return true;
                     }
                 }

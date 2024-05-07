@@ -27,17 +27,20 @@ public class Naddi : MonoBehaviour
     public bool _executingState = false;
     private Vector3 _playerPosLastSeen;
     private bool _startedPatrol = false;
-    private bool _attackedPlayer = false; 
-
-    private Vector3 PatrolPoint;
+    private bool _attackedPlayer = false;
+    private bool _chasesPlayer = false;
+    public bool ChasesPlayer { get { return _chasesPlayer;  } }
+    private Vector3 targetPosition;
     private float _time;
-
+    bool lookForPlayer; 
     public NavMeshAgent Agent { get { return _agent;  } }
+
     public NaddiStateEnum State
     {
         get{ return _state; }
         set { _state = value; }
     }
+    Vector3 oldPos; 
 
   //public bool FoundPlayer
   //{
@@ -56,11 +59,14 @@ public class Naddi : MonoBehaviour
         _splineAnimate.AnimationMethod = SplineAnimate.Method.Speed;
         _splineAnimate.enabled = false;
         _splineAnimate.PlayOnAwake = false;
-        _splineAnimate.MaxSpeed = _speed;
+        _splineAnimate.MaxSpeed = _speed; 
     }
-
     private void Update()
     {
+        if (lookForPlayer || _chasesPlayer)
+        {
+            Debug.DrawLine(transform.position, targetPosition, color: Color.white); 
+        }
         if (_naddiEye.isInsideCone() && _state != NaddiStateEnum.Digging)
         {
             _playerPosLastSeen = _playerPos.position;
@@ -73,7 +79,6 @@ public class Naddi : MonoBehaviour
         }
        HandleState();
     }
-
     private void WalkOnPatrol()
     {
         _splineAnimate.Container = _patrolPath.GetActivePatrolPath();
@@ -94,22 +99,19 @@ public class Naddi : MonoBehaviour
 
     private void HandleState()
     {
-      switch (_state)
+        switch (_state)
         {
             case NaddiStateEnum.Digging:
                 _agent.isStopped = true;
-                if (_executingState == false) //-> die courintine startet mehrmals ohne die if abfrage todo: bessere lösung finden
-                {
-                    StartCoroutine(Digging());
-                    _startedPatrol = false;
-                }
+                Digging();
+                _startedPatrol = false;
                 break;
             case NaddiStateEnum.Patrol:
                 _agent.isStopped = true;
                 WalkOnPatrol();
                 break;
             case NaddiStateEnum.Chase:
-                _agent.isStopped = false; 
+                _agent.isStopped = false;
                 _startedPatrol = false;
                 ChasePlayer();
                 break;
@@ -119,60 +121,55 @@ public class Naddi : MonoBehaviour
                 break;
             case NaddiStateEnum.Attack:
                 _startedPatrol = false;
-                _agent.isStopped = true; 
-                break; 
+                _agent.isStopped = true;
+                break;
 
         }
     }
 
-    private IEnumerator Digging()
+    private void Digging()
     {
         _attackedPlayer = false;
         _executingState = true;
-        yield return new WaitForSeconds(_digDuration);
-        //_naddiStateMachiene.FinishedDigging();
-        Debug.Log("started patrol value: " + _startedPatrol + "if true, this is unexepected and not correct!"); 
     }
 
     private void ChasePlayer()
     {
         float sqrMagnitude = (_playerPos.position - this.transform.position).sqrMagnitude;
-        if (sqrMagnitude <= Mathf.Pow(_agent.stoppingDistance, 2)) //3.5 is round about the distance from origin to mouth 
+        if (_naddiEye.isInsideCone() && sqrMagnitude <= Mathf.Pow(_agent.stoppingDistance, 2))
         {
+            _chasesPlayer = true;
             _agent.isStopped=true; 
           _naddiStateMachiene.AttackPlayer();
         }
-        if (_naddiEye.isInsideCone() && sqrMagnitude > Mathf.Pow(_agent.stoppingDistance, 2))
+        else if (_naddiEye.isInsideCone() && sqrMagnitude > Mathf.Pow(_agent.stoppingDistance, 2) || sqrMagnitude < Mathf.Pow(_agent.stoppingDistance*5, 2) && sqrMagnitude > Mathf.Pow(_agent.stoppingDistance, 2))
         {
+            _chasesPlayer = true;
             _agent.isStopped = false; 
             _splineAnimate.enabled = false;
             _executingState = true;
+            targetPosition = _playerPos.position; 
             _agent.SetDestination(_playerPos.position);
         }
-        else if(!_naddiEye.isInsideCone() && sqrMagnitude > Mathf.Pow(_agent.stoppingDistance*3, 2))
+        else if(!_naddiEye.isInsideCone() && sqrMagnitude > Mathf.Pow(_agent.stoppingDistance * 5, 2))
         {
             _executingState = false;
+            _chasesPlayer = false;
             _naddiStateMachiene.LostPlayer();
         }
 
     }
 
-    private void LookForPlayer()
-    {
-        if (_naddiEye.isInsideCone())
-        {
-            _executingState = false;
-            _naddiStateMachiene.FoundPlayer();
-            return;
-        }
-    }
     private void WalkToLastPlayerPosition()
     {
+        lookForPlayer = true;
+        targetPosition = _playerPosLastSeen; 
         _agent.SetDestination(_playerPosLastSeen);
-        if (Vector3.Distance(_playerPosLastSeen, transform.position) <= _agent.stoppingDistance)
+        if (_agent.pathStatus == NavMeshPathStatus.PathComplete)
         {
+            _naddiStateMachiene.LookForPlayer();
             _agent.isStopped = true;
-            LookForPlayer();
+            _chasesPlayer = false; 
         }
     }
 }

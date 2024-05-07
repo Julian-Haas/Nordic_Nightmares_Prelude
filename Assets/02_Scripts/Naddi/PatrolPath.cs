@@ -13,7 +13,7 @@ public class PatrolPath : MonoBehaviour
     private SplineContainer _closestPath;
     public List<SplineContainer> Paths = new List<SplineContainer>();
     [SerializeField]
-    private Naddi _naddi; 
+    private Naddi _naddi;
 
     public void ActivatePatrolPath(SplineContainer newPath)
     {
@@ -35,7 +35,10 @@ public class PatrolPath : MonoBehaviour
         _closestPath.gameObject.SetActive(false);
         _closestPath = newPath;
         _closestPath.gameObject.SetActive(true);
-        _naddi.StateMachine.StartDigging(); 
+        if (_naddi.ChasesPlayer == false)
+        {
+            _naddi.StateMachine.StartDigging();
+        }
         
     }
 
@@ -66,7 +69,6 @@ public class PatrolPath : MonoBehaviour
             }
             i++; 
         }
-        Debug.Log(_closestPath.name + " " + indexOfNewStartKnot);
         if (indexOfNewStartKnot != 0)
         {
             _closestPath.Spline = SwapKnotPoints(_closestPath.Spline, indexOfNewStartKnot);

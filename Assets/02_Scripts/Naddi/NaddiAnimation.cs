@@ -17,27 +17,8 @@ public class NaddiAnimation : MonoBehaviour
     private void Update()
     {
         AnimStateHandle();
-
-        if (_naddiState.CurrentState == NaddiStateEnum.Digging || _naddiState.CurrentState == NaddiStateEnum.Attack)
-        {
-            CheckForAnimationFinished(); 
-        }
     }
 
-    void CheckForAnimationFinished()
-    {
-        if (_anim.GetCurrentAnimatorStateInfo(0).length >
-               _anim.GetCurrentAnimatorStateInfo(0).normalizedTime)
-        {
-            if (_naddiState.CurrentState == NaddiStateEnum.Attack)
-            {
-                if (_anim.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
-                {
-                    _naddiState.FinishedAttacking(_viewField.isInsideCone());
-                }
-            }
-         }
-    }
     void AnimStateHandle()
     {
         switch (_naddiState.CurrentState)
@@ -56,9 +37,11 @@ public class NaddiAnimation : MonoBehaviour
                 if (_naddiState.Naddi.Agent.isStopped)
                 {
                     IdleAround();
-                    break;
                 }
-                StartMoving();
+                else
+                {
+                    StartMoving();
+                }
                 break; 
             case NaddiStateEnum.Idle:
                 IdleAround();
