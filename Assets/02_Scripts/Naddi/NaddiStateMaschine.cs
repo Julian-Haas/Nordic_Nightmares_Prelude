@@ -37,7 +37,16 @@ public class NaddiStateMaschine : MonoBehaviour
 
     public void FinishedLookForPlayer()
     {
-        StartDigging(); 
+        if (_naddi.HeardPlayer && _naddi.NaddiEye.isInsideCone())
+        {
+            _naddi.HeardPlayer = false; 
+            FoundPlayer();
+        }
+        else
+        {
+            StartCoroutine(_naddi.HearingDelay());
+            StartDigging(); 
+        }
     }
     public void StartDigging()
     {

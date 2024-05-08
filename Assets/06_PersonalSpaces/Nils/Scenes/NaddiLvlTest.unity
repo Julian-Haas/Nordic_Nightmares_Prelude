@@ -14155,7 +14155,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6308979654165976805, guid: 5fef96df39be7c34482e37ab0cc441f2, type: 3}
       propertyPath: _speed
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6346640903152727836, guid: 5fef96df39be7c34482e37ab0cc441f2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -14228,7 +14228,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4075594498802940006, guid: 5fef96df39be7c34482e37ab0cc441f2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1829829127}
   m_SourcePrefab: {fileID: 100100000, guid: 5fef96df39be7c34482e37ab0cc441f2, type: 3}
 --- !u!4 &559469048 stripped
 Transform:
@@ -45415,6 +45418,24 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 518881379123451034, guid: 5428a1506e0af034a8c355ea5daa90d6, type: 3}
   m_PrefabInstance: {fileID: 1828252339}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1829829118 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4075594498802940006, guid: 5fef96df39be7c34482e37ab0cc441f2, type: 3}
+  m_PrefabInstance: {fileID: 559469047}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1829829127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1829829118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8182d2f3b9aeb40569bf3bc5eae5cde3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  naddi: {fileID: 8695621930218918761}
 --- !u!1001 &1830588518
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53549,7 +53570,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2c16d86119ae4a60b53799143d5fdcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _coneRadius: 10
+  _coneRadius: 20
   _player: {fileID: 559469048}
   _coneOrigin: {fileID: 1950111793456043146}
   _coneHalfAngleDegree: 45
@@ -55029,6 +55050,7 @@ GameObject:
   - component: {fileID: 3939324716927676349}
   - component: {fileID: 8695621930218918759}
   - component: {fileID: 8695621930218918760}
+  - component: {fileID: 8695621930218918761}
   m_Layer: 3
   m_Name: SM_Naadi_01
   m_TagString: Naddi
@@ -60585,6 +60607,24 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.52953315, y: 2.4962287, z: 1.4254535}
   m_Center: {x: -0.063480824, y: 1.0453928, z: 0.21272683}
+--- !u!114 &8695621930218918761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6293724848117601723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbbc3297e2da84e4bad19daf5f5c3959, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _soundModifyer: 1
+  _groundModifyer: 1
+  _suspisiosTrigger: 1
+  _minValForHount: 2
+  _decay: 0.99
+  _minDistance: 10
 --- !u!1 &8730196841661128462
 GameObject:
   m_ObjectHideFlags: 0
