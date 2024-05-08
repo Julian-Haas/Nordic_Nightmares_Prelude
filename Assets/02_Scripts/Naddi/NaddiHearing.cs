@@ -10,9 +10,9 @@ public class NaddiHearing : MonoBehaviour
     [SerializeField]
     private float _soundSum = 0f;
     [SerializeField, Tooltip("When should the Naddi start looking at the player?")]
-    private float _suspisiosTrigger = 0.5f;
+    private float _LookForPlayerTrigger = 0.5f;
     [SerializeField, Tooltip("When should the Naddi start hounting the Player?")]
-    private float _minValForHount = 1f;
+    private float _attackPlayerTrigger = 1f;
     [SerializeField]
     private float _decay = 0.99f;
     [SerializeField]
@@ -22,8 +22,8 @@ public class NaddiHearing : MonoBehaviour
     private Transform _playerPos;
 
 
-    public Action<Vector3> OnSoundHeardAtPosition;
-    public Action OnPlayerSoundHeardNearBy;
+    public Action<Vector3> LookForPlayerAction;
+    public Action AttackPlayerAction;
 
     public float SoundMofifyer
     {
@@ -35,7 +35,7 @@ public class NaddiHearing : MonoBehaviour
             }
             else
             {
-                throw new System.ArgumentOutOfRangeException("The value should be between 0.5 and 2!");
+                throw new System.ArgumentOutOfRangeException("The value should be between 0.5 and 1!");
             }
         }
     }
@@ -71,16 +71,16 @@ public class NaddiHearing : MonoBehaviour
         float distance = Vector3.Distance(this.transform.position, _playerPos.position); 
         if (distance < _minDistance)
         {
-            _soundSum += 1 - (distance / _minDistance) * _soundModifyer * _groundModifyer;
+            _soundSum += 1 - (distance / _minDistance) * _soundModifyer * _groundModifyer* Time.deltaTime;
 
-            if (_soundSum > _suspisiosTrigger)
+            if (_soundSum > _LookForPlayerTrigger)
             {
-                OnSoundHeardAtPosition.Invoke(_playerPos.position);
+                LookForPlayerAction.Invoke(_playerPos.position);
             }
 
-            if(_soundSum > _minValForHount)
+            if(_soundSum > _attackPlayerTrigger)
             {
-                OnPlayerSoundHeardNearBy.Invoke(); 
+                AttackPlayerAction.Invoke(); 
             }
         }
 

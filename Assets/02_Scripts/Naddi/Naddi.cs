@@ -63,8 +63,8 @@ public class Naddi : MonoBehaviour
 
     private void Start()
     {
-        _naddiHearing.OnSoundHeardAtPosition += SusSoundHeard;
-        _naddiHearing.OnPlayerSoundHeardNearBy += HeardPlayerNearby; 
+        _naddiHearing.LookForPlayerAction += SusSoundHeard;
+        _naddiHearing.AttackPlayerAction += HeardPlayerNearby; 
     }
 
     void InitSplineAnimate()
