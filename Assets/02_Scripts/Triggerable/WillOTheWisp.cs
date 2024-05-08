@@ -45,6 +45,10 @@ public class WillOTheWisp : Triggerable
         Handles.Label(position,label,style);
     }
 
+    public void AddWaypoint(GameObject waypoint) {
+        _waypoints.Add(waypoint);
+    }
+
 
     void Start() {
         _startPosition = _willOTheWisp.transform.position;

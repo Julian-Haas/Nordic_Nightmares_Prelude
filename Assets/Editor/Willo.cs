@@ -63,32 +63,28 @@ public class Willo : EditorWindow
 
     private void AddWaypoint() {
         Transform rootTransform = Selection.activeGameObject.transform.root;
+        //create willothewisp if needed
         Selection.activeGameObject = rootTransform.GetChild(1).gameObject;
         GameObject selectedObject = Selection.activeGameObject;
         if(selectedObject == null) {
             Debug.LogWarning("Please select a WillOTheWisp first.");
             return;
         }
-        int highestIndex = 0;
-        int number;
-        for(int i = 0; i < rootTransform.childCount; i++) {
-            Transform child = rootTransform.GetChild(i);
-            Match match = Regex.Match(child.name,@"\d$");
-            if(match.Success) {
-                string numberString = match.Value;
-                int.TryParse(numberString,out number);
-                if(number > highestIndex) {
-                    highestIndex = number;
-                }
-            }
-        }
-        GameObject duplicatedObject = Instantiate(selectedObject);
+        Match match = Regex.Match(rootTransform.GetChild(rootTransform.childCount - 1).name,@"\d+$");
+        int highestIndex = match.Success ? int.Parse(match.Value) : 0;
         highestIndex++;
+        GameObject duplicatedObject = Instantiate(selectedObject);
         duplicatedObject.name = selectedObject.name.Replace("_1","_" + highestIndex);
         duplicatedObject.transform.SetParent(rootTransform);
         Selection.activeGameObject = duplicatedObject;
-        Debug.Log("Object duplicated: " + duplicatedObject.name);
+        //duplicatedObject.transform.position = rootTransform.GetChild(rootTransform.childCount - 1).transform.position + Vector3.back;
+        //GameObject blaa = rootTransform.GetChild(rootTransform.childCount - 1).gameObject;
+        //Debug.Log(blaa.name);
+        duplicatedObject.transform.localPosition = rootTransform.GetChild(rootTransform.childCount - 2).transform.localPosition + Vector3.back;
+        // + rootTransform.GetChild(rootTransform.childCount - 1).transform.forward * 2;
+
+        WillOTheWisp scriptWithList = rootTransform.GetComponent<WillOTheWisp>();
+        scriptWithList.AddWaypoint(duplicatedObject);
+        Debug.Log("Waypoint added: " + duplicatedObject.name);
     }
-
-
 }
