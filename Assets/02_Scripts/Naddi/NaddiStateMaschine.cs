@@ -9,7 +9,8 @@ public enum NaddiStateEnum
     LookForPlayer=2,
     Digging=3,
     Idle = 4,
-    Attack = 5 
+    Attack = 5,
+    DigToPlayer = 6
   
 }
 public class NaddiStateMaschine : MonoBehaviour

@@ -21,6 +21,8 @@ public class Naddi : MonoBehaviour
     private float _digDuration = 5f;
     [SerializeField]
     private float _speed;
+    [SerializeField]
+    private Terrain _terrain; 
     public float Speed { get { return _speed; } }
     [SerializeField]
     private NavMeshAgent _agent;
@@ -40,7 +42,8 @@ public class Naddi : MonoBehaviour
     public Transform PlayerPos { get { return _playerPos;  } }
     bool lookForPlayer;
     public NavMeshAgent Agent { get { return _agent; } }
-
+    [SerializeField]
+    private bool digToPlayer = false; 
     public NaddiStateEnum State
     {
         get { return _state; }
@@ -77,6 +80,12 @@ public class Naddi : MonoBehaviour
     }
     private void Update()
     {
+        if (digToPlayer)
+        {
+            _state = NaddiStateEnum.DigToPlayer; 
+            digToPlayer = false;
+            DigToPlayer(); 
+        }
         if (lookForPlayer || _chasesPlayer)
         {
             Debug.DrawLine(transform.position, targetPosition, color: Color.white);
@@ -234,5 +243,38 @@ public class Naddi : MonoBehaviour
         yield return new WaitForSeconds(10f);
         _heardPlayer = false;
 
+    }
+
+    public void DigToPlayer()
+    {
+        bool _validPos=false;
+        float offsetX;
+        float offsetZ; 
+        while (_validPos==false)
+        {
+            //random offset of new naddi position
+            offsetX = Random.Range(5, 7);
+            offsetZ = Random.Range(5, 7);
+            float randomXVorzeichen = Random.Range(0, 1);
+            float randomZVorzeichen = Random.Range(0, 1);
+            if (randomXVorzeichen < 0) { offsetX *= -1; }
+            if (randomZVorzeichen < 0) { offsetZ *= -1; }
+
+
+            Vector3 digOutPos = new Vector3(_playerPos.position.x + offsetX, 0, _playerPos.position.z + offsetZ);
+            float terrainhight = _terrain.SampleHeight(digOutPos);
+            digOutPos.y = terrainhight;
+            if (IsValidNavMesh(digOutPos))
+            {
+                this.transform.position = digOutPos;
+                _validPos = true; 
+            } 
+        }
+        _naddiStateMachiene.FoundPlayer(); 
+    }
+    bool IsValidNavMesh(Vector3 position)
+    {
+        NavMeshHit hit;
+        return NavMesh.SamplePosition(position, out hit, 1.0f, NavMesh.AllAreas);
     }
 }
