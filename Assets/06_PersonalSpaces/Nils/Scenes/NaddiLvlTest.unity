@@ -45423,6 +45423,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4075594498802940006, guid: 5fef96df39be7c34482e37ab0cc441f2, type: 3}
   m_PrefabInstance: {fileID: 559469047}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1829829120 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6308979654165976805, guid: 5fef96df39be7c34482e37ab0cc441f2, type: 3}
+  m_PrefabInstance: {fileID: 559469047}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1829829118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 143753821ff68ea4aa5d9aa9f43d661c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1829829127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60619,13 +60630,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbbc3297e2da84e4bad19daf5f5c3959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minVolumeModifyer: 0
+  maxVolumeModifyer: 1
   _soundModifyer: 1
   _groundModifyer: 1
   _soundSum: 0
-  _suspisiosTrigger: 20
-  _minValForHount: 40
+  _LookForPlayerTrigger: 30
+  _attackPlayerTrigger: 60
   _decay: 0.99
-  _minDistance: 10
+  _maxDistance: 20
+  _playerRef: {fileID: 1829829120}
 --- !u!1 &8730196841661128462
 GameObject:
   m_ObjectHideFlags: 0

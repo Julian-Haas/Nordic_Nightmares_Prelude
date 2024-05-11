@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class StealthHelper : MonoBehaviour
 {
-    public NaddiHearing naddi; 
+    public NaddiHearing naddi;
+    Vector3 position; 
     // Start is called before the first frame update
     void Start()
     {
-        
+        position = transform.position; 
     }
 
     // Update is called once per frame
@@ -16,11 +17,20 @@ public class StealthHelper : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            naddi.SoundMofifyer = 0.5f;
+            naddi.SetSoundModifyer = naddi.GetMinValumeModifyer;
+        }
+        else if (position == transform.position)
+        {
+            naddi.SetSoundModifyer = naddi.GetMinValumeModifyer;
         }
         else
         {
-            naddi.SoundMofifyer = 1f;
+            naddi.SetSoundModifyer = naddi.GetMaxValumeModifyer;
         }
+    }
+
+    private void LateUpdate()
+    {
+        position = transform.position;
     }
 }

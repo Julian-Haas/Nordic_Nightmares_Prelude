@@ -3,10 +3,19 @@ using System;
 
 public class NaddiHearing : MonoBehaviour
 {
-    [SerializeField, Range(0.5f, 1), Tooltip("Is the Player walking or standing?The Values should be between 0.5f - 1, where 0.5 = sneeking, 1 = normal walking ")]
-    private float _soundModifyer = 1;
+
+    [SerializeField]
+    private float minVolumeModifyer = 0f;
+    [SerializeField]
+    private float maxVolumeModifyer = 1f;
+    public float GetMinValumeModifyer { get { return minVolumeModifyer; } }
+    public float GetHalfVolumeModifyer { get { return maxVolumeModifyer / 2;  } }
+    public float GetMaxValumeModifyer { get { return maxVolumeModifyer; } } 
+
+    [SerializeField, Range(0.5f, 1), Tooltip("Is the Player walking or sneeking?The Values should be between 0.5f - 1, where 0.5 = sneeking, 1 = normal walking ")]
+    private float _soundModifyer;
     [SerializeField, Range(0, 1), Tooltip("How loud is the Sound on the given ground? The Values should be between 0 - 1, where 0 = insulating material, 1 = Gravel")]
-    private float _groundModifyer = 1;
+    private float _groundModifyer;
     [SerializeField]
     private float _soundSum = 0f;
     [SerializeField, Tooltip("When should the Naddi start looking at the player?")]
@@ -16,8 +25,9 @@ public class NaddiHearing : MonoBehaviour
     [SerializeField]
     private float _decay = 0.99f;
     [SerializeField]
-    float _minDistance = 10f; 
-
+    float _maxDistance = 10f;
+    [SerializeField, Tooltip("Player reference is needed to check if the listener chould listen for Player noises or not")]
+    private PlayerControl _playerRef; 
     private Naddi _naddi;
     private Transform _playerPos;
 
@@ -25,22 +35,22 @@ public class NaddiHearing : MonoBehaviour
     public Action<Vector3> LookForPlayerAction;
     public Action AttackPlayerAction;
 
-    public float SoundMofifyer
+    public float SetSoundModifyer
     {
         set
         {
-            if (value >= 0.5 && value <= 1)
+            if (value >= minVolumeModifyer && value <= maxVolumeModifyer)
             {
                 _soundModifyer = value;
             }
             else
             {
-                throw new System.ArgumentOutOfRangeException("The value should be between 0.5 and 1!");
+                throw new System.ArgumentOutOfRangeException("The value should be between: " + minVolumeModifyer + "and: " + maxVolumeModifyer);
             }
         }
     }
 
-    public float GroundModifyer
+    public float SetGroundModifyer
     {
         set
         {
@@ -58,7 +68,9 @@ public class NaddiHearing : MonoBehaviour
     private void Awake()
     {
         _naddi = this.GetComponent<Naddi>();
-        _playerPos = _naddi.PlayerPos; 
+        _playerPos = _playerRef.gameObject.transform;
+        _soundModifyer = GetMaxValumeModifyer;
+        _groundModifyer = GetMaxValumeModifyer;
     }
 
     private void Update()
@@ -68,25 +80,34 @@ public class NaddiHearing : MonoBehaviour
 
     public void AddSoundValue()
     {
-        float distance = Vector3.Distance(this.transform.position, _playerPos.position); 
-        if (distance < _minDistance)
+        if (_soundSum >= 0)
         {
-            _soundSum += 1 - (distance / _minDistance) * _soundModifyer * _groundModifyer* Time.deltaTime;
+            float distance = Vector3.Distance(this.transform.position, _playerPos.position);
+            if (_soundSum > 0 && _naddi.State != NaddiStateEnum.LookForPlayer && _naddi.State != NaddiStateEnum.Chase || distance > (_maxDistance*1.33f))
+            {
+                _soundSum *= _decay;
+            }
 
-            if (_soundSum > _LookForPlayerTrigger)
+            if (distance > _maxDistance)
+            {
+                return;
+            }
+
+            if (_soundSum > _LookForPlayerTrigger && _soundSum < _attackPlayerTrigger)
             {
                 LookForPlayerAction.Invoke(_playerPos.position);
             }
-
-            if(_soundSum > _attackPlayerTrigger)
+            else if (_soundSum > _attackPlayerTrigger)
             {
-                AttackPlayerAction.Invoke(); 
+                AttackPlayerAction.Invoke();
             }
-        }
 
-        if (_naddi.State != NaddiStateEnum.LookForPlayer && _naddi.State != NaddiStateEnum.Attack && _naddi.State != NaddiStateEnum.Attack)
-        {
-            _soundSum *= _decay;
+            if (_playerRef.IsMoving() == false)
+            {
+                return;
+            } 
+
+            _soundSum += 1 - (distance / _maxDistance) * _soundModifyer * _groundModifyer * Time.deltaTime;
         }
     }
 } 
