@@ -144,6 +144,7 @@ public class Naddi : MonoBehaviour
                 ChasePlayer();
                 break;
             case NaddiStateEnum.LookForPlayer:
+                _chasesPlayer = false; 
                 _startedPatrol = false;
                 WalkToLastPlayerPosition();
                 break;
