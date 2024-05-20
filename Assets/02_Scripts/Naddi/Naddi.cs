@@ -33,6 +33,8 @@ public class Naddi : MonoBehaviour
     private bool _startedPatrol = false;
     private bool _attackedPlayer = false;
     private bool _chasesPlayer = false;
+    private s_PlayerCollider _playerCol;
+    public bool PlayerInSafeZone; 
     public bool ChasesPlayer { get { return _chasesPlayer; } }
     private bool _heardPlayer = false;
     public bool HeardPlayer { get { return _heardPlayer; } set { _heardPlayer = true;  } }
@@ -67,7 +69,8 @@ public class Naddi : MonoBehaviour
     private void Start()
     {
         _naddiHearing.LookForPlayerAction += SusSoundHeard;
-        _naddiHearing.AttackPlayerAction += HeardPlayerNearby; 
+        _naddiHearing.AttackPlayerAction += HeardPlayerNearby;
+        _playerCol = PlayerPos.gameObject.GetComponent<s_PlayerCollider>(); 
     }
 
     void InitSplineAnimate()
@@ -80,6 +83,7 @@ public class Naddi : MonoBehaviour
     }
     private void Update()
     {
+        PlayerInSafeZone = _playerCol._inSafeZone; 
         if (digToPlayer)
         {
             _state = NaddiStateEnum.DigToPlayer; 
@@ -120,6 +124,7 @@ public class Naddi : MonoBehaviour
         }
     }
 
+
     private void HandleState()
     {
         switch (_state)
@@ -157,14 +162,19 @@ public class Naddi : MonoBehaviour
 
     private void ChasePlayer()
     {
+        if (_playerCol._inSafeZone) 
+        {
+            _naddiStateMachiene.LookForPlayer();
+            return; 
+        }
         float sqrMagnitude = (_playerPos.position - this.transform.position).sqrMagnitude;
-        if (_naddiEye.isInsideCone() && sqrMagnitude <= Mathf.Pow(_agent.stoppingDistance, 2))
+        if (_naddiEye.isInsideCone() && sqrMagnitude <= Mathf.Pow(_agent.stoppingDistance, 2) && !PlayerInSafeZone)
         {
             _chasesPlayer = true;
             _agent.isStopped = true;
             _naddiStateMachiene.AttackPlayer();
         }
-        else if (_naddiEye.isInsideCone() && sqrMagnitude > Mathf.Pow(_agent.stoppingDistance, 2) || sqrMagnitude < Mathf.Pow(_agent.stoppingDistance * 5, 2) && sqrMagnitude > Mathf.Pow(_agent.stoppingDistance, 2))
+        else if (((_naddiEye.isInsideCone() && sqrMagnitude > Mathf.Pow(_agent.stoppingDistance, 2)) || (sqrMagnitude < Mathf.Pow(_agent.stoppingDistance * 5, 2) && sqrMagnitude > Mathf.Pow(_agent.stoppingDistance, 2))) && !PlayerInSafeZone)
         {
             _chasesPlayer = true;
             _agent.isStopped = false;
@@ -173,12 +183,12 @@ public class Naddi : MonoBehaviour
             targetPosition = _playerPos.position;
             _agent.SetDestination(_playerPos.position);
         }
-        else if (!_naddiEye.isInsideCone() && sqrMagnitude > Mathf.Pow(_agent.stoppingDistance * 5, 2))
+        else if (!_naddiEye.isInsideCone() && sqrMagnitude > Mathf.Pow(_agent.stoppingDistance * 5, 2) && !PlayerInSafeZone)
         {
             _executingState = false;
             _chasesPlayer = false;
             _naddiStateMachiene.LostPlayer();
-        }
+        } 
 
     }
 
@@ -187,7 +197,8 @@ public class Naddi : MonoBehaviour
         lookForPlayer = true;
         targetPosition = _playerPosLastSeen;
         _agent.SetDestination(_playerPosLastSeen);
-        if (_agent.pathStatus == NavMeshPathStatus.PathComplete)
+        float sqrDistance = (_playerPosLastSeen - this.transform.position).sqrMagnitude; 
+        if (sqrDistance <= Mathf.Pow(5, 2))
         {
             _naddiStateMachiene.LookForPlayer();
             _agent.isStopped = true;
@@ -276,5 +287,11 @@ public class Naddi : MonoBehaviour
     {
         NavMeshHit hit;
         return NavMesh.SamplePosition(position, out hit, 1.0f, NavMesh.AllAreas);
+    }
+
+    public void ResetNaddiPosition() 
+    {
+        transform.position = _patrolPath.GetFarthesPoint();
+        _naddiStateMachiene.FinishedDigging(); 
     }
 }

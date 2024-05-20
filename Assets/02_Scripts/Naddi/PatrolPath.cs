@@ -71,8 +71,10 @@ public class PatrolPath : MonoBehaviour
         foreach(BezierKnot knot in knots)
         {
             float distance = Vector3.Distance(knot.Position, _playerPosition.position);
+#if UNITY_EDITOR
             string distanceTXT = distance.ToString();
             DistanceOutput.Add(distanceTXT);
+#endif
             if (distance >= maxDistance)
             {
                 maxDistance = distance;
@@ -81,7 +83,9 @@ public class PatrolPath : MonoBehaviour
             }
             i++; 
         }
-        DistanceOutput.Add("Done checking for nearest knot! Final result is: " + maxDistance.ToString()); 
+#if UNITY_EDITOR
+        DistanceOutput.Add("Done checking for nearest knot! Final result is: " + maxDistance.ToString());
+#endif
         if (indexOfNewStartKnot != 0)
         {
             _closestPath.Spline = SwapKnotPoints(_closestPath.Spline, indexOfNewStartKnot);
