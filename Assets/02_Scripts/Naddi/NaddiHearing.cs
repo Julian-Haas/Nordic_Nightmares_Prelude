@@ -11,7 +11,7 @@ public class NaddiHearing : MonoBehaviour
     public float GetMinValumeModifyer { get { return minVolumeModifyer; } }
     public float GetHalfVolumeModifyer { get { return maxVolumeModifyer / 2;  } }
     public float GetMaxValumeModifyer { get { return maxVolumeModifyer; } } 
-
+    public float GetSoundSum { get { return _soundSum; } }
     [SerializeField, Range(0.5f, 1), Tooltip("Is the Player walking or sneeking?The Values should be between 0.5f - 1, where 0.5 = sneeking, 1 = normal walking ")]
     private float _soundModifyer;
     [SerializeField, Range(0, 1), Tooltip("How loud is the Sound on the given ground? The Values should be between 0 - 1, where 0 = insulating material, 1 = Gravel")]
@@ -75,7 +75,15 @@ public class NaddiHearing : MonoBehaviour
 
     private void Update()
     {
-        AddSoundValue(); 
+
+        if(_playerRef.GetSneakingStatus() == true) 
+        {
+            _soundModifyer = GetHalfVolumeModifyer; 
+        } else 
+        {
+            _soundModifyer = GetMaxValumeModifyer; 
+        }
+            AddSoundValue(); 
     }
 
     public void AddSoundValue()
@@ -109,5 +117,10 @@ public class NaddiHearing : MonoBehaviour
 
             _soundSum += 1 - (distance / _maxDistance) * _soundModifyer * _groundModifyer * Time.deltaTime;
         }
+    }
+
+    public void ResetSoundSum() 
+    {
+        _soundSum = 0;
     }
 } 

@@ -14,7 +14,14 @@ public class PatrolPath : MonoBehaviour
     public List<SplineContainer> Paths = new List<SplineContainer>();
     [SerializeField]
     private Naddi _naddi;
+    [SerializeField]
+    private List<string> DistanceOutput;
+    private NaddiHearing _naddiHearing;
 
+    private void Start()
+    {
+      _naddiHearing = _naddi.gameObject.GetComponent<NaddiHearing>();
+    }
     public void ActivatePatrolPath(SplineContainer newPath)
     {
         //float minDistance = float.MaxValue;
@@ -34,6 +41,7 @@ public class PatrolPath : MonoBehaviour
         //}
         if (newPath != _closestPath)
         {
+            _naddiHearing.ResetSoundSum(); 
             _closestPath.gameObject.SetActive(false);
             _closestPath = newPath;
             _closestPath.gameObject.SetActive(true);
@@ -63,7 +71,9 @@ public class PatrolPath : MonoBehaviour
         foreach(BezierKnot knot in knots)
         {
             float distance = Vector3.Distance(knot.Position, _playerPosition.position);
-            if (distance > maxDistance)
+            string distanceTXT = distance.ToString();
+            DistanceOutput.Add(distanceTXT);
+            if (distance >= maxDistance)
             {
                 maxDistance = distance;
                 farthestPoint = knot.Position;
@@ -71,6 +81,7 @@ public class PatrolPath : MonoBehaviour
             }
             i++; 
         }
+        DistanceOutput.Add("Done checking for nearest knot! Final result is: " + maxDistance.ToString()); 
         if (indexOfNewStartKnot != 0)
         {
             _closestPath.Spline = SwapKnotPoints(_closestPath.Spline, indexOfNewStartKnot);
