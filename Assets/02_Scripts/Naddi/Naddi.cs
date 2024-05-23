@@ -31,18 +31,14 @@ public class Naddi : MonoBehaviour
     public bool _executingState = false;
     private Vector3 _playerPosLastSeen;
     private bool _startedPatrol = false;
-    private bool _attackedPlayer = false;
     private bool _chasesPlayer = false;
     private s_PlayerCollider _playerCol;
     public bool PlayerInSafeZone; 
     public bool ChasesPlayer { get { return _chasesPlayer; } }
     private bool _heardPlayer = false;
     public bool HeardPlayer { get { return _heardPlayer; } set { _heardPlayer = true;  } }
-    private Vector3 targetPosition;
-    private float _time;
     private NaddiHearing _naddiHearing;
     public Transform PlayerPos { get { return _playerPos;  } }
-    bool lookForPlayer;
     public NavMeshAgent Agent { get { return _agent; } }
     [SerializeField]
     private bool digToPlayer = false; 
@@ -51,14 +47,6 @@ public class Naddi : MonoBehaviour
         get { return _state; }
         set { _state = value; }
     }
-    Vector3 oldPos;
-    private Transform newRot;
-
-    //public bool FoundPlayer
-    //{
-    //    get { return _foundPlayer; }
-    //}
-
     private void Awake()
     {
         InitSplineAnimate();
@@ -104,7 +92,7 @@ public class Naddi : MonoBehaviour
 
         }
         PlayerInSafeZone = _playerCol._inSafeZone; 
-        if (PlayerInSafeZone && _state == NaddiStateEnum.Attack)
+        if (PlayerInSafeZone && (_state == NaddiStateEnum.Chase || _state == NaddiStateEnum.Attack))
         {
             _naddiStateMachiene.PlayerVanished();
         }
@@ -122,7 +110,7 @@ public class Naddi : MonoBehaviour
 
         if (_state != NaddiStateEnum.Patrol)
         {
-            _splineAnimate.enabled = false;
+            _splineAnimate.enabled = false; 
         }
         HandleState();
     }
@@ -141,22 +129,12 @@ public class Naddi : MonoBehaviour
             Vector3 newPos = _patrolPath.CalculateDistanceForEachKnot();
             transform.position = newPos;
             _naddiStateMachiene.GetNaddiMeshRenderer.enabled = true;
+            _splineAnimate.enabled = true;
         }
-        if (_naddiStateMachiene.GetNaddiMeshRenderer.enabled == false)
-        {
-            print("Failed to enable SkinnedMeshRenderer...Retrying...");
-            _startedPatrol = false;
-            _naddiStateMachiene.GetNaddiMeshRenderer.enabled = true; 
-        }
-        _naddiStateMachiene.GetNaddiMeshRenderer.enabled = true;
-        _splineAnimate.enabled = true;
         _splineAnimate.Play();
         if (_naddiEye.isInsideCone())
         {
-            _splineAnimate.Pause();
-            _splineAnimate.ElapsedTime = 0f; 
-            _splineAnimate.enabled = false;
-            
+            DisableSplineAnimate();
         }
     }
     private void HandleState()
@@ -175,6 +153,7 @@ public class Naddi : MonoBehaviour
             case NaddiStateEnum.Chase:
                 _agent.isStopped = false;
                 _startedPatrol = false;
+                _chasesPlayer = true; 
                 ChasePlayer();
                 break;
             case NaddiStateEnum.LookForPlayer:
@@ -184,6 +163,7 @@ public class Naddi : MonoBehaviour
                 break;
             case NaddiStateEnum.Attack:
                 _startedPatrol = false;
+                _chasesPlayer = true;
                 _agent.isStopped = true;
                 break;
             case NaddiStateEnum.PlayerVanished: 
@@ -197,7 +177,6 @@ public class Naddi : MonoBehaviour
     }
     private void Digging()
     {
-        _attackedPlayer = false;
         _executingState = true;
     }
 
@@ -205,11 +184,11 @@ public class Naddi : MonoBehaviour
     {
         if(canChasePlayer == false) 
         {
-            if (_playerCol._inSafeZone)
-            {
-                _naddiStateMachiene.PlayerVanished();
-                return;
-            }
+           //if (_playerCol._inSafeZone)
+           //{
+           //    _naddiStateMachiene.PlayerVanished();
+           //    return;
+           //}
             float sqrMagnitude = (_playerPos.position - this.transform.position).sqrMagnitude;
             if (_naddiEye.isInsideCone() && sqrMagnitude <= Mathf.Pow(_agent.stoppingDistance, 2) && !PlayerInSafeZone)
             {
@@ -221,9 +200,7 @@ public class Naddi : MonoBehaviour
             {
                 _chasesPlayer = true;
                 _agent.isStopped = false;
-                _splineAnimate.enabled = false;
                 _executingState = true;
-                targetPosition = _playerPos.position;
                 _agent.SetDestination(_playerPos.position);
             }
             else if (!_naddiEye.isInsideCone() && sqrMagnitude > Mathf.Pow(_agent.stoppingDistance * 5, 2) && !PlayerInSafeZone)
@@ -238,8 +215,6 @@ public class Naddi : MonoBehaviour
 
     private void WalkToLastPlayerPosition()
     {
-        lookForPlayer = true;
-        targetPosition = _playerPosLastSeen;
         _agent.SetDestination(_playerPosLastSeen);
         float sqrDistance = (_playerPosLastSeen - this.transform.position).sqrMagnitude; 
         if (sqrDistance <= Mathf.Pow(5, 2))
@@ -318,5 +293,11 @@ public class Naddi : MonoBehaviour
         _naddiHearing.ResetSoundSum();
         _agent.isStopped = true;
         StartCoroutine(_naddiHearing.ListenerDelay()); 
+    }
+    void DisableSplineAnimate() 
+    {
+        _splineAnimate.Pause();
+        _splineAnimate.enabled = false;
+        _splineAnimate.ElapsedTime = 0;
     }
 }
