@@ -61,7 +61,7 @@ public class PatrolPath : MonoBehaviour
         return CalculateDistanceForEachKnot();
     }
 
-    private Vector3 CalculateDistanceForEachKnot()
+    public Vector3 CalculateDistanceForEachKnot()
     {
         Vector3 farthestPoint = Vector3.zero;
         var knots = _closestPath.Spline.Knots;

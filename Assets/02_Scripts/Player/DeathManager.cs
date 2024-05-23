@@ -39,6 +39,7 @@ public class DeathManager : MonoBehaviour
     IEnumerator RespawnCoroutine()
     {
         yield return new WaitForSeconds(2.0f);
+        _naddi.KilledPlayer = true;
         GameObject simplNaddiActive = GameObject.Find("SimpleNaddiManager");
         _naddi.ResetNaddiPosition(); 
         

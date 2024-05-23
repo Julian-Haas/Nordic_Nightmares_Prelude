@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections;
 
 public class NaddiHearing : MonoBehaviour
 {
@@ -30,7 +31,7 @@ public class NaddiHearing : MonoBehaviour
     private PlayerControl _playerRef; 
     private Naddi _naddi;
     private Transform _playerPos;
-
+    private s_PlayerCollider _playerCollider;
 
     public Action<Vector3> LookForPlayerAction;
     public Action AttackPlayerAction;
@@ -72,7 +73,10 @@ public class NaddiHearing : MonoBehaviour
         _soundModifyer = GetMaxValumeModifyer;
         _groundModifyer = GetMaxValumeModifyer;
     }
-
+    private void Start()
+    {
+        _playerCollider = _playerPos.gameObject.GetComponent<s_PlayerCollider>();
+    }
     private void Update()
     {
 
@@ -88,6 +92,8 @@ public class NaddiHearing : MonoBehaviour
 
     public void AddSoundValue()
     {
+        if (canHearSomething == false)
+            return; 
         if (_soundSum >= 0)
         {
             float distance = Vector3.Distance(this.transform.position, _playerPos.position);
@@ -96,7 +102,7 @@ public class NaddiHearing : MonoBehaviour
                 _soundSum *= _decay;
             }
 
-            if (distance > _maxDistance)
+            if (distance > _maxDistance || _playerCollider._inSafeZone == true)
             {
                 return;
             }
@@ -122,5 +128,12 @@ public class NaddiHearing : MonoBehaviour
     public void ResetSoundSum() 
     {
         _soundSum = 0;
+    }
+    bool canHearSomething = true; 
+    public IEnumerator ListenerDelay() 
+    {
+        canHearSomething = false;
+        yield return new WaitForSeconds(2);
+        canHearSomething = true; 
     }
 } 
