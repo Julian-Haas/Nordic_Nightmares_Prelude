@@ -25,8 +25,8 @@ public class RaycastVisualizerEditor
         Vector3 collisionPoint = CalculateCollisionPoint(Vector3.up,planeHeight,sceneViewCamera);
 
         // Visualize the collision point with a red circle
-        //Handles.color = Color.red;
-        //Handles.DrawWireDisc(collisionPoint,Vector3.up,0.5f);
+        Handles.color = Color.red;
+        Handles.DrawWireDisc(collisionPoint,Vector3.up,0.5f);
     }
 
     private static Vector3 CalculateCollisionPoint(Vector3 planeNormal,float planeDistance,Camera camera) {
