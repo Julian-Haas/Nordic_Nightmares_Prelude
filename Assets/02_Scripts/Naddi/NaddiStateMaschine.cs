@@ -55,7 +55,6 @@ public class NaddiStateMaschine : MonoBehaviour
         }
         else
         {
-            
             StartCoroutine(_naddi.HearingDelay());
             StartDigging(); 
         }
@@ -93,13 +92,9 @@ public class NaddiStateMaschine : MonoBehaviour
         {
             FoundPlayer(); 
         }
-        else if(!seesPlayer && _naddi.KilledPlayer == false)
+        if(!seesPlayer && _naddi.KilledPlayer == false)
         {
             LookForPlayer(); 
-        } 
-        else if(_naddi.KilledPlayer == true) 
-        {
-            StartDigging(); 
         }
     }
 

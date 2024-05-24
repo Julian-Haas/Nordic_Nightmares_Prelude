@@ -24,30 +24,15 @@ public class PatrolPath : MonoBehaviour
     }
     public void ActivatePatrolPath(SplineContainer newPath)
     {
-        //float minDistance = float.MaxValue;
-        //SplineContainer patrolPath = null;
-        //foreach (SplineContainer spline in Paths)
-        //{
-        //    patrolPath = spline; 
-        //    foreach (BezierKnot knot in patrolPath.Spline)
-        //    {
-        //        float distance = Vector3.Distance(_playerPosition.position, knot.Position);
-        //        if (distance < minDistance)
-        //        {
-        //            minDistance = distance;
-        //            _closestPath = patrolPath;
-        //        }
-        //    }
-        //}
         if (newPath != _closestPath)
         {
             _naddiHearing.ResetSoundSum(); 
             _closestPath.gameObject.SetActive(false);
             _closestPath = newPath;
             _closestPath.gameObject.SetActive(true);
-            if (_naddi.ChasesPlayer == false)
+            if (_naddi.ChasePlayer == false)
             {
-                _naddi.StateMachine.StartDigging();
+                _naddi.StateMachiene.StartDigging();
             }
         }
     }

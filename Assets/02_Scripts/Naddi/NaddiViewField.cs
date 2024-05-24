@@ -30,14 +30,21 @@ public class NaddiViewField : MonoBehaviour
             float angleDegree = angleRad * Mathf.Rad2Deg;
             if (angleDegree <= _coneHalfAngleDegree)
             {
+                Vector3 offset = new Vector3((_player.localScale.x / 2), 0, 0);
+                Vector3[] playerSides = new Vector3[2];
+                playerSides[0] = _player.position - offset;
+                playerSides[1] = _player.position + offset;
                 RaycastHit hit;
-                Vector3 raycastDir = _player.position - _coneOrigin.position;
-                raycastDir.Normalize(); 
-                if (Physics.Raycast(_coneOrigin.position,raycastDir, out hit, _coneRadius, ~ignoreLayer))
+                foreach (var playerSide in playerSides) 
                 {
-                    if (hit.collider.gameObject.CompareTag("Player"))
+                    Vector3 raycastDir = playerSide - _coneOrigin.position;
+                    raycastDir.Normalize();
+                    if (Physics.Raycast(_coneOrigin.position, raycastDir, out hit, _coneRadius, ~ignoreLayer))
                     {
-                        return true;
+                        if (hit.collider.gameObject.CompareTag("Player"))
+                        {
+                            return true;
+                        }
                     }
                 }
             }
