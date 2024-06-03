@@ -60,7 +60,7 @@ public class Naddi : MonoBehaviour
             CanChasePlayer = false;
         }
 
-        if(State != NaddiStateEnum.Digging && !RendererEnabled) 
+        if(State != NaddiStateEnum.Digging && !RendererEnabled && !StateMachiene.GetNaddiMeshRenderer.enabled) 
         {
             RendererEnabled = true;
             StateMachiene.GetNaddiMeshRenderer.enabled = true;
@@ -75,8 +75,7 @@ public class Naddi : MonoBehaviour
             _playerPosLastSeen = PlayerPos.position;
             StateMachiene.FoundPlayer();
         }
-
-        if (State != NaddiStateEnum.Patrol)
+        if (State != NaddiStateEnum.Patrol && _splineAnimate.enabled)
         {
             _splineAnimate.enabled = false; 
         }
@@ -125,7 +124,6 @@ public class Naddi : MonoBehaviour
                 _startedPatrol = false;
                 break;
             case NaddiStateEnum.Patrol:
-                ChasePlayer = false;
                 WalkOnPatrol();
                 break;
             case NaddiStateEnum.Chase:
@@ -136,17 +134,14 @@ public class Naddi : MonoBehaviour
                 break;
             case NaddiStateEnum.LookForPlayer:
                 ChasePlayer = false; 
-                _startedPatrol = false;
                 _attackBehaviour.WalkToLastPlayerPosition(_playerPosLastSeen);
                 break;
             case NaddiStateEnum.Attack:
-                _startedPatrol = false;
                 ChasePlayer = true;
                 Agent.isStopped = true;
                 break;
             case NaddiStateEnum.PlayerVanished: 
                 Agent.isStopped = true;
-                _startedPatrol = false;
                 StateMachiene.LookForPlayer(); 
                 break; 
         }
