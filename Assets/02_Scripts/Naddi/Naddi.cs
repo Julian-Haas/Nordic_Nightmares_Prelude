@@ -32,8 +32,8 @@ public class Naddi : MonoBehaviour
     public NaddiStateEnum State;
     private NaddiAttack _attackBehaviour;
     private bool RendererEnabled = true;
-
-    private void Awake()
+    private bool StopAgent = false;
+    void Awake()
     {
         InitSplineAnimate();
         StateMachiene = GetComponent<NaddiStateMaschine>(); 
@@ -118,34 +118,48 @@ public class Naddi : MonoBehaviour
         switch (State)
         {
             case NaddiStateEnum.Digging:
-                ChasePlayer=false;
-                Agent.isStopped = true;
+                SetFlags(ref ChasePlayer, ref StopAgent, ref _startedPatrol, false, true, false);
+                Agent.isStopped = StopAgent;
                 CanChasePlayer = false;
-                _startedPatrol = false;
                 break;
             case NaddiStateEnum.Patrol:
+                ChasePlayer = false;
                 WalkOnPatrol();
                 break;
             case NaddiStateEnum.Chase:
-                Agent.isStopped = false;
-                _startedPatrol = false;
-                ChasePlayer = true;
+                SetFlags(ref StopAgent, ref _startedPatrol, ref ChasePlayer, false, false, true);
+                Agent.isStopped = StopAgent;
                 _attackBehaviour.ChasePlayer(PlayerPos);
                 break;
             case NaddiStateEnum.LookForPlayer:
-                ChasePlayer = false; 
+                SetFlags(ref ChasePlayer, ref _startedPatrol, false, false);
                 _attackBehaviour.WalkToLastPlayerPosition(_playerPosLastSeen);
                 break;
             case NaddiStateEnum.Attack:
-                ChasePlayer = true;
-                Agent.isStopped = true;
+                SetFlags(ref _startedPatrol, ref ChasePlayer, ref StopAgent, false, true, true);
+                Agent.isStopped = StopAgent; 
                 break;
-            case NaddiStateEnum.PlayerVanished: 
-                Agent.isStopped = true;
-                StateMachiene.LookForPlayer(); 
-                break; 
+            case NaddiStateEnum.PlayerVanished:
+                SetFlags(ref StopAgent, ref _startedPatrol, true, false);
+                Agent.isStopped = StopAgent;
+                StateMachiene.LookForPlayer();
+                break;
         }
     }
+
+    void SetFlags(ref bool flagOne, ref bool flagTwo, bool val1, bool val2)
+    {
+        flagOne = val1;
+        flagTwo = val2;
+    }
+
+    void SetFlags(ref bool flagOne, ref bool flagTwo, ref bool flagThree, bool val1, bool val2, bool val3)
+    {
+        flagOne = val1;
+        flagTwo = val2;
+        flagThree = val3;
+    }
+
     public void SusSoundHeard(Vector3 pos)
     {
         if (State != NaddiStateEnum.Chase && State != NaddiStateEnum.Attack && State != NaddiStateEnum.Digging && !HeardPlayer)
