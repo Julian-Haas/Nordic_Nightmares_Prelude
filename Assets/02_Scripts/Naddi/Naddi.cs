@@ -24,7 +24,7 @@ public class Naddi : MonoBehaviour
     private bool _startedPatrol = false;
     public bool ChasePlayer = false;
     private s_PlayerCollider _playerCol;
-    public bool PlayerInSafeZone; 
+    public bool PlayerInSafeZone;
     public bool HeardPlayer = false;
     private NaddiHearing _naddiHearing;
     public bool KilledPlayer = false;
@@ -33,10 +33,11 @@ public class Naddi : MonoBehaviour
     private NaddiAttack _attackBehaviour;
     private bool RendererEnabled = true;
     private bool StopAgent = false;
+    bool PlayerWasInSafeZone;
     void Awake()
     {
         InitSplineAnimate();
-        StateMachiene = GetComponent<NaddiStateMaschine>(); 
+        StateMachiene = GetComponent<NaddiStateMaschine>();
         Agent = this.GetComponent<NavMeshAgent>();
         NaddiEye = GetComponent<NaddiViewField>();
         _attackBehaviour = GetComponent<NaddiAttack>();
@@ -48,19 +49,18 @@ public class Naddi : MonoBehaviour
     {
         _naddiHearing.LookForPlayerAction += SusSoundHeard;
         _naddiHearing.AttackPlayerAction += HeardPlayerNearby;
-        _playerCol = PlayerPos.gameObject.GetComponent<s_PlayerCollider>(); 
+        _playerCol = PlayerPos.gameObject.GetComponent<s_PlayerCollider>();
     }
-
 
     private void Update()
     {
-        PlayerInSafeZone = _playerCol._inSafeZone; 
-        if(KilledPlayer)
+        PlayerInSafeZone = _playerCol._inSafeZone;
+        if (KilledPlayer)
         {
             CanChasePlayer = false;
         }
 
-        if(State != NaddiStateEnum.Digging && !RendererEnabled && !StateMachiene.GetNaddiMeshRenderer.enabled) 
+        if (State != NaddiStateEnum.Digging && !RendererEnabled && !StateMachiene.GetNaddiMeshRenderer.enabled)
         {
             RendererEnabled = true;
             StateMachiene.GetNaddiMeshRenderer.enabled = true;
@@ -77,7 +77,7 @@ public class Naddi : MonoBehaviour
         }
         if (State != NaddiStateEnum.Patrol && _splineAnimate.enabled)
         {
-            _splineAnimate.enabled = false; 
+            _splineAnimate.enabled = false;
         }
         HandleState();
     }
@@ -89,8 +89,8 @@ public class Naddi : MonoBehaviour
         _splineAnimate.PlayOnAwake = false;
         _splineAnimate.MaxSpeed = Speed;
     }
-    public void DisableRenderer() 
-    { 
+    public void DisableRenderer()
+    {
         RendererEnabled = false;
         StateMachiene.GetNaddiMeshRenderer.enabled = false;
     }
@@ -101,12 +101,20 @@ public class Naddi : MonoBehaviour
             _startedPatrol = true;
             CanChasePlayer = true;
             _splineAnimate.Container = _patrolPath.GetActivePatrolPath();
-            KilledPlayer = false; 
-            if (_splineAnimate.ElapsedTime > 0) 
+            KilledPlayer = false;
+            if (_splineAnimate.ElapsedTime > 0)
             {
-                _splineAnimate.ElapsedTime = 0f; 
+                _splineAnimate.ElapsedTime = 0f;
             }
             Vector3 newPos = _patrolPath.CalculateDistanceForEachKnot();
+            if (PlayerWasInSafeZone && !PlayerInSafeZone)
+            {
+                _startedPatrol = false;
+                CanChasePlayer = false;
+                StateMachiene.FoundPlayer();
+                return;
+
+            }
             transform.position = newPos;
             StateMachiene.GetNaddiMeshRenderer.enabled = true;
             _splineAnimate.enabled = true;
@@ -137,7 +145,7 @@ public class Naddi : MonoBehaviour
                 break;
             case NaddiStateEnum.Attack:
                 SetFlags(ref _startedPatrol, ref ChasePlayer, ref StopAgent, false, true, true);
-                Agent.isStopped = StopAgent; 
+                Agent.isStopped = StopAgent;
                 break;
             case NaddiStateEnum.PlayerVanished:
                 SetFlags(ref StopAgent, ref _startedPatrol, true, false);
@@ -179,7 +187,7 @@ public class Naddi : MonoBehaviour
     }
     public void HeardPlayerNearby()
     {
-        StateMachiene.FoundPlayer(); 
+        StateMachiene.FoundPlayer();
     }
     public IEnumerator HearingDelay()
     {
@@ -187,13 +195,13 @@ public class Naddi : MonoBehaviour
         yield return new WaitForSeconds(10f);
         HeardPlayer = false;
     }
-    public void ResetNaddiPosition() 
+    public void ResetNaddiPosition()
     {
         _startedPatrol = false;
         Agent.ResetPath();
         _naddiHearing.ResetSoundSum();
         Agent.isStopped = true;
-        StateMachiene.FinishedDigging(); 
-        StartCoroutine(_naddiHearing.ListenerDelay()); 
+        StateMachiene.FinishedDigging();
+        StartCoroutine(_naddiHearing.ListenerDelay());
     }
 }

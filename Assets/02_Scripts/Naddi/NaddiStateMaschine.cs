@@ -48,7 +48,7 @@ public class NaddiStateMaschine : MonoBehaviour
 
     public void FinishedLookForPlayer()
     {
-        if ((_naddi.HeardPlayer ||  _naddi.NaddiEye.isInsideCone()) && _naddi.PlayerInSafeZone==false)
+        if (_naddi.HeardPlayer ||  _naddi.NaddiEye.isInsideCone() || _naddi.PlayerInSafeZone==false)
         {
             _naddi.HeardPlayer = false; 
             FoundPlayer();
