@@ -25,6 +25,11 @@ public class NaddiAttack : MonoBehaviour
             else if (((_naddiEye.isInsideCone() && sqrMagnitude > Mathf.Pow(_naddi.Agent.stoppingDistance, 2)) || (sqrMagnitude < Mathf.Pow(_naddi.Agent.stoppingDistance * 5, 2) && sqrMagnitude > Mathf.Pow(_naddi.Agent.stoppingDistance, 2))) && !_naddi.PlayerInSafeZone)
             {
                 _naddi.ChasePlayer = true;
+                if (_naddi.Agent.isPathStale || _naddi.Agent.pathStatus == NavMeshPathStatus.PathInvalid)
+                {
+                    _naddi.Agent.ResetPath();
+
+                }
                 _naddi.Agent.SetDestination(playerPos.position);
             }
             else if (!_naddiEye.isInsideCone() && sqrMagnitude > Mathf.Pow(_naddi.Agent.stoppingDistance * 5, 2) && !_naddi.PlayerInSafeZone)

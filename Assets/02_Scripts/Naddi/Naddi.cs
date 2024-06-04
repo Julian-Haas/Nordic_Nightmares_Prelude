@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Splines;
 using UnityEngine.AI;
+using TMPro; 
 
 public class Naddi : MonoBehaviour
 {
@@ -28,12 +29,24 @@ public class Naddi : MonoBehaviour
     public bool HeardPlayer = false;
     private NaddiHearing _naddiHearing;
     public bool KilledPlayer = false;
-    public bool CanChasePlayer { get; private set; }
+    public bool CanChasePlayer = true; 
     public NaddiStateEnum State;
     private NaddiAttack _attackBehaviour;
     private bool RendererEnabled = true;
     private bool StopAgent = false;
     bool PlayerWasInSafeZone;
+
+    //this is just for Debugging:
+    [SerializeField]
+    private TextMeshProUGUI targetText;
+    [SerializeField]
+    private TextMeshProUGUI RemainingDistanceTXT;
+    [SerializeField]
+    private TextMeshProUGUI pathstatusText;
+
+
+
+
     void Awake()
     {
         InitSplineAnimate();
@@ -59,12 +72,10 @@ public class Naddi : MonoBehaviour
         {
             CanChasePlayer = false;
         }
-
         if (State != NaddiStateEnum.Digging && !RendererEnabled && !StateMachiene.GetNaddiMeshRenderer.enabled)
         {
             RendererEnabled = true;
             StateMachiene.GetNaddiMeshRenderer.enabled = true;
-
         }
         if (PlayerInSafeZone && (State == NaddiStateEnum.Chase || State == NaddiStateEnum.Attack))
         {
@@ -98,8 +109,7 @@ public class Naddi : MonoBehaviour
     {
         if (_startedPatrol == false)
         {
-            _startedPatrol = true;
-            CanChasePlayer = true;
+            SetFlags(ref _startedPatrol, ref CanChasePlayer, true, true);
             _splineAnimate.Container = _patrolPath.GetActivePatrolPath();
             KilledPlayer = false;
             if (_splineAnimate.ElapsedTime > 0)
@@ -109,11 +119,9 @@ public class Naddi : MonoBehaviour
             Vector3 newPos = _patrolPath.CalculateDistanceForEachKnot();
             if (PlayerWasInSafeZone && !PlayerInSafeZone)
             {
-                _startedPatrol = false;
-                CanChasePlayer = false;
+                SetFlags(ref _startedPatrol, ref CanChasePlayer, false, false); 
                 StateMachiene.FoundPlayer();
                 return;
-
             }
             transform.position = newPos;
             StateMachiene.GetNaddiMeshRenderer.enabled = true;
@@ -136,11 +144,21 @@ public class Naddi : MonoBehaviour
                 break;
             case NaddiStateEnum.Chase:
                 SetFlags(ref StopAgent, ref _startedPatrol, ref ChasePlayer, false, false, true);
+#if UNITY_EDITOR
+                EditorHelper.SetDebugText<string>(ref targetText, "player");
+                EditorHelper.SetDebugText<float>(ref RemainingDistanceTXT, Vector3.Distance(this.transform.position, PlayerPos.position));
+                EditorHelper.SetDebugText<NavMeshPathStatus>(ref pathstatusText, Agent.pathStatus);
+#endif
                 Agent.isStopped = StopAgent;
                 _attackBehaviour.ChasePlayer(PlayerPos);
                 break;
             case NaddiStateEnum.LookForPlayer:
                 SetFlags(ref ChasePlayer, ref _startedPatrol, false, false);
+#if UNITY_EDITOR
+                EditorHelper.SetDebugText<string>(ref targetText, "Player pos last seen");
+                EditorHelper.SetDebugText<float>(ref RemainingDistanceTXT, Vector3.Distance(this.transform.position, _playerPosLastSeen));
+                EditorHelper.SetDebugText<NavMeshPathStatus>(ref pathstatusText, Agent.pathStatus);
+#endif
                 _attackBehaviour.WalkToLastPlayerPosition(_playerPosLastSeen);
                 break;
             case NaddiStateEnum.Attack:

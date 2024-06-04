@@ -17,6 +17,7 @@ public class NaddiViewField : MonoBehaviour
     public float ConeRadius { get { return _coneRadius; } }
     public float HalfAngleDegree { get { return _coneHalfAngleDegree; } }
     public Transform ConeOrigin { get { return _coneOrigin; } }
+
     public bool isInsideCone()
     {
         Vector3 distance = _player.position - _coneOrigin.position;
