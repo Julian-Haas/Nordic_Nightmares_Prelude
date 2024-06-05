@@ -10,7 +10,6 @@ public class DeathManager : MonoBehaviour
     public s_PlayerCollider _playerScript;
     private s_SoundManager _soundManager;
     private Animator _DeathScreenAnimator;
-    private DeathManager _deathManager;
     private GameObject _player;
 
     private void Awake() {
@@ -26,7 +25,6 @@ public class DeathManager : MonoBehaviour
     void Start() {
         _soundManager = GameObject.Find("SoundManager").GetComponentInChildren<s_SoundManager>();
         _player = this.transform.root.gameObject;
-        _deathManager = this;
         _playerScript = this.GetComponent<s_PlayerCollider>();
         _respawnPoint = this.transform.root.position;
         _DeathScreenAnimator = GameObject.Find("InGame_Canvas").transform.Find("DeathScreenOverlay").GetComponent<Animator>();

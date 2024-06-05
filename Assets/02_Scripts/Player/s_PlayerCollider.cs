@@ -26,8 +26,6 @@ public class s_PlayerCollider : MonoBehaviour
     public float LoudVolume;
     private Rigidbody _rb;
     public float VELOCITY = 0.0f;
-    private bool _sanityEmptySoundPlayed = false;
-    private bool _sanityLowSoundPlaying = false;
     private s_SoundManager _soundManager;
     private Player_Ground_Texture_Check _textureCheck;
     [SerializeField] float _cooldownOfSanityWarnings = 5.0f;
@@ -35,7 +33,6 @@ public class s_PlayerCollider : MonoBehaviour
     public bool _alreadyCloseToAFire = false;
     bool _wasAlreadyCloseToABridge = false;
     bool _wasAlreadyCloseToWater = false;
-    bool _hasAlreadyEnteredASafeZone = false;
     bool _hasAlreadyCollectedAPlank = false;
     bool _hasAlreadyEnteredAShadow = false;
     bool _hasAlreadyEnteredAShrine = false;
