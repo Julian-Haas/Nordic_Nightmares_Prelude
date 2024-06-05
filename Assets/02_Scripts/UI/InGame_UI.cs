@@ -9,7 +9,7 @@ public class InGame_UI : MonoBehaviour
     public GameObject Overlay, ContinueButton;
     public Text OverlayText;
     private Slider _awareness, _sanity;
-    private s_SoundManager _soundManager;
+    private SoundManager _soundManager;
     [SerializeField] public GameObject _settingsScreen;
     [SerializeField] public GameObject _ControlsScreen;
     [SerializeField] public GameObject _IngameMenu;
@@ -17,7 +17,7 @@ public class InGame_UI : MonoBehaviour
     [SerializeField] Image _fadeIn, _pauseOverlay;
     [SerializeField] GameObject _victoryScreen;
     private void Awake() {
-        _soundManager = GameObject.Find("SoundManager").GetComponentInChildren<s_SoundManager>();
+        _soundManager = GameObject.Find("SoundManager").GetComponentInChildren<SoundManager>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Time.timeScale = 1;

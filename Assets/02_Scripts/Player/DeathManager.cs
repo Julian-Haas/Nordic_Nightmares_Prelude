@@ -10,7 +10,7 @@ public class DeathManager : MonoBehaviour
     SavePoint _lastSavePointTotem = null;
     Vector3 _respawnPoint;
     public s_PlayerCollider _playerScript;
-    private s_SoundManager _soundManager;
+    private SoundManager _soundManager;
     private Animator _DeathScreenAnimator;
     private GameObject _player;
 
@@ -25,7 +25,7 @@ public class DeathManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
     void Start() {
-        _soundManager = GameObject.Find("SoundManager").GetComponentInChildren<s_SoundManager>();
+        _soundManager = GameObject.Find("SoundManager").GetComponentInChildren<SoundManager>();
         _player = this.transform.root.gameObject;
         _playerScript = this.GetComponent<s_PlayerCollider>();
         _respawnPoint = this.transform.root.position;

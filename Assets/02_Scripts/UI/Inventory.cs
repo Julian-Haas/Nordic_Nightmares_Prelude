@@ -15,7 +15,7 @@ public class Inventory : MonoBehaviour
     private bool _gatheredFirstPlank;
     private s_PlayerCollider _playerCollider;
     private GameObject _plank = null;
-    public s_SoundManager _soundmanager;
+    public SoundManager _soundmanager;
     public Animator _animator;
 
     private void Awake() {
@@ -34,7 +34,7 @@ public class Inventory : MonoBehaviour
         _plank = _player.transform.Find("A_Character_03").transform.Find("Rig_Player").transform.Find("Mch_snap_Wood").transform.Find("Wood_property").transform.Find("PlankFeedback").gameObject;
         _plank.SetActive(false);
         _animator = _plank.GetComponent<Animator>();
-        _soundmanager = GameObject.Find("SoundManager").GetComponentInChildren<s_SoundManager>();
+        _soundmanager = GameObject.Find("SoundManager").GetComponentInChildren<SoundManager>();
     }
     public bool TryToUsePlank() {
         if(_isHavingPlank) {

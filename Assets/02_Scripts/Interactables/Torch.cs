@@ -7,21 +7,17 @@ public class Torch : Interactable
     [SerializeField] GameObject lightOfTorch;
     [SerializeField] GameObject healingZoneOfTorch;
     [SerializeField] GameObject fireOfTorch;
-    [SerializeField] s_SoundManager _soundmanager; // FMOD SoundManager
+    [SerializeField] SoundManager _soundmanager; // FMOD SoundManager
     private s_PlayerCollider _playerCollider;
-
     bool _hasAlreadyKindledAFire = false;
-
-
     void Start() {
         _type = "torch";
         _playerCollider = GameObject.Find("PlayerAnimated").GetComponent<s_PlayerCollider>();
-        _soundmanager = GameObject.Find("SoundManager").GetComponentInChildren<s_SoundManager>();
+        _soundmanager = GameObject.Find("SoundManager").GetComponentInChildren<SoundManager>();
         lightOfTorch.SetActive(false);
         healingZoneOfTorch.SetActive(false);
         fireOfTorch.SetActive(false);
     }
-
     public override bool Interact(bool started) {
         if(started) {
 

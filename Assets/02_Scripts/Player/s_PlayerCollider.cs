@@ -17,9 +17,8 @@ public class s_PlayerCollider : MonoBehaviour
     public string CurrentGround = "Regular";
     private Rigidbody _rb;
     public float VELOCITY = 0.0f;
-    private s_SoundManager _soundManager;
+    private SoundManager _soundManager;
     private Player_Ground_Texture_Check _textureCheck;
-    [SerializeField] float _cooldownOfSanityWarnings = 5.0f;
     public bool _alreadyCloseToAFire = false;
     bool _wasAlreadyCloseToABridge = false;
     bool _wasAlreadyCloseToWater = false;
@@ -30,7 +29,7 @@ public class s_PlayerCollider : MonoBehaviour
     [SerializeField] GameObject GuidanceTooltip;
     [SerializeField] Animator _EyeAnimator;
     private void Start() {
-        _soundManager = GameObject.Find("SoundManager").GetComponentInChildren<s_SoundManager>();
+        _soundManager = GameObject.Find("SoundManager").GetComponentInChildren<SoundManager>();
         InGameUI = GameObject.Find("InGame_Canvas");
         lastClosestInteractable = (Interactable) Interactable.FindObjectOfType(typeof(Interactable));
         _rb = GetComponent<Rigidbody>();
@@ -124,7 +123,7 @@ public class s_PlayerCollider : MonoBehaviour
             case "Interactable":
                 closeInteractables.Add(other.GetComponentInParent<Interactable>());
                 if(closeInteractables.Count == 1) {
-                    other.GetComponentInParent<Interactable>()?.DisplayInteractionText(true); ;
+                    other.GetComponentInParent<Interactable>()?.DisplayInteractionText(true);
                     string typeOfOther = other.GetComponentInParent<Interactable>()?.getType();
                     switch(typeOfOther) {
                         case "torch":
@@ -142,6 +141,9 @@ public class s_PlayerCollider : MonoBehaviour
                                 this.GetComponentInParent<Guidance>().displayGuidanceTooltipWithSpecificText("Maybe there is a way to repair this bridge.");
                                 _wasAlreadyCloseToABridge = true;
                             }
+                            break;
+                        case "seashell":
+
                             break;
                         default:
                             break;

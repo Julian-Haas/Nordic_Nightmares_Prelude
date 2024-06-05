@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Plank : Interactable
 {
-    public s_SoundManager _soundmanager;
+    public SoundManager _soundmanager;
 
     void Start() {
         _type = "plank";

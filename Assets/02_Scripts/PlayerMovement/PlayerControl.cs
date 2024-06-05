@@ -24,11 +24,11 @@ public class PlayerControl : MonoBehaviour, PlayerInput.IPlayerMoveActions
     [SerializeField] float CurrentSpeed;
     [SerializeField] bool Moving = false;
 
-    private s_SoundManager _soundManager;
+    private SoundManager _soundManager;
     private bool _canPlayFootstep = true;
 
     private void Start() {
-        _soundManager = GameObject.Find("SoundManager").GetComponent<s_SoundManager>();
+        _soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
         _playerCollider = GetComponent<s_PlayerCollider>();
         if(_playerInput == null) {
             _playerInput = new PlayerInput();

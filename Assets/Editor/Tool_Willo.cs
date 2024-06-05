@@ -26,7 +26,5 @@ public class Tool_Willo : MonoBehaviour
         }
         float t = -(Vector3.Dot(Vector3.up,rayOrigin) + planeHeight) / denom;
         Vector3 collisionPoint = rayOrigin + t * rayDirection;
-
-        Debug.Log("Collision point: " + collisionPoint);
     }
 }

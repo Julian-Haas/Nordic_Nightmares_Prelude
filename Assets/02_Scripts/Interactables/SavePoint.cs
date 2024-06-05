@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SavePoint : Interactable
 {
-    public s_SoundManager _soundmanager;
+    public SoundManager _soundmanager;
     public GameObject _player;
     public DeathManager _DeathManager;
     public GameObject _respawnPoint;
@@ -14,7 +14,7 @@ public class SavePoint : Interactable
     void Start()
     {
         _type = "SavePoint";
-        _soundmanager = GameObject.Find("SoundManager").GetComponentInChildren<s_SoundManager>();
+        _soundmanager = GameObject.Find("SoundManager").GetComponentInChildren<SoundManager>();
         _player = GameObject.Find("PlayerAnimated");
         _DeathManager = _player.GetComponent<DeathManager>();
 

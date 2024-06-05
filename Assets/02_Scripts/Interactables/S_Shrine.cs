@@ -8,7 +8,7 @@ public class S_Shrine : MonoBehaviour
 {
     [SerializeField] Animator _shrineAnimator;
     [SerializeField] Animator _shrineBubbleAnimator;
-    private s_SoundManager _soundManager;
+    private SoundManager _soundManager;
 
     public int _shrineChargesLeft = 3;
     public int _rechargeTime = 7;
@@ -16,7 +16,7 @@ public class S_Shrine : MonoBehaviour
 
 
     public void Start() {
-        _soundManager = GameObject.Find("SoundManager").GetComponentInChildren<s_SoundManager>();
+        _soundManager = GameObject.Find("SoundManager").GetComponentInChildren<SoundManager>();
     }
     public void EnterShrine() {
 
