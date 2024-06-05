@@ -3,7 +3,9 @@ using UnityEngine;
 
 public class DeathManager : MonoBehaviour
 {
-    public static DeathManager Instance;
+    public static DeathManager Instance {
+        get; private set;
+    }
     [SerializeField] private Naddi _naddi;
     SavePoint _lastSavePointTotem = null;
     Vector3 _respawnPoint;
@@ -45,7 +47,7 @@ public class DeathManager : MonoBehaviour
         GameObject simplNaddiActive = GameObject.Find("SimpleNaddiManager");
         _naddi.ResetNaddiPosition();
 
-        _playerScript._sanity = 100.0f;
+        Sanity.Instance.ResetSanity();
         _player.transform.position = _respawnPoint;
         _DeathScreenAnimator.SetBool("IsDeathScreen",false);
         yield return new WaitForSeconds(0.1f);

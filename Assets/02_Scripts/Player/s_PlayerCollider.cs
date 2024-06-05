@@ -1,18 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.VFX;
-using static UnityEngine.Rendering.DebugUI;
 
 public class s_PlayerCollider : MonoBehaviour
 {
-    [Tooltip("Sanity Influence Rates in Percent")]
-    public int General = 5, InShadow = 15, SafeZone = 5, HealingZone = 15;
-    public bool _inHealingZone = false, _inSafeZone = false, _isMad = false, _inShadow = false;
-    [SerializeField] public float _influence = 0.0f, _sanity = 100.0f;
-    private float _sanityShift = 0.0f;
+    // refactor
+    public bool _inSafeZone = true;
+    public bool _inShadow = true;
+    // refactor
     public GameObject InGameUI;
     public Material material;
     public VisualEffect _visible, _invisible;
@@ -20,16 +15,11 @@ public class s_PlayerCollider : MonoBehaviour
     public List<Interactable> closeInteractables = new List<Interactable>();
     private Interactable lastClosestInteractable;
     public string CurrentGround = "Regular";
-    [Header("Regular Ground Noise")]
-    public float QuietVolume;
-    public float MediumVolume;
-    public float LoudVolume;
     private Rigidbody _rb;
     public float VELOCITY = 0.0f;
     private s_SoundManager _soundManager;
     private Player_Ground_Texture_Check _textureCheck;
     [SerializeField] float _cooldownOfSanityWarnings = 5.0f;
-    bool _sanityOverlayExplained = false;
     public bool _alreadyCloseToAFire = false;
     bool _wasAlreadyCloseToABridge = false;
     bool _wasAlreadyCloseToWater = false;
@@ -39,28 +29,22 @@ public class s_PlayerCollider : MonoBehaviour
     bool _hasAlreadySeenGuidancePost = false;
     [SerializeField] GameObject GuidanceTooltip;
     [SerializeField] Animator _EyeAnimator;
-
     private void Start() {
         _soundManager = GameObject.Find("SoundManager").GetComponentInChildren<s_SoundManager>();
-        _sanity = 100.0f;
         InGameUI = GameObject.Find("InGame_Canvas");
-        _influence += (float) General;
         lastClosestInteractable = (Interactable) Interactable.FindObjectOfType(typeof(Interactable));
         _rb = GetComponent<Rigidbody>();
         _textureCheck = GetComponent<Player_Ground_Texture_Check>();
     }
-
     public void GatheredPlank() {
         _hasAlreadyCollectedAPlank = true;
     }
-
     private void Update() {
         if(Time.timeScale == 1) {
-            if(_rb.velocity.magnitude >= 0.000001f && !_inSafeZone) {
+            if(_rb.velocity.magnitude >= 0.000001f) { // && !_inSafeZone ???
                 VELOCITY = _rb.velocity.magnitude;
                 _textureCheck.CheckGroundTexture();
             }
-            sanityUpdate();
             updateClosestInteractable();
         }
         GuidanceTooltip.transform.rotation = new Quaternion(0.109381668f,-0.875426114f,0.234569758f,0.408217877f);
@@ -86,41 +70,8 @@ public class s_PlayerCollider : MonoBehaviour
             }
         }
     }
-    void sanityUpdate() {
-        if(_inHealingZone) {
-            _influence = -HealingZone;
-        }
-        else if(_inSafeZone) {
-            _influence = -SafeZone;
-        }
-        else if(_inShadow) {
-            _influence = InShadow;
-        }
-        else {
-            _influence = General;
-        }
-        _sanityShift = -1 * (_influence / 100) * Time.deltaTime;
-        if(_sanity <= 70.0f && !_sanityOverlayExplained) {
-            this.GetComponentInParent<Guidance>().displayGuidanceTooltipWithSpecificText("I shouldn't stay far from light for too long.");
-            _sanityOverlayExplained = true;
-        }
-        _sanity += _sanityShift;
-        _sanity = Mathf.Clamp(_sanity,0.0f,100.0f);
-        float _sanityMat;
-        if(_sanity < 70.0f) {
-            _sanityMat = 0.85f - ((_sanity) / 85.0f);
-        }
-        else {
-            _sanityMat = 0.0f;
-        }
-        _sanityMat = Mathf.Clamp(_sanityMat,0.0f,1.0f);
-        material.SetFloat("_FadeInMadness",_sanityMat);
-        _sanityShift = 0.0f;
-        _soundManager.musicInstance.SetParameter("Sanity",_sanity / 100.0f);
-        _soundManager.ambientInstance.SetParameter("Zoom",_sanityMat);
-    }
     public bool IsHidden() {
-        return _inShadow;
+        return true;
     }
     public void leaveColliderOfInteractable(Interactable InteractableToLeave) {
         InteractableToLeave.GetComponentInParent<Interactable>()?.DisplayInteractionText(false);
@@ -128,9 +79,6 @@ public class s_PlayerCollider : MonoBehaviour
         if(closeInteractables.Count == 1) {
             closeInteractables[0].GetComponentInParent<Interactable>()?.DisplayInteractionText(true);
         }
-    }
-    public void ExtinguishFire() {
-        _inHealingZone = false;
     }
     void OnTriggerEnter(Collider other) {
         switch(other.gameObject.tag) {
@@ -145,16 +93,12 @@ public class s_PlayerCollider : MonoBehaviour
                 _soundManager.musicInstance.SetParameter("Level",9);
                 InGameUI.GetComponent<InGame_UI>().Win();
                 break;
-            case "HealingZone":
-                _inHealingZone = true;
-                break;
             case "Shrine":
                 if(!_hasAlreadyEnteredAShrine) {
                     this.GetComponentInParent<Guidance>().displayGuidanceTooltipWithSpecificText("I feel safe in here.");
                     _hasAlreadyEnteredAShrine = true;
                 }
                 other.transform.GetComponentInParent<S_Shrine>().EnterShrine();
-                _inSafeZone = true;
                 _EyeAnimator.SetTrigger("IsHidden");
                 break;
             case "GuidancePost":
@@ -169,11 +113,9 @@ public class s_PlayerCollider : MonoBehaviour
                     _hasAlreadyEnteredAShadow = true;
                 }
                 _soundManager.PlaySound3D("event:/SFX/PlayerHide",this.transform.position);
-                _inShadow = true;
                 _EyeAnimator.SetTrigger("IsHidden");
                 break;
             case "SavePoint":
-                _inShadow = true;
                 _EyeAnimator.SetTrigger("IsHidden");
                 break;
             case "DeathZone":
@@ -221,16 +163,11 @@ public class s_PlayerCollider : MonoBehaviour
     }
     void OnTriggerExit(Collider other) {
         switch(other.gameObject.tag) {
-            case "HealingZone":
-                _inHealingZone = false;
-                break;
             case "Shrine":
                 other.transform.GetComponentInParent<S_Shrine>().LeaveShrine();
-                _inSafeZone = false;
                 _EyeAnimator.SetTrigger("IsExposed");
                 break;
             case "Shadow":
-                _inShadow = false;
                 _soundManager.PlaySound3D("event:/SFX/PlayerUnhide",this.transform.position);
                 _EyeAnimator.SetTrigger("IsExposed");
                 break;

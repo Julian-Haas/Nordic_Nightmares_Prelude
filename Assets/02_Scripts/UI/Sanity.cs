@@ -6,76 +6,76 @@ using UnityEngine.UI;
 
 public class Sanity : MonoBehaviour
 {
-
-    public UnityEvent OnSanityChanged;
-
-    [Tooltip("Sanity Influence Rates in Percent")]
-    public int General = 5, Cover = 15, SafeZone = 5, HealingZone = 15;
-    public bool _inCover = false, _isHidden = false;
-    public float _influence = 0.0f, _sanity, _sanityShift = 0.0f;
-
-    private Slider _sanitySlider;
-    private s_SoundManager _soundManager;
-    private bool _sanityEmptySoundPlayed = false, _sanityLowSoundPlaying = false;
-    public Material material;
-
-    private void Start() {
-        _soundManager = GameObject.Find("SoundManager").GetComponentInChildren<s_SoundManager>();
-        _sanity = 100.0f;
-        _sanityShift += (float) General;
-        _sanitySlider = GameObject.Find("SanitySlider")?.GetComponent<Slider>();
+    public static Sanity Instance {
+        get; private set;
     }
-
+    [SerializeField] Material material;
+    [SerializeField] float _sanityDrainNormal = 1.0f;
+    [SerializeField] float _sanityGainTorch = 15.0f;
+    [SerializeField] float _sanityGainSafeZone = 15.0f;
+    private float _sanity = 100.0f;
+    private float _sanityChange;
+    private bool _sanityEmptySoundPlayed = false;
+    private bool _sanityLowSoundPlaying = false;
+    private void Awake() {
+        if(Instance != null && Instance != this) {
+            Destroy(Instance);
+        }
+        else {
+            Instance = this;
+            DontDestroyOnLoad(Instance);
+        }
+    }
+    private void Start() {
+        _sanityChange = _sanityDrainNormal;
+    }
     private void Update() {
         if(Time.timeScale == 1) {
             sanityUpdate();
         }
     }
-
-
     private void SanityEmpty() {
         if(!_sanityEmptySoundPlayed) {
-            _soundManager.PlaySound2D("event:/SFX/SanityEmpty");
+            //_soundManager.PlaySound2D("event:/SFX/SanityEmpty");
             _sanityEmptySoundPlayed = true;
         }
     }
-
-    //private void SanityLow()
-    //{
-    //    if (_sanityLowSoundPlaying)
-    //    {
-    //        _soundManager.SetParameterToEventEmitter(this.gameObject, "event:/SFX/LowSanity", "Sanity", _sanity);          
-    //    }
-    //}
-
     void sanityUpdate() {
-        if(_sanity <= 100.0f && _sanity > 30.0f) {
-            if(_sanityLowSoundPlaying) {
-                _soundManager.UnregisterEventEmitter(this.gameObject,"event:/SFX/LowSanity");
-                _sanityLowSoundPlaying = false;
-            }
-            _sanityShift = -1 * _influence * Time.deltaTime;
+        _sanity = Mathf.Clamp(_sanity - (_sanityChange * Time.deltaTime),0.0f,100.0f);
+        //if(_sanity <= 70.0f && !_sanityOverlayExplained) {
+        //    this.GetComponentInParent<Guidance>().displayGuidanceTooltipWithSpecificText("I shouldn't stay far from light for too long.");
+        //    _sanityOverlayExplained = true;
+        //}
+        float _sanityMat;
+        if(_sanity < 70.0f) {
+            _sanityMat = 0.85f - ((_sanity) / 85.0f);
         }
-        if(_sanity <= 30.0f && _sanity > 0.0f) {
-            if(!_sanityLowSoundPlaying) {
-                _soundManager.RegisterEventEmitter(this.gameObject,"event:/SFX/LowSanity");
-                _sanityLowSoundPlaying = true;
-            }
-            _soundManager.SetParameterToEventEmitter(this.gameObject,"event:/SFX/LowSanity","Sanity",_sanity / 100.0f);
-            _sanityShift = -1 * _influence * Time.deltaTime;
-            //SanityLow();
+        else {
+            _sanityMat = 0.0f;
         }
-        else if(_sanity <= 0.0f) {
-            SanityEmpty();
-            _sanityShift = -1 * _influence * Time.deltaTime;
-        }
-        _sanity += _sanityShift;
-        _sanity = Mathf.Clamp(_sanity,0.0f,100.0f);
+        _sanityMat = Mathf.Clamp(_sanityMat,0.0f,1.0f);
+        material.SetFloat("_FadeInMadness",_sanityMat);
+        //_soundManager.musicInstance.SetParameter("Sanity",_sanity / 100.0f);
+        //_soundManager.ambientInstance.SetParameter("Zoom",_sanityMat);
+    }
 
-        float _sanityMat = 1.0f - (_sanity / 100.0f);
-        _sanityMat = Mathf.Clamp(_sanityMat,0.0f,0.65f);
-        material.SetFloat("_FadeInOverlay",_sanityMat);
-
-        _sanitySlider.value = _sanity;
+    public void CloseToTorch(bool CloseToTorch) {
+        if(CloseToTorch) {
+            _sanityChange = _sanityGainTorch;
+        }
+        else {
+            _sanityChange = _sanityDrainNormal;
+        }
+    }
+    public void InActiveSafeZone(bool InActiveSafeZone) {
+        if(InActiveSafeZone) {
+            _sanityChange = _sanityGainSafeZone;
+        }
+        else {
+            _sanityChange = _sanityDrainNormal;
+        }
+    }
+    public void ResetSanity() {
+        _sanity = 100.0f;
     }
 }

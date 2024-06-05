@@ -37,7 +37,7 @@ public class Torch : Interactable
                 fireOfTorch.SetActive(true);
             }
             else {
-                _playerCollider.ExtinguishFire();
+                //_playerCollider.ExtinguishFire();
                 _soundmanager.UnregisterEventEmitter(this.transform.gameObject,"event:/SFX/Torch");
                 _playerCollider.gameObject.GetComponent<PlayerControl>().PlayInteractAnimation();
                 lightOfTorch.SetActive(false);
