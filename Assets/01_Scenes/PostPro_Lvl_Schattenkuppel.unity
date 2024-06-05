@@ -17466,6 +17466,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 412179385}
     - target: {fileID: 8277826594249526962, guid: 4ba65fecfd3fd224e8f7f0ecadbe3b3f, type: 3}
+      propertyPath: DebugTextHolder
+      value: 
+      objectReference: {fileID: 459111896}
+    - target: {fileID: 8277826594249526962, guid: 4ba65fecfd3fd224e8f7f0ecadbe3b3f, type: 3}
       propertyPath: _naddiStateMachine
       value: 
       objectReference: {fileID: 911138329}
@@ -20886,6 +20890,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 689743856}
     m_Modifications:
+    - target: {fileID: 387299539565655337, guid: 92bf24b4b22b8fc40b9dc116f4f0f130, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 809e973ccda64854e9c8da33b7aae3cf, type: 2}
     - target: {fileID: 2296868965603634751, guid: 92bf24b4b22b8fc40b9dc116f4f0f130, type: 3}
       propertyPath: m_LocalPosition.x
       value: -48.76
@@ -20930,6 +20938,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bridge_9
       objectReference: {fileID: 0}
+    - target: {fileID: 3220617285467002779, guid: 92bf24b4b22b8fc40b9dc116f4f0f130, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: a38748fa6724b2048bcf970870a98969, type: 2}
+    - target: {fileID: 5163928746419536877, guid: 92bf24b4b22b8fc40b9dc116f4f0f130, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 801ad55065c260044857c3810318e599, type: 2}
+    - target: {fileID: 7075197167208646282, guid: 92bf24b4b22b8fc40b9dc116f4f0f130, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0a3c26873eed9424b80c7dcac7a58a79, type: 2}
     - target: {fileID: 7886151405168674136, guid: 92bf24b4b22b8fc40b9dc116f4f0f130, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

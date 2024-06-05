@@ -28,7 +28,13 @@ public class NaddiStateMaschine : MonoBehaviour
     public NaddiStateEnum CurrentState { get { return _currentState; } }
     bool alreadyTriggert = false;
     [SerializeField]
-    private TextMeshProUGUI StateTXT; 
+    private TextMeshProUGUI StateTXT;
+
+    private void Start()
+    {
+        if (_naddi.enableDebugInfos == false && StateTXT != null)
+            StateTXT.gameObject.SetActive(false); 
+    }
     public void LookForPlayer()
     {
         if(_naddi.State == NaddiStateEnum.LookForPlayer) 
@@ -85,8 +91,11 @@ public class NaddiStateMaschine : MonoBehaviour
 
         _currentState = state;
         _naddi.State = _currentState;
-        if(StateTXT != null)
-            StateTXT.text = _currentState.ToString();  
+        if (_naddi.enableDebugInfos)
+        {
+            if(StateTXT != null)
+                StateTXT.text = _currentState.ToString();  
+        }
     }
     public void AttackPlayer()
     {

@@ -1,5 +1,6 @@
 //The person responsible for this code is Nils Oskar Henningsen 
 using System.Collections;
+using System.Collections.Generic; 
 using UnityEngine;
 using UnityEngine.Splines;
 using UnityEngine.AI;
@@ -35,17 +36,18 @@ public class Naddi : MonoBehaviour
     private bool RendererEnabled = true;
     private bool StopAgent = false;
     bool PlayerWasInSafeZone;
-
+    [Header("Debug stuff")]
+    [SerializeField, Tooltip("Set this to true, if you wanna have Debug informations. If true, the Debug textes have to be assgingned below!")]
+    public bool enableDebugInfos = false;
     //this is just for Debugging:
+    [SerializeField]
+    private GameObject DebugTextHolder; 
     [SerializeField]
     private TextMeshProUGUI targetText;
     [SerializeField]
     private TextMeshProUGUI RemainingDistanceTXT;
     [SerializeField]
     private TextMeshProUGUI pathstatusText;
-
-
-
 
     void Awake()
     {
@@ -63,6 +65,10 @@ public class Naddi : MonoBehaviour
         _naddiHearing.LookForPlayerAction += SusSoundHeard;
         _naddiHearing.AttackPlayerAction += HeardPlayerNearby;
         _playerCol = PlayerPos.gameObject.GetComponent<s_PlayerCollider>();
+        if (enableDebugInfos == false && DebugTextHolder!=null)
+        {
+            DebugTextHolder.SetActive(false); 
+        }
     }
 
     private void Update()
@@ -145,9 +151,12 @@ public class Naddi : MonoBehaviour
             case NaddiStateEnum.Chase:
                 SetFlags(ref StopAgent, ref _startedPatrol, ref ChasePlayer, false, false, true);
 #if UNITY_EDITOR
-                EditorHelper.SetDebugText<string>(ref targetText, "player");
-                EditorHelper.SetDebugText<float>(ref RemainingDistanceTXT, Vector3.Distance(this.transform.position, PlayerPos.position));
-                EditorHelper.SetDebugText<NavMeshPathStatus>(ref pathstatusText, Agent.pathStatus);
+                if (enableDebugInfos)
+                {
+                    EditorHelper.SetDebugText<string>(ref targetText, "player");
+                    EditorHelper.SetDebugText<float>(ref RemainingDistanceTXT, Vector3.Distance(this.transform.position, PlayerPos.position));
+                    EditorHelper.SetDebugText<NavMeshPathStatus>(ref pathstatusText, Agent.pathStatus);
+                }
 #endif
                 Agent.isStopped = StopAgent;
                 _attackBehaviour.ChasePlayer(PlayerPos);
@@ -155,9 +164,12 @@ public class Naddi : MonoBehaviour
             case NaddiStateEnum.LookForPlayer:
                 SetFlags(ref ChasePlayer, ref _startedPatrol, false, false);
 #if UNITY_EDITOR
-                EditorHelper.SetDebugText<string>(ref targetText, "Player pos last seen");
-                EditorHelper.SetDebugText<float>(ref RemainingDistanceTXT, Vector3.Distance(this.transform.position, _playerPosLastSeen));
-                EditorHelper.SetDebugText<NavMeshPathStatus>(ref pathstatusText, Agent.pathStatus);
+                if (enableDebugInfos)
+                {
+                    EditorHelper.SetDebugText<string>(ref targetText, "Player pos last seen");
+                    EditorHelper.SetDebugText<float>(ref RemainingDistanceTXT, Vector3.Distance(this.transform.position, _playerPosLastSeen));
+                    EditorHelper.SetDebugText<NavMeshPathStatus>(ref pathstatusText, Agent.pathStatus);
+                }
 #endif
                 _attackBehaviour.WalkToLastPlayerPosition(_playerPosLastSeen);
                 break;

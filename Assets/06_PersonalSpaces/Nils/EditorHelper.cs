@@ -37,4 +37,12 @@ public class EditorHelper
         }
         txt.text = txtInfo + " " + value.ToString();
     }
+
+    public static void DestroyDebugText(List<TextMeshProUGUI> txtList)
+    {
+        foreach (TextMeshProUGUI txt in txtList)
+        {
+            txt.gameObject.SetActive(false);
+        }
+    }
 }
