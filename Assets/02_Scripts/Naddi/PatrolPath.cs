@@ -5,7 +5,8 @@ using System.Collections.Generic;
 
 public class PatrolPath : MonoBehaviour
 {
-
+    [SerializeField]
+    private SkinnedMeshRenderer naddiMeshRender;
     [SerializeField]
     private Transform _playerPosition;
     private int _indexOfNextPath;
@@ -30,7 +31,7 @@ public class PatrolPath : MonoBehaviour
             _closestPath.gameObject.SetActive(false);
             _closestPath = newPath;
             _closestPath.gameObject.SetActive(true);
-            if (_naddi.ChasePlayer == false)
+            if (_naddi.ChasePlayer == false && !naddiMeshRender.isVisible)
             {
                 _naddi.StateMachiene.StartDigging();
             }
@@ -102,5 +103,4 @@ public class PatrolPath : MonoBehaviour
             throw new System.IndexOutOfRangeException("index was out of Range: " + indexStartSwapping + " Knot count: " + spline.Count);
         }
     }
-
 }
