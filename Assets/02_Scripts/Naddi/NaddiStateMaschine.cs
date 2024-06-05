@@ -83,7 +83,7 @@ public class NaddiStateMaschine : MonoBehaviour
     {
         SetState(NaddiStateEnum.PlayerVanished); 
     }
-    private void SetState(NaddiStateEnum state)
+    public void SetState(NaddiStateEnum state)
     {
         //EditorHelper.ClearConsoleLogs();
 
@@ -100,6 +100,11 @@ public class NaddiStateMaschine : MonoBehaviour
     public void AttackPlayer()
     {
         SetState(NaddiStateEnum.Attack);
+    }
+
+    public void DigToPlayer()
+    {
+        SetState(NaddiStateEnum.DigToPlayer); 
     }
 
     public void FinishedAttacking(bool seesPlayer)

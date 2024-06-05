@@ -48,9 +48,12 @@ public class Naddi : MonoBehaviour
     private TextMeshProUGUI RemainingDistanceTXT;
     [SerializeField]
     private TextMeshProUGUI pathstatusText;
+    [SerializeField]
+    private NaddiValueStorage valueStorage; 
 
     void Awake()
     {
+        Speed = valueStorage.NaddiSpeed; 
         InitSplineAnimate();
         StateMachiene = GetComponent<NaddiStateMaschine>();
         Agent = this.GetComponent<NavMeshAgent>();
@@ -73,6 +76,14 @@ public class Naddi : MonoBehaviour
 
     private void Update()
     {
+
+        if (enableDebugInfos)
+        {
+            if (_splineAnimate != null)
+            {
+                _splineAnimate.MaxSpeed = Speed; 
+            }
+        }
         PlayerInSafeZone = _playerCol._inSafeZone;
         if (KilledPlayer)
         {

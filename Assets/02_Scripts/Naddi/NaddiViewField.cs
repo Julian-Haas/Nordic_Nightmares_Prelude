@@ -13,10 +13,17 @@ public class NaddiViewField : MonoBehaviour
     private float _coneHalfAngleDegree;
     [SerializeField]
     private LayerMask ignoreLayer;
-
-    public float ConeRadius { get { return _coneRadius; } }
-    public float HalfAngleDegree { get { return _coneHalfAngleDegree; } }
+    [SerializeField]
+    private NaddiValueStorage valueStorage; 
+    public float ConeRadius { get { return _coneRadius; } set { _coneRadius = value;  } }
+    public float HalfAngleDegree { get { return _coneHalfAngleDegree; } set { _coneHalfAngleDegree = value; } }
     public Transform ConeOrigin { get { return _coneOrigin; } }
+
+    private void Awake()
+    {
+        _coneRadius = valueStorage.ViewRange;
+        _coneHalfAngleDegree = valueStorage.HalfViewRadius; 
+    }
 
     public bool isInsideCone()
     {
