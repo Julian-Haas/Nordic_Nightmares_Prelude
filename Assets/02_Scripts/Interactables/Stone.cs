@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Stone : Interactable
 {
-    public s_Inventory _inventory;
+    public Inventory _inventory;
     public s_SoundManager _soundmanager; // FMOD Sound Manager
 
     void Start()
     {
         _soundmanager = GameObject.Find("SoundManager").GetComponentInChildren<s_SoundManager>();
-        _inventory = GameObject.Find("Inventory").GetComponentInChildren<s_Inventory>();
+        _inventory = GameObject.Find("Inventory").GetComponentInChildren<Inventory>();
     }
 
     public void RemoveStoneFromScene()

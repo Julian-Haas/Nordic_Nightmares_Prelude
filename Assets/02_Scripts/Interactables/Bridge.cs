@@ -8,7 +8,7 @@ public class Bridge: Interactable
     public GameObject Bridgebody, _Hole1, _Hole2, _player;
     private short _bridgestate = 0;
     public GameObject _colliderToDelete;
-    private s_Inventory _inventory;
+    private Inventory _inventory;
     [SerializeField] s_SoundManager _soundmanager; // FMOD SoundManager
     public Slider _slider;
     public float _buildspeed = 0.02f;
@@ -18,7 +18,7 @@ public class Bridge: Interactable
     void Start()
     {
         _type = "bridge";
-        _inventory = GameObject.Find("Inventory").GetComponentInChildren<s_Inventory>();
+        _inventory = GameObject.Find("Inventory").GetComponentInChildren<Inventory>();
         _soundmanager = GameObject.Find("SoundManager").GetComponentInChildren<s_SoundManager>();
         _Hole1.SetActive(false);
         _Hole2.SetActive(false);

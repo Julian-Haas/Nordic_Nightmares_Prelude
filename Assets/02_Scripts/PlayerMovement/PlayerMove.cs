@@ -15,7 +15,7 @@ public class PlayerMove : MonoBehaviour, PlayerInput.IPlayerMoveActions
     [SerializeField] private float _SneakingSpeedModifier = 0.5f;
     [SerializeField] public bool _isSneaking = false;
     [SerializeField] private float _jumpForce;
-    private s_Inventory _inventory;
+    private Inventory _inventory;
     private Rigidbody _body;
     private bool _isGround;
     //Vector3 _positionToDropItem;
@@ -35,7 +35,7 @@ public class PlayerMove : MonoBehaviour, PlayerInput.IPlayerMoveActions
         }
         _body = GetComponent<Rigidbody>();
         _isGround = true;
-        _inventory = GameObject.Find("Inventory").GetComponentInChildren<s_Inventory>();
+        _inventory = GameObject.Find("Inventory").GetComponentInChildren<Inventory>();
     }
 
     void Update()
