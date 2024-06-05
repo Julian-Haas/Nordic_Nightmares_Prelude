@@ -6,7 +6,6 @@ public class Plank : Interactable
 
     void Start() {
         _type = "plank";
-        _soundmanager = GameObject.Find("SoundManager").GetComponentInChildren<s_SoundManager>();
     }
 
     public override bool Interact(bool started) {
