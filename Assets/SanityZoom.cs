@@ -13,13 +13,6 @@ public class SanityZoom : MonoBehaviour
         cam = GetComponent<Camera>();
     }
 
-    private void OnEnable() {
-    }
-
-    private void OnDisable() {
-    }
-
-
     private void UpdateZoom(float newSanity) {
         float normalisedSanity = newSanity / 100f;
 

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.VFX;
 using static UnityEngine.Rendering.DebugUI;
 
-public class s_PlayerCollider : MonoBehaviour, IPlayerAction
+public class s_PlayerCollider : MonoBehaviour
 {
     [Tooltip("Sanity Influence Rates in Percent")]
     public int General = 5, InShadow = 15, SafeZone = 5, HealingZone = 15;
@@ -56,7 +56,6 @@ public class s_PlayerCollider : MonoBehaviour, IPlayerAction
         _UI_Instance = InGameUI.GetComponent<InGame_UI>();
         _influence += (float) General;
         lastClosestInteractable = (Interactable) Interactable.FindObjectOfType(typeof(Interactable));
-        //_emitter = GetComponentInChildren<NoiseEmitter>();
         _rb = GetComponent<Rigidbody>();
         _textureCheck = GetComponent<Player_Ground_Texture_Check>();
         _sanitySlider = GameObject.Find("SanitySlider")?.GetComponent<Slider>();
@@ -70,7 +69,6 @@ public class s_PlayerCollider : MonoBehaviour, IPlayerAction
         if(Time.timeScale == 1) {
             if(_rb.velocity.magnitude >= 0.000001f && !_inSafeZone) {
                 VELOCITY = _rb.velocity.magnitude;
-                //_emitter.MakeSound();
                 _textureCheck.CheckGroundTexture();
             }
             sanityUpdate();
@@ -252,24 +250,6 @@ public class s_PlayerCollider : MonoBehaviour, IPlayerAction
                 break;
             default:
                 break;
-        }
-    }
-    public bool CheckIsHidden(GameObject enemy) {
-        return _inShadow;
-    }
-    bool JuliansTestBool = false;
-    public void JuliansTestFunktion() {
-        Cursor.visible = false;
-        Debug.Log("p gedrückt");
-        if(!JuliansTestBool) {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            JuliansTestBool = true;
-        }
-        else {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            JuliansTestBool = false;
         }
     }
 }
