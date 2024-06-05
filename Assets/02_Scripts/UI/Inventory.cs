@@ -10,6 +10,7 @@ public class Inventory : MonoBehaviour
         get; private set;
     }
     private bool _isHavingPlank;
+    private bool _isHavingSeashell;
     private GameObject _player;
     private bool _gatheredFirstPlank;
     private s_PlayerCollider _playerCollider;
@@ -63,4 +64,29 @@ public class Inventory : MonoBehaviour
             return false;
         }
     }
+    public bool TryToPickUpSeashell() {
+        if(!_isHavingSeashell) {
+            _isHavingSeashell = true;
+            _player.GetComponent<PlayerControl>().PlayInteractAnimation();
+            _animator.SetTrigger("IsFeedback");
+            //implement sound
+            //implement vfx
+            return true;
+        }
+        else {
+            _soundmanager.PlaySound2D("event:/SFX/InventoryFull");
+            return false;
+        }
+    }
+    public bool TryToUseSeashell() {
+        if(_isHavingSeashell) {
+            _isHavingSeashell = false;
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+
 }

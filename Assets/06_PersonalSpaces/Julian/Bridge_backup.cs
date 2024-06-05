@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Bridge_backup: Interactable
-{  
+public class Bridge_backup : Interactable
+{
     public GameObject Bridgebody1, Bridgebody2, Bridgebody3, _player;
     private short _bridgestate = 0;
     public GameObject _colliderToDelete;
@@ -14,8 +14,7 @@ public class Bridge_backup: Interactable
     public float _buildspeed = 0.02f;
     private bool _triedToInteractBefore = false;
 
-    void Start()
-    {
+    void Start() {
         _type = "bridge";
         _inventory = GameObject.Find("Inventory").GetComponentInChildren<Inventory>();
         _soundmanager = GameObject.Find("SoundManager").GetComponentInChildren<s_SoundManager>();
@@ -24,50 +23,39 @@ public class Bridge_backup: Interactable
         _player = GameObject.Find("PlayerAnimated");
         //_slider.value = 0.5f;
         //Debug.Log("_slider.value: " + _slider.value);
-        
+
     }
 
-    public override bool Interact(bool started)
-    {
-        if (_slider.value < 0.01f)
-        {
-            if (_inventory.TryToUsePlank())
-            {
+    public override bool Interact(bool started) {
+        if(_slider.value < 0.01f) {
+            if(_inventory.TryToUsePlank()) {
                 _slider.value += _buildspeed;
                 return true;
             }
-            else
-            {
-                if(!_triedToInteractBefore)
-                {
+            else {
+                if(!_triedToInteractBefore) {
                     _player.GetComponentInChildren<Guidance>().displayGuidanceTooltipWithSpecificText("I need planks to repair it.");
                     _triedToInteractBefore = true;
                     return true;
                 }
-                else
-                {               
+                else {
                     _player.GetComponentInChildren<Guidance>().displayGuidanceTooltipWithSpecificText("I still need to find a plank to repair it.");
                     return true;
                 }
             }
         }
-        if (_slider.value >= 1f)
-        {
-            switch (_bridgestate)
-            {
+        if(_slider.value >= 1f) {
+            switch(_bridgestate) {
                 case 0:
-                    WorldStateData.Instance.UpdateInteractableState(_index, 1);
                     Bridgebody1.SetActive(false);
                     Bridgebody2.SetActive(true);
                     _bridgestate = 1;
-                    updateTooltipText();
                     _soundmanager.PlaySound2D("event:/SFX/BridgeCompleted");
                     _player.GetComponent<PlayerControl>().PlayInteractAnimation();
                     _slider.value = 0.0f;
                     _player.GetComponentInChildren<Guidance>().displayGuidanceTooltipWithSpecificText("I need another plank to fully repair it.");
                     return true;
                 case 1:
-                    WorldStateData.Instance.UpdateInteractableState(_index, 2);
                     Bridgebody2.SetActive(false);
                     Bridgebody3.SetActive(true);
                     _bridgestate = 2;

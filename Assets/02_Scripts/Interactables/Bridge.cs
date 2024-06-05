@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Bridge: Interactable
-{  
+public class Bridge : Interactable
+{
     public GameObject Bridgebody, _Hole1, _Hole2, _player;
     private short _bridgestate = 0;
     public GameObject _colliderToDelete;
@@ -15,8 +15,7 @@ public class Bridge: Interactable
     private bool _triedToInteractBefore = false;
     public Animator _animator;
 
-    void Start()
-    {
+    void Start() {
         _type = "bridge";
         _inventory = GameObject.Find("Inventory").GetComponentInChildren<Inventory>();
         _soundmanager = GameObject.Find("SoundManager").GetComponentInChildren<s_SoundManager>();
@@ -25,29 +24,22 @@ public class Bridge: Interactable
         _player = GameObject.Find("PlayerAnimated");
         //_slider.value = 0.5f;
         //Debug.Log("_slider.value: " + _slider.value);
-        
+
     }
 
-    public override bool Interact(bool started)
-    {
-        if (_bridgestate != 2)
-        {
-            if (_inventory.TryToUsePlank())
-            {
-                switch (_bridgestate)
-                {
+    public override bool Interact(bool started) {
+        if(_bridgestate != 2) {
+            if(_inventory.TryToUsePlank()) {
+                switch(_bridgestate) {
                     case 0:
-                        WorldStateData.Instance.UpdateInteractableState(_index, 1);
                         _Hole1.SetActive(true);
                         _bridgestate = 1;
-                        updateTooltipText();
                         _soundmanager.PlaySound2D("event:/SFX/BridgeStep");
                         _player.GetComponent<PlayerControl>().PlayInteractAnimation();
                         _slider.value = 0.0f;
                         _player.GetComponentInChildren<Guidance>().displayGuidanceTooltipWithSpecificText("I need another plank to fully repair it.");
                         return true;
                     case 1:
-                        WorldStateData.Instance.UpdateInteractableState(_index, 2);
                         _Hole2.SetActive(true);
                         _bridgestate = 2;
                         DisplayInteractionText(false);
@@ -61,21 +53,18 @@ public class Bridge: Interactable
                         return true;
                 }
             }
-            else
-            {
-                if(!_triedToInteractBefore)
-                {
+            else {
+                if(!_triedToInteractBefore) {
                     _player.GetComponentInChildren<Guidance>().displayGuidanceTooltipWithSpecificText("I need planks to repair it.");
                     _triedToInteractBefore = true;
                     return true;
                 }
-                else
-                {               
+                else {
                     _player.GetComponentInChildren<Guidance>().displayGuidanceTooltipWithSpecificText("I still need to find a plank to repair it.");
                     return true;
                 }
             }
-         }
+        }
         return false;
     }
 }

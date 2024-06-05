@@ -9,7 +9,6 @@ public class InGame_UI : MonoBehaviour
     public GameObject Overlay, ContinueButton;
     public Text OverlayText;
     private Slider _awareness, _sanity;
-    private NaddiAwareness _naddi;
     private s_SoundManager _soundManager;
     [SerializeField] public GameObject _settingsScreen;
     [SerializeField] public GameObject _ControlsScreen;
@@ -145,14 +144,12 @@ public class InGame_UI : MonoBehaviour
 
 
         SceneManager.LoadScene(0);
-        WorldStateData.Instance.Reset();
     }
 
     public void Replay() {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         //GlobalData.Instance.ResetValues();
-        WorldStateData.Instance.Reset();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

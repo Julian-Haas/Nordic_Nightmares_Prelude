@@ -7,7 +7,6 @@ public class Plank : Interactable
     void Start() {
         _type = "plank";
     }
-
     public override bool Interact(bool started) {
         if(started) {
             if(Inventory.Instance.TryToGatherPlank(this)) {
