@@ -14,11 +14,9 @@ public class s_PlayerCollider : MonoBehaviour
     [SerializeField] public float _influence = 0.0f, _sanity = 100.0f;
     private float _sanityShift = 0.0f;
     public GameObject InGameUI;
-    private InGame_UI _UI_Instance;
     public Material material;
     public VisualEffect _visible, _invisible;
     public GameObject _visibleObject, _invisibleObject;
-    private Animator _hiddenStatusVFX;
     public List<Interactable> closeInteractables = new List<Interactable>();
     private Interactable lastClosestInteractable;
     public string CurrentGround = "Regular";
@@ -32,8 +30,6 @@ public class s_PlayerCollider : MonoBehaviour
     private bool _sanityLowSoundPlaying = false;
     private s_SoundManager _soundManager;
     private Player_Ground_Texture_Check _textureCheck;
-    //private NoiseEmitter _emitter;
-    private Slider _sanitySlider;
     [SerializeField] float _cooldownOfSanityWarnings = 5.0f;
     bool _sanityOverlayExplained = false;
     public bool _alreadyCloseToAFire = false;
@@ -46,19 +42,15 @@ public class s_PlayerCollider : MonoBehaviour
     bool _hasAlreadySeenGuidancePost = false;
     [SerializeField] GameObject GuidanceTooltip;
     [SerializeField] Animator _EyeAnimator;
-    private DeathManager _deathManager;
 
     private void Start() {
-        _deathManager = this.GetComponent<DeathManager>();
         _soundManager = GameObject.Find("SoundManager").GetComponentInChildren<s_SoundManager>();
         _sanity = 100.0f;
         InGameUI = GameObject.Find("InGame_Canvas");
-        _UI_Instance = InGameUI.GetComponent<InGame_UI>();
         _influence += (float) General;
         lastClosestInteractable = (Interactable) Interactable.FindObjectOfType(typeof(Interactable));
         _rb = GetComponent<Rigidbody>();
         _textureCheck = GetComponent<Player_Ground_Texture_Check>();
-        _sanitySlider = GameObject.Find("SanitySlider")?.GetComponent<Slider>();
     }
 
     public void GatheredPlank() {
@@ -146,7 +138,7 @@ public class s_PlayerCollider : MonoBehaviour
     void OnTriggerEnter(Collider other) {
         switch(other.gameObject.tag) {
             case "Naddi":
-                _deathManager.PlayerDies(true);
+                DeathManager.Instance.PlayerDies(true);
                 break;
             case "Finish":
                 _soundManager.musicInstance.SetParameter("Sanity",1.0f);
@@ -188,7 +180,7 @@ public class s_PlayerCollider : MonoBehaviour
                 _EyeAnimator.SetTrigger("IsHidden");
                 break;
             case "DeathZone":
-                _deathManager.PlayerDies(false);
+                DeathManager.Instance.PlayerDies(false);
                 break;
             case "Interactable":
                 closeInteractables.Add(other.GetComponentInParent<Interactable>());
