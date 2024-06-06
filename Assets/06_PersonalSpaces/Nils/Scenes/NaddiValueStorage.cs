@@ -12,3 +12,5 @@ public class NaddiValueStorage : ScriptableObject
     public float HalfViewRadius; 
     public float HearingRange; 
 }
+
+//public class 
