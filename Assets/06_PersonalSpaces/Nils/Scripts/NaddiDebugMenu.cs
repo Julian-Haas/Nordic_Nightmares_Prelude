@@ -51,19 +51,23 @@ public class NaddiDebugMenu : MonoBehaviour
     private NaddiValueStorage val;
     [SerializeField]
     public TextMeshProUGUI SpeedText;
-
+    [SerializeField]
+    private SaveManager saveManager;
 
     // Start is called before the first frame update
+    private void Awake()
+    {
+        saveManager.LoadData();
+    }
     void Start()
     {
-       
         NaddiStatesDD.AddOptions(new List<string>(DebugMenuStates.GetNames(typeof(DebugMenuStates))));
         AttackTriggerSlider.value = _hearing.AttackTrigger;
         LookForPlayerTriggerSlider.value = _hearing.LookForPlayerTrigger;
         HalfConeRadiusSlider.value = _viewField.HalfAngleDegree;
         SpeedSlider.value = _naddi.Speed;
         ViewRangeSlider.value = _viewField.ConeRadius;
-        HearingRangeSlider.value = _hearing.MaxDistance; 
+        HearingRangeSlider.value = _hearing.MaxDistance;
 
     }
 
@@ -94,7 +98,8 @@ public class NaddiDebugMenu : MonoBehaviour
     }
     public void ApplyAttackTrigger()
     {
-        val.AttackTriggerVal = AttackTriggerSlider.value; 
+        val.AttackTriggerVal = AttackTriggerSlider.value;
+        saveManager.SafeData(); 
     }
 
     public void RevertAttackTrigger()
@@ -120,6 +125,7 @@ public class NaddiDebugMenu : MonoBehaviour
     public void ApplyLookTrigger()
     {
         val.LookForPlayerVal = LookForPlayerTriggerSlider.value;
+        saveManager.SafeData();
     }
 
     public void RevertLookTrigger()
@@ -139,6 +145,7 @@ public class NaddiDebugMenu : MonoBehaviour
     public void ApplyNaddiSpeed()
     {
         val.NaddiSpeed = SpeedSlider.value;
+        saveManager.SafeData(); 
     }
 
     public void RevertNaddiSpeed()
@@ -159,6 +166,7 @@ public class NaddiDebugMenu : MonoBehaviour
     public void ApplyNaddiViewRange()
     {
         val.ViewRange = ViewRangeSlider.value;
+        saveManager.SafeData(); 
     }
 
     public void RevertNaddiViewRange()
@@ -178,6 +186,7 @@ public class NaddiDebugMenu : MonoBehaviour
     public void ApplyNaddiHearRange()
     {
         val.HearingRange = HearingRangeSlider.value;
+        saveManager.SafeData(); 
     }
 
     public void RevertNaddiHearRange()
@@ -196,6 +205,7 @@ public class NaddiDebugMenu : MonoBehaviour
     public void ApplyNaddiHalfConeRadius()
     {
         val.HalfViewRadius = HalfConeRadiusSlider.value;
+        saveManager.SafeData(); 
     }
 
     public void RevertNaddiHalfConeRadius()

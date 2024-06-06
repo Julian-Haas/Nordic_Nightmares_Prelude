@@ -9,8 +9,6 @@ public class NaddiValueStorage : ScriptableObject
     public float LookForPlayerVal;
     public float NaddiSpeed;
     public float ViewRange;
-    public float HalfViewRadius; 
-    public float HearingRange; 
+    public float HalfViewRadius;
+    public float HearingRange;
 }
-
-//public class 
