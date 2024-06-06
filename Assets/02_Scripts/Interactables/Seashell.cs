@@ -9,7 +9,9 @@ public class Seashell : Interactable
     }
     public override void Interact() {
         if(Inventory.Instance.TryToPickUpSeashell()) {
-            Destroy(gameObject);
+            InteractableManager.Instance.RemoveInteractable(this);
+            Destroy(this);
         }
+
     }
 }

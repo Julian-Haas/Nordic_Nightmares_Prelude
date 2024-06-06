@@ -29,6 +29,7 @@ public class Torch : Interactable
             lightOfTorch.SetActive(true);
             healingZoneOfTorch.SetActive(true);
             fireOfTorch.SetActive(true);
+            torchActive = true;
         }
         else {
             _soundmanager.UnregisterEventEmitter(this.transform.gameObject,"event:/SFX/Torch");
@@ -36,6 +37,7 @@ public class Torch : Interactable
             lightOfTorch.SetActive(false);
             healingZoneOfTorch.SetActive(false);
             fireOfTorch.SetActive(false);
+            torchActive = false;
         }
     }
 }
