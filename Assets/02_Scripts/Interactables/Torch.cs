@@ -9,7 +9,8 @@ public class Torch : Interactable
     [SerializeField] GameObject fireOfTorch;
     [SerializeField] SoundManager _soundmanager; // FMOD SoundManager
     private s_PlayerCollider _playerCollider;
-    bool _hasAlreadyKindledAFire = false;
+    bool torchActive = false;
+    bool _alreadyKindledAFire = false;
     void Start() {
         _type = "torch";
         _playerCollider = GameObject.Find("PlayerAnimated").GetComponent<s_PlayerCollider>();
@@ -18,29 +19,23 @@ public class Torch : Interactable
         healingZoneOfTorch.SetActive(false);
         fireOfTorch.SetActive(false);
     }
-    public override bool Interact(bool started) {
-        if(started) {
-
-            if(!lightOfTorch.activeInHierarchy) {
-                if(!_hasAlreadyKindledAFire) {
-                    _playerCollider._alreadyCloseToAFire = true;
-                    _hasAlreadyKindledAFire = true;
-                }
-                _soundmanager.RegisterEventEmitter(this.transform.gameObject,"event:/SFX/Torch");
-                _playerCollider.gameObject.GetComponent<PlayerControl>().PlayInteractAnimation();
-                lightOfTorch.SetActive(true);
-                healingZoneOfTorch.SetActive(true);
-                fireOfTorch.SetActive(true);
+    public override void Interact() {
+        if(!torchActive) {
+            if(!_alreadyKindledAFire) {
+                _alreadyKindledAFire = true;
             }
-            else {
-                //_playerCollider.ExtinguishFire();
-                _soundmanager.UnregisterEventEmitter(this.transform.gameObject,"event:/SFX/Torch");
-                _playerCollider.gameObject.GetComponent<PlayerControl>().PlayInteractAnimation();
-                lightOfTorch.SetActive(false);
-                healingZoneOfTorch.SetActive(false);
-                fireOfTorch.SetActive(false);
-            }
+            _soundmanager.RegisterEventEmitter(this.transform.gameObject,"event:/SFX/Torch");
+            _playerCollider.gameObject.GetComponent<PlayerControl>().PlayInteractAnimation();
+            lightOfTorch.SetActive(true);
+            healingZoneOfTorch.SetActive(true);
+            fireOfTorch.SetActive(true);
         }
-        return true;
+        else {
+            _soundmanager.UnregisterEventEmitter(this.transform.gameObject,"event:/SFX/Torch");
+            _playerCollider.gameObject.GetComponent<PlayerControl>().PlayInteractAnimation();
+            lightOfTorch.SetActive(false);
+            healingZoneOfTorch.SetActive(false);
+            fireOfTorch.SetActive(false);
+        }
     }
 }

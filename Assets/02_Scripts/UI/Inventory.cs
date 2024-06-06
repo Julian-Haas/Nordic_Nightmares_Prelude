@@ -13,11 +13,10 @@ public class Inventory : MonoBehaviour
     private bool _isHavingSeashell;
     private GameObject _player;
     private bool _gatheredFirstPlank;
-    private s_PlayerCollider _playerCollider;
     private GameObject _plank = null;
     public SoundManager _soundmanager;
     public Animator _animator;
-
+    bool _alreadyCollectedAPlank = false;
     private void Awake() {
         if(Instance != null && Instance != this) {
             Destroy(this);
@@ -29,9 +28,7 @@ public class Inventory : MonoBehaviour
         DontDestroyOnLoad(this);
     }
     void Start() {
-        _player = GameObject.Find("PlayerAnimated");
-        _playerCollider = _player.GetComponent<s_PlayerCollider>();
-        _plank = _player.transform.Find("A_Character_03").transform.Find("Rig_Player").transform.Find("Mch_snap_Wood").transform.Find("Wood_property").transform.Find("PlankFeedback").gameObject;
+        _plank = s_PlayerCollider.Instance.transform.Find("A_Character_03").transform.Find("Rig_Player").transform.Find("Mch_snap_Wood").transform.Find("Wood_property").transform.Find("PlankFeedback").gameObject;
         _plank.SetActive(false);
         _animator = _plank.GetComponent<Animator>();
         _soundmanager = GameObject.Find("SoundManager").GetComponentInChildren<SoundManager>();
@@ -50,12 +47,12 @@ public class Inventory : MonoBehaviour
         if(!_isHavingPlank) {
             _isHavingPlank = true;
             _soundmanager.PlaySound2D("event:/SFX/PickUpPlank");
-            _player.GetComponent<PlayerControl>().PlayInteractAnimation();
+            s_PlayerCollider.Instance.GetComponent<PlayerControl>().PlayInteractAnimation();
             _plank.SetActive(true);
             _animator.SetTrigger("IsFeedback");
             if(!_gatheredFirstPlank) {
-                _playerCollider.GatheredPlank();
-                _gatheredFirstPlank = true;
+                _alreadyCollectedAPlank = true;
+                //    this.GetComponentInParent<Guidance>().displayGuidanceTooltipWithSpecificText("This could be useful.");
             }
             return true;
         }
@@ -87,6 +84,4 @@ public class Inventory : MonoBehaviour
             return false;
         }
     }
-
-
 }

@@ -10,7 +10,6 @@ public class DeathManager : MonoBehaviour
     SavePoint _lastSavePointTotem = null;
     Vector3 _respawnPoint;
     public s_PlayerCollider _playerScript;
-    private SoundManager _soundManager;
     private Animator _DeathScreenAnimator;
     private GameObject _player;
 
@@ -25,7 +24,6 @@ public class DeathManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
     void Start() {
-        _soundManager = GameObject.Find("SoundManager").GetComponentInChildren<SoundManager>();
         _player = this.transform.root.gameObject;
         _playerScript = this.GetComponent<s_PlayerCollider>();
         _respawnPoint = this.transform.root.position;
@@ -34,10 +32,10 @@ public class DeathManager : MonoBehaviour
     public void PlayerDies(bool NaddiCauseOfDeath) {
         _DeathScreenAnimator.SetBool("IsDeathScreen",true);
         if(NaddiCauseOfDeath) {
-            _soundManager.PlaySound3D("event:/SFX/BiteDeath",_player.transform.position);
+            SoundManager.Instance.PlaySound3D("event:/SFX/BiteDeath",_player.transform.position);
         }
         else {
-            _soundManager.PlaySound2D("event:/SFX/WaterDeath");
+            SoundManager.Instance.PlaySound2D("event:/SFX/WaterDeath");
         }
         StartCoroutine(RespawnCoroutine());
     }
@@ -51,7 +49,7 @@ public class DeathManager : MonoBehaviour
         _player.transform.position = _respawnPoint;
         _DeathScreenAnimator.SetBool("IsDeathScreen",false);
         yield return new WaitForSeconds(0.1f);
-        _soundManager.PlaySound3D("event:/SFX/PlayerAwakes",_player.transform.position);
+        SoundManager.Instance.PlaySound3D("event:/SFX/PlayerAwakes",_player.transform.position);
         _playerScript.gameObject.GetComponent<PlayerControl>()?.PlayRespawnAnimation();
     }
     public void ActivateSavepoint(SavePoint SavepointToActivate,GameObject RespawnPoint) {

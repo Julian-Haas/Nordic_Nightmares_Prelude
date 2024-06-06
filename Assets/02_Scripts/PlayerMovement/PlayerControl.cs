@@ -109,7 +109,7 @@ public class PlayerControl : MonoBehaviour, PlayerInput.IPlayerMoveActions
 
     public void OnInteract(InputAction.CallbackContext context) {
         if(context.started) {
-            _playerCollider.interact(true);
+            InteractableManager.Instance.Interact();
             _isInteracting = true;
             //PlayMovingOrIdleAnimation();
         }

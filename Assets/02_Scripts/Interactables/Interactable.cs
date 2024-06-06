@@ -31,7 +31,7 @@ public abstract class Interactable : MonoBehaviour
         //}
     }
 
-    public abstract bool Interact(bool started);
+    public abstract void Interact();
 
     private void AnimateActivationKey() {
         //if (_hoverUp)

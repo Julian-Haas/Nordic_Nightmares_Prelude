@@ -7,13 +7,10 @@ public class Plank : Interactable
     void Start() {
         _type = "plank";
     }
-    public override bool Interact(bool started) {
-        if(started) {
-            if(Inventory.Instance.TryToGatherPlank(this)) {
-                Destroy(gameObject);
-                return false;
-            }
+    public override void Interact() {
+        if(Inventory.Instance.TryToGatherPlank(this)) {
+            InteractableManager.Instance.RemoveInteractable(this);
+            Destroy(gameObject);
         }
-        return true;
     }
 }

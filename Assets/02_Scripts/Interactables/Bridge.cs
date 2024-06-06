@@ -27,7 +27,7 @@ public class Bridge : Interactable
 
     }
 
-    public override bool Interact(bool started) {
+    public override void Interact() {
         if(_bridgestate != 2) {
             if(_inventory.TryToUsePlank()) {
                 switch(_bridgestate) {
@@ -38,7 +38,7 @@ public class Bridge : Interactable
                         _player.GetComponent<PlayerControl>().PlayInteractAnimation();
                         _slider.value = 0.0f;
                         _player.GetComponentInChildren<Guidance>().displayGuidanceTooltipWithSpecificText("I need another plank to fully repair it.");
-                        return true;
+                        break;
                     case 1:
                         _Hole2.SetActive(true);
                         _bridgestate = 2;
@@ -47,24 +47,22 @@ public class Bridge : Interactable
                         _soundmanager.PlaySound2D("event:/SFX/BridgeCompleted");
                         _player.GetComponent<PlayerControl>().PlayInteractAnimation();
                         _player.GetComponentInChildren<Guidance>().displayGuidanceTooltipWithSpecificText("Now I can cross it.");
+                        break;
                         _animator.SetTrigger("IsFeedback");
-                        return false;
                     default:
-                        return true;
+                        break;
                 }
             }
             else {
                 if(!_triedToInteractBefore) {
                     _player.GetComponentInChildren<Guidance>().displayGuidanceTooltipWithSpecificText("I need planks to repair it.");
                     _triedToInteractBefore = true;
-                    return true;
                 }
                 else {
                     _player.GetComponentInChildren<Guidance>().displayGuidanceTooltipWithSpecificText("I still need to find a plank to repair it.");
-                    return true;
+
                 }
             }
         }
-        return false;
     }
 }
