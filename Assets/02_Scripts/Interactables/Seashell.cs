@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Seashell : Interactable
@@ -10,8 +8,7 @@ public class Seashell : Interactable
     public override void Interact() {
         if(Inventory.Instance.TryToPickUpSeashell()) {
             InteractableManager.Instance.RemoveInteractable(this);
-            Destroy(this);
+            Destroy(gameObject);
         }
-
     }
 }

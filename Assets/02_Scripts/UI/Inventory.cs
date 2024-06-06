@@ -11,7 +11,6 @@ public class Inventory : MonoBehaviour
     }
     private bool _isHavingPlank;
     private bool _isHavingSeashell;
-    private GameObject _player;
     private bool _gatheredFirstPlank;
     private GameObject _plank = null;
     public SoundManager _soundmanager;
@@ -37,13 +36,14 @@ public class Inventory : MonoBehaviour
         if(_isHavingPlank) {
             _isHavingPlank = false;
             _plank.SetActive(false);
+            s_PlayerCollider.Instance.GetComponent<PlayerControl>().PlayInteractAnimation();
             return true;
         }
         else {
             return false;
         }
     }
-    public bool TryToGatherPlank(Plank plankToPickUp) {
+    public bool TryToGatherPlank() {
         if(!_isHavingPlank) {
             _isHavingPlank = true;
             _soundmanager.PlaySound2D("event:/SFX/PickUpPlank");
@@ -64,7 +64,7 @@ public class Inventory : MonoBehaviour
     public bool TryToPickUpSeashell() {
         if(!_isHavingSeashell) {
             _isHavingSeashell = true;
-            _player.GetComponent<PlayerControl>().PlayInteractAnimation();
+            s_PlayerCollider.Instance.GetComponent<PlayerControl>().PlayInteractAnimation();
             _animator.SetTrigger("IsFeedback");
             //implement sound
             //implement vfx
