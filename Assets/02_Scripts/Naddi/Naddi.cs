@@ -217,8 +217,7 @@ public class Naddi : MonoBehaviour
         {
             HeardPlayer = true;
             DeactivatePatrol();
-            this.transform.LookAt(pos);
-            StateMachiene.LookForPlayer();
+            StartCoroutine(TurnToPlayer()); 
         }
     }
     private void DeactivatePatrol()
@@ -246,5 +245,21 @@ public class Naddi : MonoBehaviour
         Agent.isStopped = true;
         StateMachiene.FinishedDigging();
         StartCoroutine(_naddiHearing.ListenerDelay());
+    }
+
+    private IEnumerator TurnToPlayer()
+    {
+        Quaternion desiredRotation;
+        Vector3 direction = (PlayerPos.position - transform.position).normalized;
+        desiredRotation = Quaternion.LookRotation(direction, transform.up);
+        float lerpFactor = 1 * Time.deltaTime; 
+        float time=0f;
+        while(time <= 2)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, time * lerpFactor);
+            time += Time.deltaTime;
+            yield return null; 
+        }
+        StateMachiene.LookForPlayer();
     }
 }
