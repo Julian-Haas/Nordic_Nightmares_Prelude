@@ -2,7 +2,6 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem.LowLevel;
-using TMPro; 
 
 public enum NaddiStateEnum
 {
@@ -26,15 +25,8 @@ public class NaddiStateMaschine : MonoBehaviour
     public Naddi Naddi { get { return _naddi;  } }
     private NaddiStateEnum _currentState = NaddiStateEnum.Digging; 
     public NaddiStateEnum CurrentState { get { return _currentState; } }
-    bool alreadyTriggert = false;
-    [SerializeField]
-    private TextMeshProUGUI StateTXT;
+    bool alreadyTriggert = false; 
 
-    private void Start()
-    {
-        if (_naddi.enableDebugInfos == false && StateTXT != null)
-            StateTXT.gameObject.SetActive(false); 
-    }
     public void LookForPlayer()
     {
         if(_naddi.State == NaddiStateEnum.LookForPlayer) 
@@ -56,13 +48,14 @@ public class NaddiStateMaschine : MonoBehaviour
 
     public void FinishedLookForPlayer()
     {
-        if (_naddi.HeardPlayer ||  _naddi.NaddiEye.isInsideCone() || _naddi.PlayerInSafeZone==false)
+        if ((_naddi.HeardPlayer ||  _naddi.NaddiEye.isInsideCone()) && _naddi.PlayerInSafeZone==false)
         {
             _naddi.HeardPlayer = false; 
             FoundPlayer();
         }
         else
         {
+            
             StartCoroutine(_naddi.HearingDelay());
             StartDigging(); 
         }
@@ -85,17 +78,9 @@ public class NaddiStateMaschine : MonoBehaviour
     }
     private void SetState(NaddiStateEnum state)
     {
-        //EditorHelper.ClearConsoleLogs();
-
         _naddi._executingState = false;
-
         _currentState = state;
-        _naddi.State = _currentState;
-        if (_naddi.enableDebugInfos)
-        {
-            if(StateTXT != null)
-                StateTXT.text = _currentState.ToString();  
-        }
+        _naddi.State = _currentState; 
     }
     public void AttackPlayer()
     {
@@ -108,9 +93,13 @@ public class NaddiStateMaschine : MonoBehaviour
         {
             FoundPlayer(); 
         }
-        if(!seesPlayer && _naddi.KilledPlayer == false)
+        else if(!seesPlayer && _naddi.KilledPlayer == false)
         {
             LookForPlayer(); 
+        } 
+        else if(_naddi.KilledPlayer == true) 
+        {
+            StartDigging(); 
         }
     }
 

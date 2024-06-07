@@ -9,14 +9,27 @@ public class SanityZoom : MonoBehaviour
 
     Camera cam;
 
-    private void Start() {
+    private void Start()
+    {
         cam = GetComponent<Camera>();
     }
 
-    private void UpdateZoom(float newSanity) {
+    private void OnEnable()
+    {
+        WorldStateData.Instance.OnSanityChanged += UpdateZoom;
+    }
+
+    private void OnDisable()
+    {
+        WorldStateData.Instance.OnSanityChanged -= UpdateZoom;
+    }
+
+
+    private void UpdateZoom(float newSanity)
+    {
         float normalisedSanity = newSanity / 100f;
 
-        cam.orthographicSize = Mathf.Lerp(mindSanitySize,maxSanitySize,normalisedSanity);
+        cam.orthographicSize = Mathf.Lerp(mindSanitySize, maxSanitySize, normalisedSanity);
     }
 
 }

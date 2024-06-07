@@ -11,11 +11,11 @@ public class s_SoundSettings : MonoBehaviour
     [SerializeField] private Slider _masterVolumeSlider, _sfxVolumeSlider, _musicVolumeSlider = null;
     [SerializeField] private TextMeshProUGUI MasterVolumeTextUI, SfXVolumeTextUI, MusicVolumeTextUI = null;
     [SerializeField] private float maxSliderValue = 100.0f;
-    SoundManager _soundManager = null;
+    s_SoundManager _soundManager = null;
     //private float MasterVolume, SFXVolume, MusicVolume = 1;
     private void Awake()
     {
-        _soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+        _soundManager = GameObject.Find("SoundManager").GetComponent<s_SoundManager>();
         //MasterVolumeSlider.value = PlayerPrefs.GetFloat("MasterVolume");
         //SFXVolumeSlider.value = PlayerPrefs.GetFloat("SFXVolume");
         //MusicVolumeSlider.value = PlayerPrefs.GetFloat("MusicVolume");

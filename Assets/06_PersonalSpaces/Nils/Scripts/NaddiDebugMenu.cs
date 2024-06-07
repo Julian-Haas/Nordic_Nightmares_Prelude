@@ -11,7 +11,7 @@ public class NaddiDebugMenu : MonoBehaviour
     [SerializeField]
     private TMP_Dropdown NaddiStatesDD;
     [SerializeField]
-    private Slider NaddiHearingSB; 
+    private Scrollbar NaddiHearingSB; 
     [SerializeField]
     private Naddi _naddi; 
     
@@ -25,15 +25,12 @@ public class NaddiDebugMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true; 
-        OnNaddiSoundSumChanged();
-
+        OnNaddiSoundSumChanged(); 
     }
 
     public void OnDropdownValueChanged(int index)
     {
-        // Hole den ausgew?hlten Wert aus dem Dropdown-Men?
+        // Hole den ausgewählten Wert aus dem Dropdown-Menü
         _naddi.State = (NaddiStateEnum)NaddiStateEnum.Parse(typeof(NaddiStateEnum), NaddiStatesDD.options[index].text);
     }
 

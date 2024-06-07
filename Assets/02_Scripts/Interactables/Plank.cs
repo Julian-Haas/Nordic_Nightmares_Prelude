@@ -2,13 +2,40 @@ using UnityEngine;
 
 public class Plank : Interactable
 {
-    void Start() {
+    public s_Inventory _inventory;
+    public s_SoundManager _soundmanager; // FMOD Sound Manager
+
+    void Start()
+    {
         _type = "plank";
+        _soundmanager = GameObject.Find("SoundManager").GetComponentInChildren<s_SoundManager>();
+        _inventory = GameObject.Find("Inventory").GetComponentInChildren<s_Inventory>();
     }
-    public override void Interact() {
-        if(Inventory.Instance.TryToGatherPlank()) {
-            InteractableManager.Instance.RemoveInteractable(this);
-            Destroy(gameObject);
+
+    //public void RemovePlankFromScene()
+    //{
+    //    this.transform.Find("PlankCollider").gameObject.SetActive(false);
+    //    this.transform.Find("SM_BridgePlank_00_Blockout").gameObject.SetActive(false);
+    //    gameObject.SetActive(false);
+    //}
+    //public void ReturnPlankToScene()
+    //{
+    //    this.transform.Find("PlankCollider").gameObject.SetActive(true);
+    //    this.transform.Find("SM_BridgePlank_00_Blockout").gameObject.SetActive(true);
+    //}
+
+    public override bool Interact(bool started)
+    {
+        if (started)
+        {
+            //_soundmanager.PlaySound("event:/pickUpWood_sfx", this.transform.position);
+            if (_inventory.TryToGatherPlank(this))
+            {
+                Destroy(gameObject);
+                //RemovePlankFromScene();
+                return false;
+            }
         }
+        return true;
     }
 }

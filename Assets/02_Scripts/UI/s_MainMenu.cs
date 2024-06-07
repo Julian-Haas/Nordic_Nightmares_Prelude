@@ -18,23 +18,23 @@ public class s_MainMenu : MonoBehaviour
     public GameObject _screenCredits;
     public GameObject _screenLore;
 
-    private GameManager _gameManager;
-    private SoundManager _soundManager;
+    private s_gameManager _gameManager;
+    private s_SoundManager _soundManager;
 
 
     private void Awake()
     {
 
-        _soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+        _soundManager = GameObject.Find("SoundManager").GetComponent<s_SoundManager>();
     }
 
     private void Start()
     {
-        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        _gameManager = GameObject.Find("GameManager").GetComponent<s_gameManager>();
         //Debug.Log(GameObject.Find("GameManager").name);
 
-        //Debug.Log(GameObject.Find("GameManager").GetComponent<GameManager>().name);
-        //Debug.Log(GameObject.Find("GameManager").GetComponentInChildren<GameManager>().name);
+        //Debug.Log(GameObject.Find("GameManager").GetComponent<s_gameManager>().name);
+        //Debug.Log(GameObject.Find("GameManager").GetComponentInChildren<s_gameManager>().name);
         
         _screenSettings.SetActive(false);
         _screenCredits.SetActive(false);
