@@ -21,8 +21,8 @@ public class Naddi : MonoBehaviour
     [SerializeField]
     public NavMeshAgent Agent { get; private set; }
     private SplineAnimate _splineAnimate;
-    public bool _executingState = false;
-    private Vector3 _playerPosLastSeen;
+    public bool _executingState = false; 
+    private Vector3 _playerPosLastSeen = new Vector3(-999999, -9999999, -999999);
     private bool _startedPatrol = false;
     public bool ChasePlayer = false;
     private s_PlayerCollider _playerCol;
@@ -76,14 +76,16 @@ public class Naddi : MonoBehaviour
 
     private void Update()
     {
-
+#if UNITY_EDITOR 
         if (enableDebugInfos)
         {
             if (_splineAnimate != null)
             {
-                _splineAnimate.MaxSpeed = Speed; 
+                _splineAnimate.MaxSpeed = Speed;
             }
+                Agent.speed = Speed; 
         }
+#endif 
         PlayerInSafeZone = _playerCol._inSafeZone;
         if (KilledPlayer)
         {

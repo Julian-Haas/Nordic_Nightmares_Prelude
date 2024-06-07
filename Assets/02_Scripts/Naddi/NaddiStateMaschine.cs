@@ -56,7 +56,7 @@ public class NaddiStateMaschine : MonoBehaviour
 
     public void FinishedLookForPlayer()
     {
-        if (_naddi.HeardPlayer ||  _naddi.NaddiEye.isInsideCone() || _naddi.PlayerInSafeZone==false)
+        if ((_naddi.HeardPlayer || _naddi.NaddiEye.isInsideCone()) && _naddi.PlayerInSafeZone==false)
         {
             _naddi.HeardPlayer = false; 
             FoundPlayer();
@@ -93,8 +93,7 @@ public class NaddiStateMaschine : MonoBehaviour
         _naddi.State = _currentState;
         if (_naddi.enableDebugInfos)
         {
-            if(StateTXT != null)
-                StateTXT.text = _currentState.ToString();  
+            EditorHelper.SetDebugText<NaddiStateEnum>(ref StateTXT, _currentState);  
         }
     }
     public void AttackPlayer()

@@ -5,6 +5,8 @@ public class NaddiAttack : MonoBehaviour
     private NaddiViewField _naddiEye;
     private Naddi _naddi;
     private NaddiStateMaschine _naddiStateMachiene;
+    [Tooltip("this Vector stores the start init value of player pos last seen, so that we can check if the value got actually updated or not")]
+    private Vector3 invalidVector = new Vector3(-999999, -9999999, -999999);
     private void Awake()
     {
         _naddi = GetComponent<Naddi>();
@@ -42,14 +44,15 @@ public class NaddiAttack : MonoBehaviour
 
     public void WalkToLastPlayerPosition(Vector3 playerPosLastSeen)
     {
-        _naddi.Agent.SetDestination(playerPosLastSeen);
+
         float sqrDistance = (playerPosLastSeen - this.transform.position).sqrMagnitude;
-        if (sqrDistance <= Mathf.Pow(5, 2))
+        if (sqrDistance <= Mathf.Pow(_naddi.Agent.stoppingDistance, 2) || playerPosLastSeen == invalidVector)
         {
             _naddi.StateMachiene.LookForPlayer();
             _naddi.Agent.isStopped = true;
             _naddi.ChasePlayer = false;
         }
+        _naddi.Agent.SetDestination(playerPosLastSeen);
     }
 
     public void DigToPlayer(Transform playerPos, Terrain terrain)
