@@ -13,7 +13,8 @@ public enum NaddiStateEnum
     Idle = 4,
     Attack = 5,
     DigToPlayer = 6, 
-    PlayerVanished = 7
+    PlayerVanished = 7,
+    HearedSomething = 8
   
 }
 public class NaddiStateMaschine : MonoBehaviour
@@ -105,7 +106,10 @@ public class NaddiStateMaschine : MonoBehaviour
     {
         SetState(NaddiStateEnum.DigToPlayer); 
     }
-
+    public void HearedSomething()
+    {
+        SetState(NaddiStateEnum.HearedSomething); 
+    }
     public void FinishedAttacking(bool seesPlayer)
     {
         if (seesPlayer && _naddi.KilledPlayer == false)

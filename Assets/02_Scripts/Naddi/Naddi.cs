@@ -195,6 +195,8 @@ public class Naddi : MonoBehaviour
                 Agent.isStopped = StopAgent;
                 StateMachiene.LookForPlayer();
                 break;
+            default:
+                break; 
         }
     }
 
@@ -216,16 +218,19 @@ public class Naddi : MonoBehaviour
         if (State != NaddiStateEnum.Chase && State != NaddiStateEnum.Attack && State != NaddiStateEnum.Digging && !HeardPlayer)
         {
             HeardPlayer = true;
+            StateMachiene.HearedSomething(); 
             DeactivatePatrol();
-            StartCoroutine(TurnToPlayer()); 
+            StartCoroutine(TurnToSoundDirection(pos)); 
         }
     }
     private void DeactivatePatrol()
     {
+        Vector3 currentPos = transform.position; 
         _splineAnimate.Pause();
         _splineAnimate.enabled = false;
         _splineAnimate.ElapsedTime = 0;
         _startedPatrol = false;
+        transform.position = currentPos; 
     }
     public void HeardPlayerNearby()
     {
@@ -247,10 +252,11 @@ public class Naddi : MonoBehaviour
         StartCoroutine(_naddiHearing.ListenerDelay());
     }
 
-    private IEnumerator TurnToPlayer()
+    private IEnumerator TurnToSoundDirection(Vector3 soundPos)
     {
+        Debug.Log("executing turn to player!"); 
         Quaternion desiredRotation;
-        Vector3 direction = (PlayerPos.position - transform.position).normalized;
+        Vector3 direction = (soundPos - transform.position).normalized;
         desiredRotation = Quaternion.LookRotation(direction, transform.up);
         float lerpFactor = 1 * Time.deltaTime; 
         float time=0f;
