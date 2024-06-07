@@ -7,70 +7,70 @@ using UnityEngine;
 #if UNITY_EDITOR
 [ExecuteInEditMode]
 #endif
-public class Seashell_Behaviour : MonoBehaviour
+public class Clam_Behaviour : MonoBehaviour
 {
-    [Header("Adjustments for Seashells")]
+    [Header("Adjustments for Clams")]
     [Range(1, 25)]
-    public int NumberOfSeashells = 5;
+    public int NumberOfClams = 5;
     [Range(0.01f, 0.5f)]
-    public float MinimumSeashellSize = 0.1f;
+    public float MinimumClamSize = 0.1f;
     [Range(0.51f, 1.0f)]
-    public float MaximumSeashellSize = 2.0f;
+    public float MaximumClamSize = 2.0f;
     [Range(0.1f, 10f)]
     public float RadiusOfArea = 1.0f;
     [Range(0f, 10f)]
     public float ReactionArea = 2.0f;
 
-    [SerializeField] private bool RandomizeSeashells = false;
-    [SerializeField] private List<GameObject> _seashells;
+    [SerializeField] private bool RandomizeClams = false;
+    [SerializeField] private List<GameObject> _Clams;
 
-    private GameObject seashell;
+    private GameObject Clam;
     private SphereCollider _reactionArea;
 
     void Start()
     {
         _reactionArea = transform.GetComponent<SphereCollider>();
         _reactionArea.radius = RadiusOfArea + ReactionArea;
-        seashell = transform.GetChild(1).gameObject;
+        Clam = transform.GetChild(1).gameObject;
 
-        _seashells.Clear();
+        _Clams.Clear();
         int shellcount = transform.GetChild(0).childCount;
         for(int i = 0; i < shellcount; i++)
         {
-            _seashells.Add(transform.GetChild(0).GetChild(i).gameObject);
+            _Clams.Add(transform.GetChild(0).GetChild(i).gameObject);
         }
     }
 
-    void ResetSeashells()
+    void ResetClams()
     {
 #if UNITY_EDITOR
-        seashell.SetActive(true);
-        ClearSeashellList();
-        if (!seashell)
+        Clam.SetActive(true);
+        ClearClamList();
+        if (!Clam)
         {
-            seashell = transform.GetChild(1).gameObject;
+            Clam = transform.GetChild(1).gameObject;
         }
-        for (int i = 0; i < NumberOfSeashells; i++)
+        for (int i = 0; i < NumberOfClams; i++)
         {
-            GameObject newShell = Instantiate(seashell, transform.GetChild(0));
-            RandomizeSeashellTransforms(newShell);
-            _seashells.Add(newShell);
+            GameObject newShell = Instantiate(Clam, transform.GetChild(0));
+            RandomizeClamTransforms(newShell);
+            _Clams.Add(newShell);
         }
-        seashell.SetActive(false);
+        Clam.SetActive(false);
 #endif
-        RandomizeSeashells = false;
+        RandomizeClams = false;
     }
 
-    void ClearSeashellList()
+    void ClearClamList()
     {
-        _seashells.RemoveAll(shell => shell == null);
+        _Clams.RemoveAll(shell => shell == null);
 
-        while (_seashells.Count > 0)
+        while (_Clams.Count > 0)
         {
-            DestroyImmediate(_seashells[0]);
-            _seashells.RemoveAt(0);
+            DestroyImmediate(_Clams[0]);
+            _Clams.RemoveAt(0);
         }
-        _seashells.Clear();
+        _Clams.Clear();
 
         int shellcount = transform.GetChild(0).childCount;
         for (int i = 0; i < shellcount; i++)
@@ -79,12 +79,12 @@ public class Seashell_Behaviour : MonoBehaviour
         }
     }
 
-    void RandomizeSeashellTransforms(GameObject obj)
+    void RandomizeClamTransforms(GameObject obj)
     {
         Vector3 randPos = GenerateRandomPosition();
         float randomAngle = Random.Range(0f, 360f);
         Quaternion randomRotation = Quaternion.Euler(0f, randomAngle, 0f);
-        float randomScale = Random.Range(MinimumSeashellSize, MaximumSeashellSize);
+        float randomScale = Random.Range(MinimumClamSize, MaximumClamSize);
 
         obj.transform.position = randPos;
         obj.transform.rotation = randomRotation;
@@ -109,7 +109,7 @@ public class Seashell_Behaviour : MonoBehaviour
 
     bool IsPositionValid(GameObject check)
     {
-        foreach (GameObject obj in _seashells)
+        foreach (GameObject obj in _Clams)
         {
             float dist = Vector3.Distance(check.transform.position, obj.transform.position);
             if ((check.transform.localScale.x + obj.transform.localScale.x) > dist)
@@ -124,7 +124,7 @@ public class Seashell_Behaviour : MonoBehaviour
     {
         if (Application.isPlaying && other.CompareTag("Player"))
         {
-            foreach (var v in _seashells)
+            foreach (var v in _Clams)
             {
                 StartCoroutine(DelayAnimation(v, "Armature|Close_Mouth"));
             }
@@ -135,7 +135,7 @@ public class Seashell_Behaviour : MonoBehaviour
     {
         if (Application.isPlaying && other.CompareTag("Player"))
         {
-            foreach (var v in _seashells)
+            foreach (var v in _Clams)
             {
                 StartCoroutine(DelayAnimation(v, "Armature|Open_Mouth"));
             }
@@ -158,13 +158,13 @@ public class Seashell_Behaviour : MonoBehaviour
         Handles.color = Color.green;
         Handles.DrawWireDisc(transform.position, transform.up.normalized, RadiusOfArea + ReactionArea);
 
-        if (RandomizeSeashells)
+        if (RandomizeClams)
         {
             if (!Application.isPlaying)
             {
-                ResetSeashells();
+                ResetClams();
             }
-            RandomizeSeashells = false;
+            RandomizeClams = false;
         }
     }
 }
