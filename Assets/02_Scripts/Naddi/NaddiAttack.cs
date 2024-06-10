@@ -48,7 +48,7 @@ public class NaddiAttack : MonoBehaviour
     {
 
         float sqrDistance = (playerPosLastSeen - this.transform.position).sqrMagnitude;
-        if (sqrDistance <= Mathf.Pow(_naddi.Agent.stoppingDistance, 2) || playerPosLastSeen == invalidVector)
+        if (sqrDistance <= Mathf.Pow(_naddi.Agent.stoppingDistance + offset, 2) || playerPosLastSeen == invalidVector)
         {
             _naddi.StateMachiene.LookForPlayer();
             _naddi.Agent.isStopped = true;
@@ -64,8 +64,8 @@ public class NaddiAttack : MonoBehaviour
         float offsetZ;
         while (_validPos == false)
         {
-            offsetX = RandomOffset();
-            offsetZ = RandomOffset();
+            offsetX = RandomOffset(5, 7);
+            offsetZ = RandomOffset(5, 7);
             Vector3 digOutPos = new Vector3(playerPos.position.x + offsetX, 0, playerPos.position.z + offsetZ);
             float terrainhight = terrain.SampleHeight(digOutPos);
             digOutPos.y = terrainhight;
@@ -78,9 +78,9 @@ public class NaddiAttack : MonoBehaviour
         _naddiStateMachiene.FoundPlayer();
     }
 
-    private float RandomOffset()
+    private float RandomOffset(float min, float max)
     {
-        float val = Random.Range(5, 7);
+        float val = Random.Range(min, max);
         float signOffset = Random.Range(0, 1);
         if (signOffset == 0)
             val *= -1;
