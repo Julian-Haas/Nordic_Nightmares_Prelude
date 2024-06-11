@@ -13,7 +13,8 @@ public enum NaddiStateEnum
     Idle = 4,
     Attack = 5,
     DigToPlayer = 6, 
-    PlayerVanished = 7
+    PlayerVanished = 7,
+    HearedSomething = 8
   
 }
 public class NaddiStateMaschine : MonoBehaviour
@@ -56,7 +57,7 @@ public class NaddiStateMaschine : MonoBehaviour
 
     public void FinishedLookForPlayer()
     {
-        if (_naddi.HeardPlayer ||  _naddi.NaddiEye.isInsideCone() || _naddi.PlayerInSafeZone==false)
+        if ((_naddi.HeardPlayer || _naddi.NaddiEye.isInsideCone()) && _naddi.PlayerInSafeZone==false)
         {
             _naddi.HeardPlayer = false; 
             FoundPlayer();
@@ -83,7 +84,7 @@ public class NaddiStateMaschine : MonoBehaviour
     {
         SetState(NaddiStateEnum.PlayerVanished); 
     }
-    private void SetState(NaddiStateEnum state)
+    public void SetState(NaddiStateEnum state)
     {
         //EditorHelper.ClearConsoleLogs();
 
@@ -93,8 +94,7 @@ public class NaddiStateMaschine : MonoBehaviour
         _naddi.State = _currentState;
         if (_naddi.enableDebugInfos)
         {
-            if(StateTXT != null)
-                StateTXT.text = _currentState.ToString();  
+            EditorHelper.SetDebugText<NaddiStateEnum>(ref StateTXT, _currentState);  
         }
     }
     public void AttackPlayer()
@@ -102,6 +102,14 @@ public class NaddiStateMaschine : MonoBehaviour
         SetState(NaddiStateEnum.Attack);
     }
 
+    public void DigToPlayer()
+    {
+        SetState(NaddiStateEnum.DigToPlayer); 
+    }
+    public void HearedSomething()
+    {
+        SetState(NaddiStateEnum.HearedSomething); 
+    }
     public void FinishedAttacking(bool seesPlayer)
     {
         if (seesPlayer && _naddi.KilledPlayer == false)

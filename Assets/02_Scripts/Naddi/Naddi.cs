@@ -21,8 +21,8 @@ public class Naddi : MonoBehaviour
     [SerializeField]
     public NavMeshAgent Agent { get; private set; }
     private SplineAnimate _splineAnimate;
-    public bool _executingState = false;
-    private Vector3 _playerPosLastSeen;
+    public bool _executingState = false; 
+    private Vector3 _playerPosLastSeen = new Vector3(-999999, -9999999, -999999);
     private bool _startedPatrol = false;
     public bool ChasePlayer = false;
     private s_PlayerCollider _playerCol;
@@ -48,9 +48,12 @@ public class Naddi : MonoBehaviour
     private TextMeshProUGUI RemainingDistanceTXT;
     [SerializeField]
     private TextMeshProUGUI pathstatusText;
+    [SerializeField]
+    private NaddiValueStorage valueStorage; 
 
     void Awake()
     {
+        Speed = valueStorage.NaddiSpeed; 
         InitSplineAnimate();
         StateMachiene = GetComponent<NaddiStateMaschine>();
         Agent = this.GetComponent<NavMeshAgent>();
@@ -73,6 +76,16 @@ public class Naddi : MonoBehaviour
 
     private void Update()
     {
+#if UNITY_EDITOR 
+        if (enableDebugInfos)
+        {
+            if (_splineAnimate != null)
+            {
+                _splineAnimate.MaxSpeed = Speed;
+            }
+                Agent.speed = Speed; 
+        }
+#endif 
         PlayerInSafeZone = _playerCol._inSafeZone;
         if (KilledPlayer)
         {
@@ -182,6 +195,8 @@ public class Naddi : MonoBehaviour
                 Agent.isStopped = StopAgent;
                 StateMachiene.LookForPlayer();
                 break;
+            default:
+                break; 
         }
     }
 
@@ -203,17 +218,19 @@ public class Naddi : MonoBehaviour
         if (State != NaddiStateEnum.Chase && State != NaddiStateEnum.Attack && State != NaddiStateEnum.Digging && !HeardPlayer)
         {
             HeardPlayer = true;
+            StateMachiene.HearedSomething(); 
             DeactivatePatrol();
-            this.transform.LookAt(pos);
-            StateMachiene.LookForPlayer();
+            StartCoroutine(TurnToSoundDirection(pos)); 
         }
     }
     private void DeactivatePatrol()
     {
+        Vector3 currentPos = transform.position; 
         _splineAnimate.Pause();
         _splineAnimate.enabled = false;
         _splineAnimate.ElapsedTime = 0;
         _startedPatrol = false;
+        transform.position = currentPos; 
     }
     public void HeardPlayerNearby()
     {
@@ -233,5 +250,22 @@ public class Naddi : MonoBehaviour
         Agent.isStopped = true;
         StateMachiene.FinishedDigging();
         StartCoroutine(_naddiHearing.ListenerDelay());
+    }
+
+    private IEnumerator TurnToSoundDirection(Vector3 soundPos)
+    {
+        Debug.Log("executing turn to player!"); 
+        Quaternion desiredRotation;
+        Vector3 direction = (soundPos - transform.position).normalized;
+        desiredRotation = Quaternion.LookRotation(direction, transform.up);
+        float lerpFactor = 1 * Time.deltaTime; 
+        float time=0f;
+        while(time <= 2)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, time * lerpFactor);
+            time += Time.deltaTime;
+            yield return null; 
+        }
+        StateMachiene.LookForPlayer();
     }
 }

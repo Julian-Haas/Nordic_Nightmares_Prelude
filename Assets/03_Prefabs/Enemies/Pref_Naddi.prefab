@@ -721,7 +721,8 @@ GameObject:
   - component: {fileID: 1981836509238415516}
   - component: {fileID: 4014314600357403911}
   - component: {fileID: 2757787377948532710}
-  - component: {fileID: 2029885212520397894}
+  - component: {fileID: 6472540808341410993}
+  - component: {fileID: 737214580027328034}
   m_Layer: 3
   m_Name: Pref_Naddi
   m_TagString: Naddi
@@ -761,7 +762,7 @@ MonoBehaviour:
   _patrolPath: {fileID: 0}
   PlayerPos: {fileID: 0}
   _terrain: {fileID: 0}
-  Speed: 5
+  Speed: 0
   _executingState: 0
   ChasePlayer: 0
   PlayerInSafeZone: 0
@@ -769,11 +770,12 @@ MonoBehaviour:
   KilledPlayer: 0
   CanChasePlayer: 1
   State: 3
-  enableDebugInfos: 0
+  enableDebugInfos: 1
   DebugTextHolder: {fileID: 0}
   targetText: {fileID: 0}
   RemainingDistanceTXT: {fileID: 0}
   pathstatusText: {fileID: 0}
+  valueStorage: {fileID: 11400000, guid: 1d476c8f1503d455fa51047c69da2d0f, type: 2}
 --- !u!114 &7615789934419268650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -786,13 +788,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2c16d86119ae4a60b53799143d5fdcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _coneRadius: 25
+  _coneRadius: 0
   _player: {fileID: 0}
   _coneOrigin: {fileID: 3559207867163939823}
-  _coneHalfAngleDegree: 55
+  _coneHalfAngleDegree: 0
   ignoreLayer:
     serializedVersion: 2
     m_Bits: 8
+  valueStorage: {fileID: 11400000, guid: 1d476c8f1503d455fa51047c69da2d0f, type: 2}
 --- !u!195 &3054165339838200593
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -882,12 +885,25 @@ MonoBehaviour:
   _soundModifyer: 1
   _groundModifyer: 1
   _soundSum: 0
-  _LookForPlayerTrigger: 120
-  _attackPlayerTrigger: 200
+  _LookForPlayerTrigger: 0
+  _attackPlayerTrigger: 0
   _decay: 0.99
-  _maxDistance: 15
+  MaxDistance: 0
   _playerRef: {fileID: 0}
---- !u!114 &2029885212520397894
+  valStorage: {fileID: 11400000, guid: 1d476c8f1503d455fa51047c69da2d0f, type: 2}
+--- !u!114 &6472540808341410993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1891094736568493462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2600296b52cf1324780ec75ba2cc664c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &737214580027328034
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
