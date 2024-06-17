@@ -76,7 +76,9 @@ public class NaddiStateMaschine : MonoBehaviour
 
     public void FinishedDigging()
     {
-        _naddi.DisableRenderer(); 
+        _naddi.DisableRenderer();
+        DebugFileLogger.Log("FlagLogger", "Startet Patrol: " + _naddi.StartedPatrol.ToString());
+        _naddi.StartedPatrol = false; 
         SetState(NaddiStateEnum.Patrol);
     }
 

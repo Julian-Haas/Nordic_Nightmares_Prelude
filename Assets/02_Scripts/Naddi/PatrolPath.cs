@@ -18,6 +18,7 @@ public class PatrolPath : MonoBehaviour
     [SerializeField]
     private List<string> DistanceOutput;
     private NaddiHearing _naddiHearing;
+    public SplineContainer debugSplainRef; 
 
     private void Start()
     {
@@ -37,6 +38,10 @@ public class PatrolPath : MonoBehaviour
 
     public SplineContainer GetActivePatrolPath()
     {
+        if(_closestPath.gameObject != debugSplainRef.gameObject)
+        {
+            DebugFileLogger.Log("Spline check", "Spline isnt the ref spline"); 
+        }
         return _closestPath; 
     }
     public Vector3 GetFarthesPoint()

@@ -23,7 +23,7 @@ public class Naddi : MonoBehaviour
     private SplineAnimate _splineAnimate;
     public bool _executingState = false; 
     private Vector3 _playerPosLastSeen = new Vector3(-999999, -9999999, -999999);
-    private bool _startedPatrol = false;
+    public bool StartedPatrol = false;
     public bool ChasePlayer = false;
     private s_PlayerCollider _playerCol;
     public bool PlayerInSafeZone;
@@ -127,10 +127,9 @@ public class Naddi : MonoBehaviour
     }
     private void WalkOnPatrol()
     {
-        
-        if (_startedPatrol == false)
+        if (StartedPatrol == false)
         {
-            SetFlags(ref _startedPatrol, ref CanChasePlayer, true, true);
+            SetFlags(ref StartedPatrol, ref CanChasePlayer, true, true);
             _splineAnimate.Container = _patrolPath.GetActivePatrolPath();
             KilledPlayer = false;
             if (_splineAnimate.ElapsedTime > 0)
@@ -140,14 +139,15 @@ public class Naddi : MonoBehaviour
             Vector3 newPos = _patrolPath.CalculateDistanceForEachKnot();
             if (PlayerWasInSafeZone && !PlayerInSafeZone)
             {
-                SetFlags(ref _startedPatrol, ref CanChasePlayer, false, false); 
+                SetFlags(ref StartedPatrol, ref CanChasePlayer, false, false); 
                 StateMachiene.FoundPlayer();
                 return;
             }
             transform.position = newPos;
+            NaddiResetTest(_patrolPath.CalculateDistanceForEachKnot()); 
             StateMachiene.GetNaddiMeshRenderer.enabled = true;
-            string message = "Should be the Current Position: " + _patrolPath.CalculateDistanceForEachKnot().ToString() + "\n Naddi actual current pos: " + transform.position.ToString();
-            DebugFileLogger.Log("NaddiErrorLog", message); 
+          
+ 
             _splineAnimate.enabled = true;
         }
         _splineAnimate.Play(); //needs to be called every frame cause unity is stupid and other wise Naddi wouldnt walk along spline
@@ -157,7 +157,7 @@ public class Naddi : MonoBehaviour
         switch (State)
         {
             case NaddiStateEnum.Digging:
-                SetFlags(ref ChasePlayer, ref StopAgent, ref _startedPatrol, false, true, false);
+                SetFlags(ref ChasePlayer, ref StopAgent, ref StartedPatrol, false, true, false);
                 Agent.isStopped = StopAgent;
                 CanChasePlayer = false;
                 break;
@@ -166,7 +166,7 @@ public class Naddi : MonoBehaviour
                 WalkOnPatrol();
                 break;
             case NaddiStateEnum.Chase:
-                SetFlags(ref StopAgent, ref _startedPatrol, ref ChasePlayer, false, false, true);
+                SetFlags(ref StopAgent, ref StartedPatrol, ref ChasePlayer, false, false, true);
 #if UNITY_EDITOR
                 if (enableDebugInfos)
                 {
@@ -179,7 +179,7 @@ public class Naddi : MonoBehaviour
                 _attackBehaviour.ChasePlayer(PlayerPos);
                 break;
             case NaddiStateEnum.LookForPlayer:
-                SetFlags(ref ChasePlayer, ref _startedPatrol, false, false);
+                SetFlags(ref ChasePlayer, ref StartedPatrol, false, false);
 #if UNITY_EDITOR
                 if (enableDebugInfos)
                 {
@@ -191,11 +191,11 @@ public class Naddi : MonoBehaviour
                 _attackBehaviour.WalkToLastPlayerPosition(_playerPosLastSeen);
                 break;
             case NaddiStateEnum.Attack:
-                SetFlags(ref _startedPatrol, ref ChasePlayer, ref StopAgent, false, true, true);
+                SetFlags(ref StartedPatrol, ref ChasePlayer, ref StopAgent, false, true, true);
                 Agent.isStopped = StopAgent;
                 break;
             case NaddiStateEnum.PlayerVanished:
-                SetFlags(ref StopAgent, ref _startedPatrol, true, false);
+                SetFlags(ref StopAgent, ref StartedPatrol, true, false);
                 Agent.isStopped = StopAgent;
                 StateMachiene.LookForPlayer();
                 break;
@@ -233,7 +233,7 @@ public class Naddi : MonoBehaviour
         _splineAnimate.Pause();
         _splineAnimate.enabled = false;
         _splineAnimate.ElapsedTime = 0;
-        _startedPatrol = false;
+        StartedPatrol = false;
         transform.position = currentPos; 
     }
     public void HeardPlayerNearby()
@@ -248,10 +248,12 @@ public class Naddi : MonoBehaviour
     }
     public void ResetNaddiPosition()
     {
-        _startedPatrol = false;
+        StartedPatrol = false;
         Agent.ResetPath();
         _naddiHearing.ResetSoundSum();
         Agent.isStopped = true;
+        string msg ="current spline is: " + _splineAnimate.Container.gameObject.name;
+        DebugFileLogger.Log("ResetNaddi", msg); 
         StateMachiene.FinishedDigging();
         StartCoroutine(_naddiHearing.ListenerDelay());
     }
@@ -271,5 +273,22 @@ public class Naddi : MonoBehaviour
             yield return null; 
         }
         StateMachiene.LookForPlayer();
+    }
+
+    void NaddiResetTest(Vector3 newPos)
+    {
+        string msg = ""; 
+        if(transform.position != newPos)
+        {
+            Debug.LogError("Failed the Naddi Reset Test!"); 
+            msg = "Failed! \n";
+
+        } else
+        {
+            msg = "Success! \n";
+        }
+        msg += "Naddi should be at: " + newPos.ToString() + " Naddi is at Position: " + transform.position.ToString(); 
+        DebugFileLogger.Log("NaddiResetTest", msg);
+
     }
 }
