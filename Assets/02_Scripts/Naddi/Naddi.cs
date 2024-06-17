@@ -1,56 +1,65 @@
 //The person responsible for this code is Nils Oskar Henningsen 
 using System.Collections;
+using System.Collections.Generic; 
 using UnityEngine;
 using UnityEngine.Splines;
 using UnityEngine.AI;
+using TMPro; 
 
 public class Naddi : MonoBehaviour
 {
     [SerializeField]
-    private NaddiViewField _naddiEye;
-    [SerializeField]
-    public NaddiViewField NaddiEye { get { return _naddiEye; } }
+    public NaddiViewField NaddiEye;
     [SerializeField]
     private PatrolPath _patrolPath;
     [SerializeField]
-    private Transform _playerPos;
+    private Transform PlayerPos;
+    public NaddiStateMaschine StateMachiene { get; private set; }
     [SerializeField]
-    private NaddiStateMaschine _naddiStateMachiene;
-    public NaddiStateMaschine StateMachine { get { return _naddiStateMachiene; } }
-    [SerializeField, Tooltip("The timespan the Naddi needs to dig to a new Patrol Spline in Seconds.")]
-    private float _digDuration = 5f;
+    private Terrain _terrain;
+    public float Speed;
     [SerializeField]
-    private float _speed;
-    [SerializeField]
-    private Terrain _terrain; 
-    public float Speed { get { return _speed; } }
-    [SerializeField]
-    private NavMeshAgent _agent;
+    public NavMeshAgent Agent { get; private set; }
     private SplineAnimate _splineAnimate;
-    public NaddiStateEnum _state = NaddiStateEnum.Digging;
-    public bool _executingState = false;
-    private Vector3 _playerPosLastSeen;
+    public bool _executingState = false; 
+    private Vector3 _playerPosLastSeen = new Vector3(-999999, -9999999, -999999);
     private bool _startedPatrol = false;
-    private bool _chasesPlayer = false;
+    public bool ChasePlayer = false;
     private s_PlayerCollider _playerCol;
-    public bool PlayerInSafeZone; 
-    public bool ChasesPlayer { get { return _chasesPlayer; } }
-    private bool _heardPlayer = false;
-    public bool HeardPlayer { get { return _heardPlayer; } set { _heardPlayer = true;  } }
+    public bool PlayerInSafeZone;
+    public bool HeardPlayer = false;
     private NaddiHearing _naddiHearing;
-    public Transform PlayerPos { get { return _playerPos;  } }
-    public NavMeshAgent Agent { get { return _agent; } }
+    public bool KilledPlayer = false;
+    public bool CanChasePlayer = true; 
+    public NaddiStateEnum State;
+    private NaddiAttack _attackBehaviour;
+    private bool RendererEnabled = true;
+    private bool StopAgent = false;
+    bool PlayerWasInSafeZone;
+    [Header("Debug stuff")]
+    [SerializeField, Tooltip("Set this to true, if you wanna have Debug informations. If true, the Debug textes have to be assgingned below!")]
+    public bool enableDebugInfos = false;
+    //this is just for Debugging:
     [SerializeField]
-    private bool digToPlayer = false; 
-    public NaddiStateEnum State
+    private GameObject DebugTextHolder; 
+    [SerializeField]
+    private TextMeshProUGUI targetText;
+    [SerializeField]
+    private TextMeshProUGUI RemainingDistanceTXT;
+    [SerializeField]
+    private TextMeshProUGUI pathstatusText;
+    [SerializeField]
+    private NaddiValueStorage valueStorage; 
+
+    void Awake()
     {
-        get { return _state; }
-        set { _state = value; }
-    }
-    private void Awake()
-    {
+        Speed = valueStorage.NaddiSpeed; 
         InitSplineAnimate();
-        _agent.speed = _speed;
+        StateMachiene = GetComponent<NaddiStateMaschine>();
+        Agent = this.GetComponent<NavMeshAgent>();
+        NaddiEye = GetComponent<NaddiViewField>();
+        _attackBehaviour = GetComponent<NaddiAttack>();
+        Agent.speed = Speed;
         _naddiHearing = this.GetComponent<NaddiHearing>();
     }
 
@@ -58,246 +67,205 @@ public class Naddi : MonoBehaviour
     {
         _naddiHearing.LookForPlayerAction += SusSoundHeard;
         _naddiHearing.AttackPlayerAction += HeardPlayerNearby;
-        _playerCol = PlayerPos.gameObject.GetComponent<s_PlayerCollider>(); 
+        _playerCol = PlayerPos.gameObject.GetComponent<s_PlayerCollider>();
+        if (enableDebugInfos == false && DebugTextHolder!=null)
+        {
+            DebugTextHolder.SetActive(false); 
+        }
     }
 
+    private void Update()
+    {
+#if UNITY_EDITOR 
+        if (enableDebugInfos)
+        {
+            if (_splineAnimate != null)
+            {
+                _splineAnimate.MaxSpeed = Speed;
+            }
+                Agent.speed = Speed; 
+        }
+#endif 
+        PlayerInSafeZone = _playerCol._inSafeZone;
+        if (KilledPlayer)
+        {
+            CanChasePlayer = false;
+        }
+        if (State != NaddiStateEnum.Digging && !RendererEnabled && !StateMachiene.GetNaddiMeshRenderer.enabled)
+        {
+            RendererEnabled = true;
+            StateMachiene.GetNaddiMeshRenderer.enabled = true;
+        }
+        if (PlayerInSafeZone && (State == NaddiStateEnum.Chase || State == NaddiStateEnum.Attack))
+        {
+            StateMachiene.PlayerVanished();
+        }
+        if (NaddiEye.isInsideCone() && State != NaddiStateEnum.Digging)
+        {
+            _playerPosLastSeen = PlayerPos.position;
+            StateMachiene.FoundPlayer();
+        }
+        if (State != NaddiStateEnum.Patrol && _splineAnimate.enabled)
+        {
+            _splineAnimate.enabled = false;
+        }
+        HandleState();
+    }
     void InitSplineAnimate()
     {
         _splineAnimate = gameObject.AddComponent<SplineAnimate>();
         _splineAnimate.AnimationMethod = SplineAnimate.Method.Speed;
         _splineAnimate.enabled = false;
         _splineAnimate.PlayOnAwake = false;
-        _splineAnimate.MaxSpeed = _speed;
+        _splineAnimate.MaxSpeed = Speed;
     }
-    bool RendererEnabled = true;
-    public void DisableRenderer() 
-    { 
-        RendererEnabled = false;
-        _naddiStateMachiene.GetNaddiMeshRenderer.enabled = false;
-    }
-    public bool KilledPlayer = false;
-    private bool canChasePlayer;
-
-    private void Update()
+    public void DisableRenderer()
     {
-        if(KilledPlayer)
-        {
-            canChasePlayer = false;
-        }
-
-        if(_state != NaddiStateEnum.Digging && !RendererEnabled) 
-        {
-            RendererEnabled = true; 
-            _naddiStateMachiene.GetNaddiMeshRenderer.enabled = true;
-
-        }
-        PlayerInSafeZone = _playerCol._inSafeZone; 
-        if (PlayerInSafeZone && (_state == NaddiStateEnum.Chase || _state == NaddiStateEnum.Attack))
-        {
-            _naddiStateMachiene.PlayerVanished();
-        }
-        if (digToPlayer)
-        {
-            _state = NaddiStateEnum.DigToPlayer; 
-            digToPlayer = false;
-            DigToPlayer(); 
-        }
-        if (_naddiEye.isInsideCone() && _state != NaddiStateEnum.Digging)
-        {
-            _playerPosLastSeen = _playerPos.position;
-            _naddiStateMachiene.FoundPlayer();
-        }
-
-        if (_state != NaddiStateEnum.Patrol)
-        {
-            _splineAnimate.enabled = false; 
-        }
-        HandleState();
+        RendererEnabled = false;
+        StateMachiene.GetNaddiMeshRenderer.enabled = false;
     }
     private void WalkOnPatrol()
     {
         if (_startedPatrol == false)
         {
-            _startedPatrol = true;
-            canChasePlayer = false;
+            SetFlags(ref _startedPatrol, ref CanChasePlayer, true, true);
             _splineAnimate.Container = _patrolPath.GetActivePatrolPath();
-            KilledPlayer = false; 
-            if (_splineAnimate.ElapsedTime > 0) 
+            KilledPlayer = false;
+            if (_splineAnimate.ElapsedTime > 0)
             {
-                _splineAnimate.ElapsedTime = 0f; 
+                _splineAnimate.ElapsedTime = 0f;
             }
             Vector3 newPos = _patrolPath.CalculateDistanceForEachKnot();
+            if (PlayerWasInSafeZone && !PlayerInSafeZone)
+            {
+                SetFlags(ref _startedPatrol, ref CanChasePlayer, false, false); 
+                StateMachiene.FoundPlayer();
+                return;
+            }
             transform.position = newPos;
-            _naddiStateMachiene.GetNaddiMeshRenderer.enabled = true;
+            StateMachiene.GetNaddiMeshRenderer.enabled = true;
             _splineAnimate.enabled = true;
         }
-        _splineAnimate.Play();
-        if (_naddiEye.isInsideCone())
-        {
-            DisableSplineAnimate();
-        }
+        _splineAnimate.Play(); //needs to be called every frame cause unity is stupid and other wise Naddi wouldnt walk along spline
     }
     private void HandleState()
     {
-        switch (_state)
+        switch (State)
         {
             case NaddiStateEnum.Digging:
-                _agent.isStopped = true;
-                Digging();
-                _startedPatrol = false;
+                SetFlags(ref ChasePlayer, ref StopAgent, ref _startedPatrol, false, true, false);
+                Agent.isStopped = StopAgent;
+                CanChasePlayer = false;
                 break;
             case NaddiStateEnum.Patrol:
-                _agent.isStopped = true;
+                ChasePlayer = false;
                 WalkOnPatrol();
                 break;
             case NaddiStateEnum.Chase:
-                _agent.isStopped = false;
-                _startedPatrol = false;
-                _chasesPlayer = true; 
-                ChasePlayer();
+                SetFlags(ref StopAgent, ref _startedPatrol, ref ChasePlayer, false, false, true);
+#if UNITY_EDITOR
+                if (enableDebugInfos)
+                {
+                    EditorHelper.SetDebugText<string>(ref targetText, "player");
+                    EditorHelper.SetDebugText<float>(ref RemainingDistanceTXT, Vector3.Distance(this.transform.position, PlayerPos.position));
+                    EditorHelper.SetDebugText<NavMeshPathStatus>(ref pathstatusText, Agent.pathStatus);
+                }
+#endif
+                Agent.isStopped = StopAgent;
+                _attackBehaviour.ChasePlayer(PlayerPos);
                 break;
             case NaddiStateEnum.LookForPlayer:
-                _chasesPlayer = false; 
-                _startedPatrol = false;
-                WalkToLastPlayerPosition();
+                SetFlags(ref ChasePlayer, ref _startedPatrol, false, false);
+#if UNITY_EDITOR
+                if (enableDebugInfos)
+                {
+                    EditorHelper.SetDebugText<string>(ref targetText, "Player pos last seen");
+                    EditorHelper.SetDebugText<float>(ref RemainingDistanceTXT, Vector3.Distance(this.transform.position, _playerPosLastSeen));
+                    EditorHelper.SetDebugText<NavMeshPathStatus>(ref pathstatusText, Agent.pathStatus);
+                }
+#endif
+                _attackBehaviour.WalkToLastPlayerPosition(_playerPosLastSeen);
                 break;
             case NaddiStateEnum.Attack:
-                _startedPatrol = false;
-                _chasesPlayer = true;
-                _agent.isStopped = true;
+                SetFlags(ref _startedPatrol, ref ChasePlayer, ref StopAgent, false, true, true);
+                Agent.isStopped = StopAgent;
                 break;
-            case NaddiStateEnum.PlayerVanished: 
-                _agent.isStopped = true;
-                _startedPatrol = false;
-                _naddiStateMachiene.LookForPlayer(); 
+            case NaddiStateEnum.PlayerVanished:
+                SetFlags(ref StopAgent, ref _startedPatrol, true, false);
+                Agent.isStopped = StopAgent;
+                StateMachiene.LookForPlayer();
+                break;
+            default:
                 break; 
-
-
         }
     }
-    private void Digging()
+
+    void SetFlags(ref bool flagOne, ref bool flagTwo, bool val1, bool val2)
     {
-        _executingState = true;
+        flagOne = val1;
+        flagTwo = val2;
     }
 
-    private void ChasePlayer()
+    void SetFlags(ref bool flagOne, ref bool flagTwo, ref bool flagThree, bool val1, bool val2, bool val3)
     {
-        if(canChasePlayer == false) 
-        {
-           //if (_playerCol._inSafeZone)
-           //{
-           //    _naddiStateMachiene.PlayerVanished();
-           //    return;
-           //}
-            float sqrMagnitude = (_playerPos.position - this.transform.position).sqrMagnitude;
-            if (_naddiEye.isInsideCone() && sqrMagnitude <= Mathf.Pow(_agent.stoppingDistance, 2) && !PlayerInSafeZone)
-            {
-                _chasesPlayer = true;
-                _agent.isStopped = true;
-                _naddiStateMachiene.AttackPlayer();
-            }
-            else if (((_naddiEye.isInsideCone() && sqrMagnitude > Mathf.Pow(_agent.stoppingDistance, 2)) || (sqrMagnitude < Mathf.Pow(_agent.stoppingDistance * 5, 2) && sqrMagnitude > Mathf.Pow(_agent.stoppingDistance, 2))) && !PlayerInSafeZone)
-            {
-                _chasesPlayer = true;
-                _agent.isStopped = false;
-                _executingState = true;
-                _agent.SetDestination(_playerPos.position);
-            }
-            else if (!_naddiEye.isInsideCone() && sqrMagnitude > Mathf.Pow(_agent.stoppingDistance * 5, 2) && !PlayerInSafeZone)
-            {
-                _executingState = false;
-                _chasesPlayer = false;
-                _naddiStateMachiene.LostPlayer();
-            }
-        }
-
-    }
-
-    private void WalkToLastPlayerPosition()
-    {
-        _agent.SetDestination(_playerPosLastSeen);
-        float sqrDistance = (_playerPosLastSeen - this.transform.position).sqrMagnitude; 
-        if (sqrDistance <= Mathf.Pow(5, 2))
-        {
-            _naddiStateMachiene.LookForPlayer();
-            _agent.isStopped = true;
-            _chasesPlayer = false;
-        }
+        flagOne = val1;
+        flagTwo = val2;
+        flagThree = val3;
     }
 
     public void SusSoundHeard(Vector3 pos)
     {
-        if (_state != NaddiStateEnum.Chase && _state != NaddiStateEnum.Attack && _state != NaddiStateEnum.Digging && !_heardPlayer)
+        if (State != NaddiStateEnum.Chase && State != NaddiStateEnum.Attack && State != NaddiStateEnum.Digging && !HeardPlayer)
         {
-            _heardPlayer = true;
+            HeardPlayer = true;
+            StateMachiene.HearedSomething(); 
             DeactivatePatrol();
-            this.transform.LookAt(pos);
-            _naddiStateMachiene.LookForPlayer();
+            StartCoroutine(TurnToSoundDirection(pos)); 
         }
     }
     private void DeactivatePatrol()
     {
-        _splineAnimate.Pause();
-        _splineAnimate.enabled = false;
-        _startedPatrol = false;
-    }
-
-    public void HeardPlayerNearby()
-    {
-        _naddiStateMachiene.FoundPlayer(); 
-    }
-    public IEnumerator HearingDelay()
-    {
-        _heardPlayer = true;
-        yield return new WaitForSeconds(10f);
-        _heardPlayer = false;
-
-    }
-
-    public void DigToPlayer()
-    {
-        bool _validPos=false;
-        float offsetX;
-        float offsetZ; 
-        while (_validPos==false)
-        {
-            //random offset of new naddi position
-            offsetX = Random.Range(5, 7);
-            offsetZ = Random.Range(5, 7);
-            float randomXVorzeichen = Random.Range(0, 1);
-            float randomZVorzeichen = Random.Range(0, 1);
-            if (randomXVorzeichen < 0) { offsetX *= -1; }
-            if (randomZVorzeichen < 0) { offsetZ *= -1; }
-
-
-            Vector3 digOutPos = new Vector3(_playerPos.position.x + offsetX, 0, _playerPos.position.z + offsetZ);
-            float terrainhight = _terrain.SampleHeight(digOutPos);
-            digOutPos.y = terrainhight;
-            if (IsValidNavMesh(digOutPos))
-            {
-                this.transform.position = digOutPos;
-                _validPos = true; 
-            } 
-        }
-        _naddiStateMachiene.FoundPlayer(); 
-    }
-    bool IsValidNavMesh(Vector3 position)
-    {
-        NavMeshHit hit;
-        return NavMesh.SamplePosition(position, out hit, 1.0f, NavMesh.AllAreas);
-    }
-
-    public void ResetNaddiPosition() 
-    {
-        _startedPatrol = false;
-        _naddiHearing.ResetSoundSum();
-        _agent.isStopped = true;
-        StartCoroutine(_naddiHearing.ListenerDelay()); 
-    }
-    void DisableSplineAnimate() 
-    {
+        Vector3 currentPos = transform.position; 
         _splineAnimate.Pause();
         _splineAnimate.enabled = false;
         _splineAnimate.ElapsedTime = 0;
+        _startedPatrol = false;
+        transform.position = currentPos; 
+    }
+    public void HeardPlayerNearby()
+    {
+        StateMachiene.FoundPlayer();
+    }
+    public IEnumerator HearingDelay()
+    {
+        HeardPlayer = true;
+        yield return new WaitForSeconds(10f);
+        HeardPlayer = false;
+    }
+    public void ResetNaddiPosition()
+    {
+        _startedPatrol = false;
+        Agent.ResetPath();
+        _naddiHearing.ResetSoundSum();
+        Agent.isStopped = true;
+        StateMachiene.FinishedDigging();
+        StartCoroutine(_naddiHearing.ListenerDelay());
+    }
+
+    private IEnumerator TurnToSoundDirection(Vector3 soundPos)
+    {
+        Debug.Log("executing turn to player!"); 
+        Quaternion desiredRotation;
+        Vector3 direction = (soundPos - transform.position).normalized;
+        desiredRotation = Quaternion.LookRotation(direction, transform.up);
+        float lerpFactor = 1 * Time.deltaTime; 
+        float time=0f;
+        while(time <= 2)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, time * lerpFactor);
+            time += Time.deltaTime;
+            yield return null; 
+        }
+        StateMachiene.LookForPlayer();
     }
 }

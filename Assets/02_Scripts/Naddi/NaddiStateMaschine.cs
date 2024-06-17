@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem.LowLevel;
+using TMPro; 
 
 public enum NaddiStateEnum
 {
@@ -12,7 +13,8 @@ public enum NaddiStateEnum
     Idle = 4,
     Attack = 5,
     DigToPlayer = 6, 
-    PlayerVanished = 7
+    PlayerVanished = 7,
+    HearedSomething = 8
   
 }
 public class NaddiStateMaschine : MonoBehaviour
@@ -25,8 +27,15 @@ public class NaddiStateMaschine : MonoBehaviour
     public Naddi Naddi { get { return _naddi;  } }
     private NaddiStateEnum _currentState = NaddiStateEnum.Digging; 
     public NaddiStateEnum CurrentState { get { return _currentState; } }
-    bool alreadyTriggert = false; 
+    bool alreadyTriggert = false;
+    [SerializeField]
+    private TextMeshProUGUI StateTXT;
 
+    private void Start()
+    {
+        if (_naddi.enableDebugInfos == false && StateTXT != null)
+            StateTXT.gameObject.SetActive(false); 
+    }
     public void LookForPlayer()
     {
         if(_naddi.State == NaddiStateEnum.LookForPlayer) 
@@ -48,14 +57,13 @@ public class NaddiStateMaschine : MonoBehaviour
 
     public void FinishedLookForPlayer()
     {
-        if ((_naddi.HeardPlayer ||  _naddi.NaddiEye.isInsideCone()) && _naddi.PlayerInSafeZone==false)
+        if ((_naddi.HeardPlayer || _naddi.NaddiEye.isInsideCone()) && _naddi.PlayerInSafeZone==false)
         {
             _naddi.HeardPlayer = false; 
             FoundPlayer();
         }
         else
         {
-            
             StartCoroutine(_naddi.HearingDelay());
             StartDigging(); 
         }
@@ -76,30 +84,41 @@ public class NaddiStateMaschine : MonoBehaviour
     {
         SetState(NaddiStateEnum.PlayerVanished); 
     }
-    private void SetState(NaddiStateEnum state)
+    public void SetState(NaddiStateEnum state)
     {
+        //EditorHelper.ClearConsoleLogs();
+
         _naddi._executingState = false;
+
         _currentState = state;
-        _naddi.State = _currentState; 
+        _naddi.State = _currentState;
+        if (_naddi.enableDebugInfos)
+        {
+            EditorHelper.SetDebugText<NaddiStateEnum>(ref StateTXT, _currentState);  
+        }
     }
     public void AttackPlayer()
     {
         SetState(NaddiStateEnum.Attack);
     }
 
+    public void DigToPlayer()
+    {
+        SetState(NaddiStateEnum.DigToPlayer); 
+    }
+    public void HearedSomething()
+    {
+        SetState(NaddiStateEnum.HearedSomething); 
+    }
     public void FinishedAttacking(bool seesPlayer)
     {
         if (seesPlayer && _naddi.KilledPlayer == false)
         {
             FoundPlayer(); 
         }
-        else if(!seesPlayer && _naddi.KilledPlayer == false)
+        if(!seesPlayer && _naddi.KilledPlayer == false)
         {
             LookForPlayer(); 
-        } 
-        else if(_naddi.KilledPlayer == true) 
-        {
-            StartDigging(); 
         }
     }
 
