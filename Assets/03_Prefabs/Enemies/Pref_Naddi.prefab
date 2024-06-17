@@ -722,7 +722,6 @@ GameObject:
   - component: {fileID: 4014314600357403911}
   - component: {fileID: 2757787377948532710}
   - component: {fileID: 6472540808341410993}
-  - component: {fileID: 737214580027328034}
   m_Layer: 3
   m_Name: Pref_Naddi
   m_TagString: Naddi
@@ -892,18 +891,6 @@ MonoBehaviour:
   _playerRef: {fileID: 0}
   valStorage: {fileID: 11400000, guid: 1d476c8f1503d455fa51047c69da2d0f, type: 2}
 --- !u!114 &6472540808341410993
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1891094736568493462}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2600296b52cf1324780ec75ba2cc664c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &737214580027328034
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
