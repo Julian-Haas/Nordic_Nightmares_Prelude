@@ -53,6 +53,7 @@ public class Naddi : MonoBehaviour
 
     void Awake()
     {
+        DebugFileLogger.Initialize(); 
         Speed = valueStorage.NaddiSpeed; 
         InitSplineAnimate();
         StateMachiene = GetComponent<NaddiStateMaschine>();
@@ -126,6 +127,7 @@ public class Naddi : MonoBehaviour
     }
     private void WalkOnPatrol()
     {
+        
         if (_startedPatrol == false)
         {
             SetFlags(ref _startedPatrol, ref CanChasePlayer, true, true);
@@ -144,6 +146,8 @@ public class Naddi : MonoBehaviour
             }
             transform.position = newPos;
             StateMachiene.GetNaddiMeshRenderer.enabled = true;
+            string message = "Should be the Current Position: " + _patrolPath.CalculateDistanceForEachKnot().ToString() + "\n Naddi actual current pos: " + transform.position.ToString();
+            DebugFileLogger.Log("NaddiErrorLog", message); 
             _splineAnimate.enabled = true;
         }
         _splineAnimate.Play(); //needs to be called every frame cause unity is stupid and other wise Naddi wouldnt walk along spline
