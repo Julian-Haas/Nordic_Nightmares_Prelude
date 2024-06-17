@@ -31,10 +31,8 @@ public class PatrolPath : MonoBehaviour
             _closestPath.gameObject.SetActive(false);
             _closestPath = newPath;
             _closestPath.gameObject.SetActive(true);
-            if (_naddi.ChasePlayer == false && !naddiMeshRender.isVisible)
-            {
-                _naddi.StateMachiene.StartDigging();
-            }
+            _naddi.StateMachiene.StartDigging();
+
         }
     }
 
