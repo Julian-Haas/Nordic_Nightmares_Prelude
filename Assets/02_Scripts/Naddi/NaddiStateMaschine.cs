@@ -67,7 +67,7 @@ public class NaddiStateMaschine : MonoBehaviour
         }
         else
         {
-            StartCoroutine(_naddi.HearingDelay());
+            StartCoroutine(_naddi.HearingBehaviour.HearingDelay());
             StartDigging(); 
         }
     }

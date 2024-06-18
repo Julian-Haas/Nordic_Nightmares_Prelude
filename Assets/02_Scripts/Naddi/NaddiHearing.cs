@@ -128,6 +128,7 @@ public class NaddiHearing : MonoBehaviour
             } 
 
             _soundSum += 1 - (distance / MaxDistance) * _soundModifyer * _groundModifyer * Time.deltaTime;
+            Debug.Log("Sound Sum:\n"+ _soundSum); 
         }
     }
 

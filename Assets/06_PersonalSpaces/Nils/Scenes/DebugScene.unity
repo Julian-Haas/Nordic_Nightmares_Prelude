@@ -17184,6 +17184,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6556528016169402711, guid: 4ba65fecfd3fd224e8f7f0ecadbe3b3f, type: 3}
+      propertyPath: _patrolPath
+      value: 
+      objectReference: {fileID: 1382389848}
     - target: {fileID: 7615789934419268650, guid: 4ba65fecfd3fd224e8f7f0ecadbe3b3f, type: 3}
       propertyPath: _player
       value: 
@@ -17216,7 +17220,8 @@ PrefabInstance:
       propertyPath: RemainingDistanceTXT
       value: 
       objectReference: {fileID: 417952832}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

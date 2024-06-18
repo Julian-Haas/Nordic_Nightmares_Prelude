@@ -722,7 +722,8 @@ GameObject:
   - component: {fileID: 4014314600357403911}
   - component: {fileID: 2757787377948532710}
   - component: {fileID: 6472540808341410993}
-  - component: {fileID: 737214580027328034}
+  - component: {fileID: 6556528016169402711}
+  - component: {fileID: 932395596774269747}
   m_Layer: 3
   m_Name: Pref_Naddi
   m_TagString: Naddi
@@ -764,18 +765,24 @@ MonoBehaviour:
   _terrain: {fileID: 0}
   Speed: 0
   _executingState: 0
+  _playerPosLastSeen: {x: -999999, y: -9999999, z: -999999}
+  StartedPatrol: 0
   ChasePlayer: 0
   PlayerInSafeZone: 0
   HeardPlayer: 0
+  NaddiHearing: {fileID: 0}
   KilledPlayer: 0
   CanChasePlayer: 1
   State: 3
+  PlayerWasInSafeZone: 0
   enableDebugInfos: 1
   DebugTextHolder: {fileID: 0}
   targetText: {fileID: 0}
   RemainingDistanceTXT: {fileID: 0}
   pathstatusText: {fileID: 0}
   valueStorage: {fileID: 11400000, guid: 1d476c8f1503d455fa51047c69da2d0f, type: 2}
+  PatrolBehaviour: {fileID: 6556528016169402711}
+  HearingBehaviour: {fileID: 932395596774269747}
 --- !u!114 &7615789934419268650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -903,7 +910,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2600296b52cf1324780ec75ba2cc664c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &737214580027328034
+--- !u!114 &6556528016169402711
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -912,9 +919,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 1891094736568493462}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2600296b52cf1324780ec75ba2cc664c, type: 3}
+  m_Script: {fileID: 11500000, guid: 9cfd4696eb141433897640a9ca572141, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _naddi: {fileID: 8277826594249526962}
+  _patrolPath: {fileID: 0}
+  SplineAnimate: {fileID: 0}
+  _naddiHearing: {fileID: 2757787377948532710}
+--- !u!114 &932395596774269747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1891094736568493462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7265bf06fc544bcd8fc35994cdcd254, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _naddi: {fileID: 8277826594249526962}
 --- !u!1 &2035062048546503139
 GameObject:
   m_ObjectHideFlags: 0
