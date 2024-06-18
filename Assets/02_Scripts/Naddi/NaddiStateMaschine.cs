@@ -52,7 +52,10 @@ public class NaddiStateMaschine : MonoBehaviour
 
     public void LostPlayer()
     {
-        SetState(NaddiStateEnum.LookForPlayer);
+        if(_naddi._playerPosLastSeen != _naddi.PlayerPos.position)
+        {
+            SetState(NaddiStateEnum.LookForPlayer);
+        }
     }
 
     public void FinishedLookForPlayer()
@@ -80,6 +83,7 @@ public class NaddiStateMaschine : MonoBehaviour
         DebugFileLogger.Log("FlagLogger", "Startet Patrol: " + _naddi.StartedPatrol.ToString());
         _naddi.StartedPatrol = false; 
         SetState(NaddiStateEnum.Patrol);
+        DebugFileLogger.Log("StateLogger", "Naddi state after FinishedDigging: " + _naddi.State.ToString());
     }
 
     public void PlayerVanished() 

@@ -13,7 +13,7 @@ public class Naddi : MonoBehaviour
     [SerializeField]
     private PatrolPath _patrolPath;
     [SerializeField]
-    private Transform PlayerPos;
+    public Transform PlayerPos;
     public NaddiStateMaschine StateMachiene { get; private set; }
     [SerializeField]
     private Terrain _terrain;
@@ -22,7 +22,7 @@ public class Naddi : MonoBehaviour
     public NavMeshAgent Agent { get; private set; }
     private SplineAnimate _splineAnimate;
     public bool _executingState = false; 
-    private Vector3 _playerPosLastSeen = new Vector3(-999999, -9999999, -999999);
+    public Vector3 _playerPosLastSeen = new Vector3(-999999, -9999999, -999999);
     public bool StartedPatrol = false;
     public bool ChasePlayer = false;
     private s_PlayerCollider _playerCol;
@@ -49,7 +49,7 @@ public class Naddi : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI pathstatusText;
     [SerializeField]
-    private NaddiValueStorage valueStorage; 
+    private NaddiValueStorage valueStorage;
 
     void Awake()
     {
@@ -127,6 +127,7 @@ public class Naddi : MonoBehaviour
     }
     private void WalkOnPatrol()
     {
+        CanChasePlayer = true; 
         if (StartedPatrol == false)
         {
             SetFlags(ref StartedPatrol, ref CanChasePlayer, true, true);
@@ -249,7 +250,6 @@ public class Naddi : MonoBehaviour
     public void ResetNaddiPosition()
     {
         StartedPatrol = false;
-        Agent.ResetPath();
         _naddiHearing.ResetSoundSum();
         Agent.isStopped = true;
         string msg ="current spline is: " + _splineAnimate.Container.gameObject.name;
