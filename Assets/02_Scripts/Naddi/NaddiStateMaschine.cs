@@ -33,7 +33,7 @@ public class NaddiStateMaschine : MonoBehaviour
 
     private void Start()
     {
-        if (_naddi.enableDebugInfos == false && StateTXT != null)
+        if (_naddi.EnableDebugInfos == false && StateTXT != null)
             StateTXT.gameObject.SetActive(false); 
     }
     public void LookForPlayer()
@@ -52,7 +52,7 @@ public class NaddiStateMaschine : MonoBehaviour
 
     public void LostPlayer()
     {
-        if(_naddi._playerPosLastSeen != _naddi.PlayerPos.position)
+        if(_naddi.PlayerPosLastSeen != _naddi.PlayerPos.position)
         {
             SetState(NaddiStateEnum.LookForPlayer);
         }
@@ -79,7 +79,7 @@ public class NaddiStateMaschine : MonoBehaviour
 
     public void FinishedDigging()
     {
-        _naddi.DisableRenderer();
+        NaddiUtillitys.DisableRenderer(ref _naddi);
         DebugFileLogger.Log("FlagLogger", "Startet Patrol: " + _naddi.StartedPatrol.ToString());
         _naddi.StartedPatrol = false; 
         SetState(NaddiStateEnum.Patrol);
@@ -92,13 +92,9 @@ public class NaddiStateMaschine : MonoBehaviour
     }
     public void SetState(NaddiStateEnum state)
     {
-        //EditorHelper.ClearConsoleLogs();
-
-        _naddi._executingState = false;
-
         _currentState = state;
         _naddi.State = _currentState;
-        if (_naddi.enableDebugInfos)
+        if (_naddi.EnableDebugInfos)
         {
             EditorHelper.SetDebugText<NaddiStateEnum>(ref StateTXT, _currentState);  
         }

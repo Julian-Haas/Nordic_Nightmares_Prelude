@@ -8,37 +8,56 @@ using TMPro;
 
 public class Naddi : MonoBehaviour
 {
-    [SerializeField]
+    [Header("Public Naddi Components")]
+    public NaddiPatrolBehaviour PatrolBehaviour;
+    public NaddiHearingBehaviour HearingBehaviour; 
+    public NaddiAttack AttackBehaviour;
     public NaddiViewField NaddiEye;
-    [SerializeField]
-    private PatrolPath _patrolPath;
-    [SerializeField]
-    public Transform PlayerPos;
+    public NaddiHearing NaddiHearing;
+
+    [Header("State handling")]
+    public NaddiStateEnum State;
     public NaddiStateMaschine StateMachiene { get; private set; }
+
+
+    [Header("Naddi stats:")]
+    public NaddiValueStorage ValueStorage;
+    [HideInInspector]
+    public float Speed;
+
+    [Header("AI-Behaviour")]
+    public Transform PlayerPos;
+    public Vector3 PlayerPosLastSeen = new Vector3(-999999, -9999999, -999999);
+    public NavMeshAgent Agent { get; private set; }
+
+    [Header("AI-Behaviour Flags")]
+    private bool StopAgent = false;
+    public bool CanChasePlayer = true; 
+    public bool ChasePlayer = false;
+
+    [Header("Public Attack Behaviour Flags")]
+    public bool PlayerWasInSafeZone;
+    public bool PlayerInSafeZone;
+    public bool StartedPatrol = false;
+    public bool HeardPlayer = false;
+    public bool KilledPlayer = false;
+    public bool RendererEnabled = true;
+
+    [Header("Public Debug Flags")]
+    [SerializeField, Tooltip("Set this to true, if you wanna have Debug informations. If true, the Debug textes have to be assgingned below!")]
+    public bool EnableDebugInfos = false;
+
+    [Header("Public References")]
+    public PatrolPath PatrolPath;
+
+    [Header("Private References")]
+    [SerializeField]
+    private s_PlayerCollider _playerCol;
     [SerializeField]
     private Terrain _terrain;
-    public float Speed;
-    [SerializeField]
-    public NavMeshAgent Agent { get; private set; }
-    public bool _executingState = false; 
-    public Vector3 _playerPosLastSeen = new Vector3(-999999, -9999999, -999999);
-    public bool StartedPatrol = false;
-    public bool ChasePlayer = false;
-    private s_PlayerCollider _playerCol;
-    public bool PlayerInSafeZone;
-    public bool HeardPlayer = false;
-    public NaddiHearing NaddiHearing;
-    public bool KilledPlayer = false;
-    public bool CanChasePlayer = true; 
-    public NaddiStateEnum State;
-    private NaddiAttack _attackBehaviour;
-    private bool RendererEnabled = true;
-    private bool StopAgent = false;
-    public bool PlayerWasInSafeZone;
-    [Header("Debug stuff")]
-    [SerializeField, Tooltip("Set this to true, if you wanna have Debug informations. If true, the Debug textes have to be assgingned below!")]
-    public bool enableDebugInfos = false;
-    //this is just for Debugging:
+
+
+    [Header("Private Debug References")]
     [SerializeField]
     private GameObject DebugTextHolder; 
     [SerializeField]
@@ -47,26 +66,18 @@ public class Naddi : MonoBehaviour
     private TextMeshProUGUI RemainingDistanceTXT;
     [SerializeField]
     private TextMeshProUGUI pathstatusText;
-    [SerializeField]
-    private NaddiValueStorage valueStorage;
-    public NaddiPatrolBehaviour PatrolBehaviour;
-    public NaddiHearingBehaviour HearingBehaviour; 
+
     void Awake()
     {
         DebugFileLogger.Initialize(); 
-        Speed = valueStorage.NaddiSpeed; 
-        StateMachiene = GetComponent<NaddiStateMaschine>();
-        Agent = this.GetComponent<NavMeshAgent>();
-        NaddiEye = GetComponent<NaddiViewField>();
-        _attackBehaviour = GetComponent<NaddiAttack>();
+        Speed = ValueStorage.NaddiSpeed; 
         Agent.speed = Speed;
-        NaddiHearing = this.GetComponent<NaddiHearing>();
     }
 
     private void Start()
     {
         _playerCol = PlayerPos.gameObject.GetComponent<s_PlayerCollider>();
-        if (enableDebugInfos == false && DebugTextHolder!=null)
+        if (EnableDebugInfos == false && DebugTextHolder!=null)
         {
             DebugTextHolder.SetActive(false); 
         }
@@ -75,7 +86,7 @@ public class Naddi : MonoBehaviour
     private void Update()
     {
 #if UNITY_EDITOR 
-        if (enableDebugInfos)
+        if (EnableDebugInfos)
         {
             if (PatrolBehaviour.SplineAnimate != null)
             {
@@ -85,36 +96,8 @@ public class Naddi : MonoBehaviour
         }
 #endif 
         PlayerInSafeZone = _playerCol._inSafeZone;
-        if (KilledPlayer)
-        {
-            CanChasePlayer = false;
-        }
-        if (State != NaddiStateEnum.Digging && !RendererEnabled && !StateMachiene.GetNaddiMeshRenderer.enabled)
-        {
-            RendererEnabled = true;
-            StateMachiene.GetNaddiMeshRenderer.enabled = true;
-        }
-        if (PlayerInSafeZone && (State == NaddiStateEnum.Chase || State == NaddiStateEnum.Attack))
-        {
-            StateMachiene.PlayerVanished();
-        }
-        if (NaddiEye.isInsideCone() && State != NaddiStateEnum.Digging)
-        {
-            _playerPosLastSeen = PlayerPos.position;
-            StateMachiene.FoundPlayer();
-        }
-        if (State != NaddiStateEnum.Patrol && PatrolBehaviour.SplineAnimate.enabled)
-        {
-            PatrolBehaviour.SplineAnimate.enabled = false;
-        }
         HandleState();
     }
-    public void DisableRenderer()
-    {
-        RendererEnabled = false;
-        StateMachiene.GetNaddiMeshRenderer.enabled = false;
-    }
-
     private void HandleState()
     {
         switch (State)
@@ -125,33 +108,18 @@ public class Naddi : MonoBehaviour
                 CanChasePlayer = false;
                 break;
             case NaddiStateEnum.Patrol:
+                CanChasePlayer = true;
                 ChasePlayer = false;
                 PatrolBehaviour.WalkOnPatrol();
                 break;
             case NaddiStateEnum.Chase:
                 NaddiUtillitys.SetFlags(ref StopAgent, ref StartedPatrol, ref ChasePlayer, false, false, true);
-#if UNITY_EDITOR
-                if (enableDebugInfos)
-                {
-                    EditorHelper.SetDebugText<string>(ref targetText, "player");
-                    EditorHelper.SetDebugText<float>(ref RemainingDistanceTXT, Vector3.Distance(this.transform.position, PlayerPos.position));
-                    EditorHelper.SetDebugText<NavMeshPathStatus>(ref pathstatusText, Agent.pathStatus);
-                }
-#endif
                 Agent.isStopped = StopAgent;
-                _attackBehaviour.ChasePlayer(PlayerPos);
+                AttackBehaviour.ChasePlayer(PlayerPos);
                 break;
             case NaddiStateEnum.LookForPlayer:
                 NaddiUtillitys.SetFlags(ref ChasePlayer, ref StartedPatrol, false, false);
-#if UNITY_EDITOR
-                if (enableDebugInfos)
-                {
-                    EditorHelper.SetDebugText<string>(ref targetText, "Player pos last seen");
-                    EditorHelper.SetDebugText<float>(ref RemainingDistanceTXT, Vector3.Distance(this.transform.position, _playerPosLastSeen));
-                    EditorHelper.SetDebugText<NavMeshPathStatus>(ref pathstatusText, Agent.pathStatus);
-                }
-#endif
-                _attackBehaviour.WalkToLastPlayerPosition(_playerPosLastSeen);
+                AttackBehaviour.WalkToLastPlayerPosition(PlayerPosLastSeen);
                 break;
             case NaddiStateEnum.Attack:
                 NaddiUtillitys.SetFlags(ref StartedPatrol, ref ChasePlayer, ref StopAgent, false, true, true);
@@ -165,16 +133,5 @@ public class Naddi : MonoBehaviour
             default:
                 break; 
         }
-    }
-
-    public void ResetNaddiPosition()
-    {
-        StartedPatrol = false;
-        NaddiHearing.ResetSoundSum();
-        Agent.isStopped = true;
-        string msg = "current spline is: " + PatrolBehaviour.SplineAnimate.Container.gameObject.name;
-        DebugFileLogger.Log("ResetNaddi", msg);
-        StateMachiene.FinishedDigging();
-        StartCoroutine(NaddiHearing.ListenerDelay());
     }
 }

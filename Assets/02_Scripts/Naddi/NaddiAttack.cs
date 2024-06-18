@@ -13,12 +13,37 @@ public class NaddiAttack : MonoBehaviour
         _naddiEye = GetComponent<NaddiViewField>();
         _naddiStateMachiene = GetComponent<NaddiStateMaschine>();
     }
+
+    private void Update()
+    {
+        if (_naddi.KilledPlayer)
+        {
+            _naddi.CanChasePlayer = false;
+        }
+        if (_naddi.State != NaddiStateEnum.Digging && !_naddi.RendererEnabled && !_naddi.StateMachiene.GetNaddiMeshRenderer.enabled)
+        {
+            _naddi.RendererEnabled = true;
+            _naddi.StateMachiene.GetNaddiMeshRenderer.enabled = true;
+        }
+        if (_naddi.PlayerInSafeZone && (_naddi.State == NaddiStateEnum.Chase || _naddi.State == NaddiStateEnum.Attack))
+        {
+            _naddi.StateMachiene.PlayerVanished();
+        }
+        if (_naddi.NaddiEye.isInsideCone() && _naddi.State != NaddiStateEnum.Digging)
+        {
+            _naddi.PlayerPosLastSeen = _naddi.PlayerPos.position;
+            _naddi.StateMachiene.FoundPlayer();
+        }
+        if (_naddi.State != NaddiStateEnum.Patrol && _naddi.PatrolBehaviour.SplineAnimate.enabled)
+        {
+            _naddi.PatrolBehaviour.SplineAnimate.enabled = false;
+        }
+    }
     private float offset = 0.3f; 
     public void ChasePlayer(Transform playerPos)
     {
         if (_naddi.CanChasePlayer)
         {
-
             float sqrMagnitude = (playerPos.position - this.transform.position).sqrMagnitude;
             if (_naddiEye.isInsideCone() && sqrMagnitude <= Mathf.Pow(_naddi.Agent.stoppingDistance + offset, 2) && !_naddi.PlayerInSafeZone)
             {
@@ -29,12 +54,6 @@ public class NaddiAttack : MonoBehaviour
             else if (((_naddiEye.isInsideCone() && sqrMagnitude > Mathf.Pow(_naddi.Agent.stoppingDistance + offset, 2)) || (sqrMagnitude < Mathf.Pow(_naddi.Agent.stoppingDistance * 5, 2) && sqrMagnitude > Mathf.Pow(_naddi.Agent.stoppingDistance, 2))) && !_naddi.PlayerInSafeZone)
             {
                 _naddi.ChasePlayer = true;
-               //if (_naddi.Agent.isPathStale || _naddi.Agent.pathStatus == NavMeshPathStatus.PathInvalid)
-               //{
-               //    DebugFileLogger.Log("ResetPathLogger", "Haben den Path zurück gesetzt weil: " + _naddi.Agent.pathStatus + " oder, weil: " + _naddi.Agent.isPathStale); 
-               //    _naddi.Agent.ResetPath();
-               //
-               //}
                 _naddi.Agent.SetDestination(playerPos.position);
             }
             else if (!_naddiEye.isInsideCone() && sqrMagnitude > Mathf.Pow((_naddi.Agent.stoppingDistance+ offset) * 5, 2) && !_naddi.PlayerInSafeZone)
@@ -65,31 +84,17 @@ public class NaddiAttack : MonoBehaviour
         float offsetZ;
         while (_validPos == false)
         {
-            offsetX = RandomOffset(5, 7);
-            offsetZ = RandomOffset(5, 7);
+            offsetX = NaddiUtillitys.RandomOffset(5, 7);
+            offsetZ = NaddiUtillitys.RandomOffset(5, 7);
             Vector3 digOutPos = new Vector3(playerPos.position.x + offsetX, 0, playerPos.position.z + offsetZ);
             float terrainhight = terrain.SampleHeight(digOutPos);
             digOutPos.y = terrainhight;
-            if (IsValidNavMesh(digOutPos))
+            if (NaddiUtillitys.IsValidNavMesh(digOutPos))
             {
                 this.transform.position = digOutPos;
                 _validPos = true;
             }
         }
         _naddiStateMachiene.FoundPlayer();
-    }
-
-    private float RandomOffset(float min, float max)
-    {
-        float val = Random.Range(min, max);
-        float signOffset = Random.Range(0, 1);
-        if (signOffset == 0)
-            val *= -1;
-        return val;
-    }
-    bool IsValidNavMesh(Vector3 position)
-    {
-        NavMeshHit hit;
-        return NavMesh.SamplePosition(position, out hit, 1.0f, NavMesh.AllAreas);
     }
 }

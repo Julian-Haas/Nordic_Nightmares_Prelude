@@ -41,8 +41,7 @@ public class DeathManager : MonoBehaviour
         yield return new WaitForSeconds(2.0f);
         _naddi.KilledPlayer = true;
         GameObject simplNaddiActive = GameObject.Find("SimpleNaddiManager");
-        _naddi.ResetNaddiPosition(); 
-        
+        NaddiUtillitys.ResetNaddiPosition(ref _naddi);
         _playerScript._sanity = 100.0f;
         _player.transform.position = _respawnPoint;
         _DeathScreenAnimator.SetBool("IsDeathScreen", false);
