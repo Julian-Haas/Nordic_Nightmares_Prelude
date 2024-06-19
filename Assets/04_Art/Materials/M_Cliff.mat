@@ -41,7 +41,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BlendTexture:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 3195c7689e25e4343919b6d597fb06b8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -69,7 +69,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _HeightMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: f47f972f7d216f946b6895b28ee628ed, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -133,7 +133,7 @@ Material:
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _Blend: 0
-    - _BlendDistance: 0
+    - _BlendDistance: 2.3
     - _BlendModePreserveSpecular: 1
     - _BlendStrength: 0
     - _BlendTiling: 0
@@ -156,11 +156,11 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _GradientPosition: -2.82
-    - _GradientSmoothness: 2.6
+    - _GradientSmoothness: 0.05
     - _Metallic: 0
     - _NoiseOpacity: 0.15
-    - _NoiseStrength: 0.2
-    - _NoiseTexDissolve: 1.24
+    - _NoiseStrength: -3.52
+    - _NoiseTexDissolve: 11.99
     - _NoiseTiling: 0.57
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -174,7 +174,7 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _TerrainHeight: 0
+    - _TerrainHeight: 3.73
     - _UseMetalnessMap: 0
     - _UseNormalMap: 0
     - _UseRoughnessMap: 0
