@@ -21,7 +21,10 @@ public class NaddagilAttackBehaviour : MonoBehaviour
 
     [Tooltip("this Vector stores the start init value of player pos last seen, so that we can check if the value got actually updated or not")]
     private Vector3 invalidVector = new Vector3(-999999, -9999999, -999999);
-
+    private void Awake()
+    {
+        Agent = this.GetComponent<NavMeshAgent>(); 
+    }
     private void Update()
     {
         PlayerInSafeZone = _naddi.PlayerCol._inSafeZone;

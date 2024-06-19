@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine.Splines;
 
 public class NaddagilUtillitys : MonoBehaviour
 {
@@ -43,4 +45,34 @@ public class NaddagilUtillitys : MonoBehaviour
         naddi.RendererEnabled = false;
         naddi.MeshRenderer.enabled = false;
     }
+
+    public static List<T> ConvertToList<T>(ICollection<T> thingOfThinglol)
+    {
+        if(thingOfThinglol.Count <= 0)
+            throw new System.NullReferenceException("Collection is null");
+
+        List<T> listOfThings = new List<T>(thingOfThinglol);
+
+        foreach (T thing in thingOfThinglol)
+        {
+            listOfThings.Add(thing); 
+        }
+
+        return listOfThings;
+    }
+
+    public static BezierKnot IsOnKnotPoint(ICollection<BezierKnot> knots, Vector3 position)
+    {
+        foreach (BezierKnot knot in knots)
+        {
+            Vector3 knotPos = knot.Position;
+            if (Mathf.Abs((knotPos - position).magnitude) < 0.001f)
+            {
+                return knot; 
+            }
+        }
+        Vector3 invalid = new Vector3(-999999, -999999, -999999); 
+        return new BezierKnot(invalid); 
+    }
+
 }

@@ -9,16 +9,21 @@ using TMPro;
 public class Naddagil : MonoBehaviour
 {
     [Header("Public Naddi Components"), SerializeField]
-    public NaddagilPatrolBehaviour PatrolBehaviour; 
-    public NaddagilHearingBehaviour HearingBehaviour { get; private set; }
-    public NaddagilAttackBehaviour AttackBehaviour { get; private set; }
-    public NaddagilViewingSensor NaddiEye { get; private set; }
-    public NaddagilHearingSensor NaddiHearing { get; private set;  }
-    public SkinnedMeshRenderer MeshRenderer { get; private set; }
+    public NaddagilPatrolBehaviour PatrolBehaviour;
+    [SerializeField]
+    public NaddagilHearingBehaviour HearingBehaviour;
+    [SerializeField]
+    public NaddagilAttackBehaviour AttackBehaviour;
+    [SerializeField]
+    public NaddagilViewingSensor NaddiEye;
+    [SerializeField]
+    public NaddagilHearingSensor NaddiHearing;
+    [SerializeField]
+    public SkinnedMeshRenderer MeshRenderer;
 
     [Header("State handling")]
     public NaddiStates State;
-    public NaddagilStateMaschine StateMachiene { get; private set; }
+    public NaddagilStateMaschine StateMachiene;
 
     [Header("Naddi stats:")]
     public NaddiValueStorage ValueStorage;
@@ -30,7 +35,7 @@ public class Naddagil : MonoBehaviour
 
     [Header("Public References")]
     public PatrolPath PatrolPath;
-    public s_PlayerCollider PlayerCol { get; private set; }
+    public s_PlayerCollider PlayerCol; 
 
     [SerializeField]
     private Terrain _terrain;

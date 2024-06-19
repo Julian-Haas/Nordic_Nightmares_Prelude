@@ -13,6 +13,7 @@ public class NaddagilPatrolBehaviour : MonoBehaviour
 
     [Header("Public Flags")]
     public bool StartedPatrol = false;
+    private bool isPaused = false; 
 
     private void Start()
     {
@@ -43,7 +44,23 @@ public class NaddagilPatrolBehaviour : MonoBehaviour
             _naddagil.MeshRenderer.enabled = true;
             SplineAnimate.enabled = true;
         }
-        SplineAnimate.Play(); //needs to be called every frame cause unity is stupid and other wise Naddi wouldnt walk along spline
+        Vector3 invalid = new Vector3(-999999, -999999, -999999);
+        BezierKnot currentKnot = NaddagilUtillitys.IsOnKnotPoint((ICollection<BezierKnot>)SplineAnimate.Container.Spline.Knots, this.transform.position);
+        Vector3 curKnotPos = currentKnot.Position;
+        if (curKnotPos != invalid && !isPaused)
+        {
+            isPaused = true; 
+            SplineAnimate.MaxSpeed = 0;
+            StartCoroutine(PauseYield()); 
+        }
+        else
+        {
+            if (SplineAnimate.MaxSpeed > 0)
+            {
+                isPaused = false; 
+                SplineAnimate.Play(); //needs to be called every frame cause unity is stupid and other wise Naddi wouldnt walk along spline
+            }
+        }
     }
 
     void InitSplineAnimate()
@@ -63,5 +80,12 @@ public class NaddagilPatrolBehaviour : MonoBehaviour
         SplineAnimate.ElapsedTime = 0;
         StartedPatrol = false;
         transform.position = currentPos;
+    }
+
+    private IEnumerator PauseYield()
+    {
+        yield return new WaitForSeconds(2);
+        SplineAnimate.MaxSpeed = _naddagil.Speed; 
+
     }
 }

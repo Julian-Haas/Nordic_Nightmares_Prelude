@@ -760,11 +760,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PatrolBehaviour: {fileID: 6556528016169402711}
+  HearingBehaviour: {fileID: 932395596774269747}
+  AttackBehaviour: {fileID: 6472540808341410993}
+  NaddiEye: {fileID: 7615789934419268650}
+  NaddiHearing: {fileID: 2757787377948532710}
+  MeshRenderer: {fileID: 1173772585664632863}
   State: 3
+  StateMachiene: {fileID: 776214777013010764}
   ValueStorage: {fileID: 11400000, guid: 1d476c8f1503d455fa51047c69da2d0f, type: 2}
   Speed: 0
   RendererEnabled: 1
   PatrolPath: {fileID: 0}
+  PlayerCol: {fileID: 0}
   _terrain: {fileID: 0}
   EnableDebugInfos: 0
   DebugTextHolder: {fileID: 0}
@@ -825,7 +832,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a73f796ffaee439bb847ddcf7bf5f23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _naddi: {fileID: 8277826594249526962}
+  _naddagil: {fileID: 8277826594249526962}
   StateTXT: {fileID: 0}
 --- !u!114 &1981836509238415516
 MonoBehaviour:
@@ -878,7 +885,7 @@ MonoBehaviour:
   LookForPlayerTrigger: 0.5
   AttackPlayerTrigger: 1
   _playerRef: {fileID: 0}
-  _naddi: {fileID: 8277826594249526962}
+  _naddagil: {fileID: 8277826594249526962}
 --- !u!114 &6472540808341410993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -912,7 +919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cfd4696eb141433897640a9ca572141, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _naddi: {fileID: 8277826594249526962}
+  _naddagil: {fileID: 8277826594249526962}
   StartedPatrol: 0
 --- !u!114 &932395596774269747
 MonoBehaviour:
@@ -926,7 +933,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7265bf06fc544bcd8fc35994cdcd254, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _naddi: {fileID: 8277826594249526962}
+  _naddagil: {fileID: 8277826594249526962}
   HeardPlayer: 0
 --- !u!1 &2035062048546503139
 GameObject:
@@ -1932,7 +1939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 890473090fbb8435bb2dab549f3220c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewField: {fileID: 7615789934419268650}
+  _viewingSensor: {fileID: 0}
   _state: {fileID: 776214777013010764}
 --- !u!1 &4950784310188000671
 GameObject:

@@ -1,7 +1,5 @@
 //The person responsible for this code is Nils Oskar Henningsen 
 using UnityEngine;
-using System.Collections;
-using UnityEngine.InputSystem.LowLevel;
 using TMPro; 
 
 public enum NaddiStates 
