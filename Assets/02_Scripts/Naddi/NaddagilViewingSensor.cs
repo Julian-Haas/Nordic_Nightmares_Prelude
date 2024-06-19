@@ -1,7 +1,7 @@
 //The person responsible for this code is Nils Oskar Henningsen 
 using UnityEngine;
 
-public class NaddiViewField : MonoBehaviour
+public class NaddagilViewingSensor : MonoBehaviour
 {
     [SerializeField]
     private float _coneRadius;

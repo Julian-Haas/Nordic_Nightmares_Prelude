@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NaddiUtillitys : MonoBehaviour
+public class NaddagilUtillitys : MonoBehaviour
 {
     public static void SetFlags(ref bool flagOne, ref bool flagTwo, bool val1, bool val2)
     {
@@ -29,18 +29,18 @@ public class NaddiUtillitys : MonoBehaviour
         return UnityEngine.AI.NavMesh.SamplePosition(position, out hit, 1.0f, UnityEngine.AI.NavMesh.AllAreas);
     }
 
-    public static void ResetNaddiPosition(ref Naddi naddi)
+    public static void ResetNaddiPosition(ref Naddagil naddi)
     {
-        naddi.StartedPatrol = false;
+        naddi.PatrolBehaviour.StartedPatrol = false;
         naddi.NaddiHearing.ResetSoundSum();
-        naddi.Agent.isStopped = true;
+        naddi.AttackBehaviour.Agent.isStopped = true;
         naddi.StateMachiene.FinishedDigging();
         naddi.StartCoroutine(naddi.NaddiHearing.ListenerDelay());
     }
 
-    public static void DisableRenderer(ref Naddi naddi)
+    public static void DisableRenderer(ref Naddagil naddi)
     {
         naddi.RendererEnabled = false;
-        naddi.StateMachiene.GetNaddiMeshRenderer.enabled = false;
+        naddi.MeshRenderer.enabled = false;
     }
 }

@@ -2,36 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NaddiHearingBehaviour : MonoBehaviour
+public class NaddagilHearingBehaviour : MonoBehaviour
 {
     [SerializeField]
-    private Naddi _naddi;
+    private Naddagil _naddagil;
 
+    public bool HeardPlayer = false;
     private void Start()
     {
-        _naddi.NaddiHearing.LookForPlayerAction += SusSoundHeard;
-        _naddi.NaddiHearing.AttackPlayerAction += HeardPlayerNearby;
+        _naddagil.NaddiHearing.LookForPlayerAction += SusSoundHeard;
+        _naddagil.NaddiHearing.AttackPlayerAction += HeardPlayerNearby;
     }
     public void SusSoundHeard(Vector3 pos)
     {
-        if (_naddi.State != NaddiStateEnum.Chase && _naddi.State != NaddiStateEnum.Attack && _naddi.State != NaddiStateEnum.Digging && !_naddi.HeardPlayer)
+        if (_naddagil.State != NaddiStates.Chase && _naddagil.State != NaddiStates.Attack && _naddagil.State != NaddiStates.Digging && !HeardPlayer)
         {
-            _naddi.HeardPlayer = true;
-            _naddi.StateMachiene.HearedSomething();
-            _naddi.PatrolBehaviour.DeactivatePatrol();
+            HeardPlayer = true;
+            _naddagil.StateMachiene.HearedSomething();
+            _naddagil.PatrolBehaviour.DeactivatePatrol();
             StartCoroutine(TurnToSoundDirection(pos));
         }
     }
 
     public void HeardPlayerNearby()
     {
-        _naddi.StateMachiene.FoundPlayer();
+        _naddagil.StateMachiene.FoundPlayer();
     }
     public IEnumerator HearingDelay()
     {
-        _naddi.HeardPlayer = true;
+        HeardPlayer = true;
         yield return new WaitForSeconds(10f);
-        _naddi.HeardPlayer = false;
+        HeardPlayer = false;
     }
     private IEnumerator TurnToSoundDirection(Vector3 soundPos)
     {
@@ -47,6 +48,6 @@ public class NaddiHearingBehaviour : MonoBehaviour
             time += Time.deltaTime;
             yield return null;
         }
-        _naddi.StateMachiene.LookForPlayer();
+        _naddagil.StateMachiene.LookForPlayer();
     }
 }

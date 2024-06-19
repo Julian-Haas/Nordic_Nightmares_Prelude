@@ -17136,14 +17136,6 @@ PrefabInstance:
       propertyPath: _playerRef
       value: 
       objectReference: {fileID: 559469049}
-    - target: {fileID: 3054165339838200593, guid: 4ba65fecfd3fd224e8f7f0ecadbe3b3f, type: 3}
-      propertyPath: m_Height
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3054165339838200593, guid: 4ba65fecfd3fd224e8f7f0ecadbe3b3f, type: 3}
-      propertyPath: m_Radius
-      value: 0.7
-      objectReference: {fileID: 0}
     - target: {fileID: 3559207867163939823, guid: 4ba65fecfd3fd224e8f7f0ecadbe3b3f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -44.3
@@ -17184,10 +17176,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6556528016169402711, guid: 4ba65fecfd3fd224e8f7f0ecadbe3b3f, type: 3}
-      propertyPath: _patrolPath
-      value: 
-      objectReference: {fileID: 1382389848}
     - target: {fileID: 7615789934419268650, guid: 4ba65fecfd3fd224e8f7f0ecadbe3b3f, type: 3}
       propertyPath: _player
       value: 
@@ -17197,10 +17185,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1729640900}
     - target: {fileID: 8277826594249526962, guid: 4ba65fecfd3fd224e8f7f0ecadbe3b3f, type: 3}
-      propertyPath: PlayerPos
-      value: 
-      objectReference: {fileID: 559469048}
-    - target: {fileID: 8277826594249526962, guid: 4ba65fecfd3fd224e8f7f0ecadbe3b3f, type: 3}
       propertyPath: PatrolPath
       value: 
       objectReference: {fileID: 1382389848}
@@ -17209,17 +17193,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1859875363}
     - target: {fileID: 8277826594249526962, guid: 4ba65fecfd3fd224e8f7f0ecadbe3b3f, type: 3}
-      propertyPath: _patrolPath
-      value: 
-      objectReference: {fileID: 1382389848}
-    - target: {fileID: 8277826594249526962, guid: 4ba65fecfd3fd224e8f7f0ecadbe3b3f, type: 3}
       propertyPath: pathstatusText
       value: 
       objectReference: {fileID: 412179385}
-    - target: {fileID: 8277826594249526962, guid: 4ba65fecfd3fd224e8f7f0ecadbe3b3f, type: 3}
-      propertyPath: AttackBehaviour
-      value: 
-      objectReference: {fileID: 1237881409}
     - target: {fileID: 8277826594249526962, guid: 4ba65fecfd3fd224e8f7f0ecadbe3b3f, type: 3}
       propertyPath: DebugTextHolder
       value: 
@@ -17228,8 +17204,7 @@ PrefabInstance:
       propertyPath: RemainingDistanceTXT
       value: 
       objectReference: {fileID: 417952832}
-    m_RemovedComponents:
-    - {fileID: 0}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -38038,17 +38013,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05f186c1f7a37ff47b3b989bc6561979, type: 3}
---- !u!114 &1237881409 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6472540808341410993, guid: 4ba65fecfd3fd224e8f7f0ecadbe3b3f, type: 3}
-  m_PrefabInstance: {fileID: 550372896}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2600296b52cf1324780ec75ba2cc664c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1239113723
 PrefabInstance:
   m_ObjectHideFlags: 0

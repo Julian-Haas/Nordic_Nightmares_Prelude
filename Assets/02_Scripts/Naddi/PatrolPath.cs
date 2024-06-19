@@ -14,15 +14,15 @@ public class PatrolPath : MonoBehaviour
     private SplineContainer _closestPath;
     public List<SplineContainer> Paths = new List<SplineContainer>();
     [SerializeField]
-    private Naddi _naddi;
+    private Naddagil _naddi;
     [SerializeField]
     private List<string> DistanceOutput;
-    private NaddiHearing _naddiHearing;
+    private NaddagilHearingSensor _naddiHearing;
     public SplineContainer debugSplainRef; 
 
     private void Start()
     {
-      _naddiHearing = _naddi.gameObject.GetComponent<NaddiHearing>();
+      _naddiHearing = _naddi.gameObject.GetComponent<NaddagilHearingSensor>();
     }
     public void ActivatePatrolPath(SplineContainer newPath)
     {

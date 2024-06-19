@@ -759,30 +759,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 605d69ec49b9445e39bacf8715e2434d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NaddiEye: {fileID: 7615789934419268650}
-  _patrolPath: {fileID: 0}
-  PlayerPos: {fileID: 0}
-  _terrain: {fileID: 0}
-  Speed: 0
-  _executingState: 0
-  _playerPosLastSeen: {x: -999999, y: -9999999, z: -999999}
-  StartedPatrol: 0
-  ChasePlayer: 0
-  PlayerInSafeZone: 0
-  HeardPlayer: 0
-  NaddiHearing: {fileID: 0}
-  KilledPlayer: 0
-  CanChasePlayer: 1
+  PatrolBehaviour: {fileID: 6556528016169402711}
   State: 3
-  PlayerWasInSafeZone: 0
-  enableDebugInfos: 1
+  ValueStorage: {fileID: 11400000, guid: 1d476c8f1503d455fa51047c69da2d0f, type: 2}
+  Speed: 0
+  RendererEnabled: 1
+  PatrolPath: {fileID: 0}
+  _terrain: {fileID: 0}
+  EnableDebugInfos: 0
   DebugTextHolder: {fileID: 0}
   targetText: {fileID: 0}
   RemainingDistanceTXT: {fileID: 0}
   pathstatusText: {fileID: 0}
-  valueStorage: {fileID: 11400000, guid: 1d476c8f1503d455fa51047c69da2d0f, type: 2}
-  PatrolBehaviour: {fileID: 6556528016169402711}
-  HearingBehaviour: {fileID: 932395596774269747}
 --- !u!114 &7615789934419268650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -812,7 +800,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1891094736568493462}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 1
+  m_Radius: 0.7
   m_Speed: 10
   m_Acceleration: 8
   avoidancePriority: 50
@@ -821,7 +809,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1
-  m_Height: 3
+  m_Height: 2
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
@@ -838,7 +826,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _naddi: {fileID: 8277826594249526962}
-  _naddiMeshRenderer: {fileID: 1173772585664632863}
   StateTXT: {fileID: 0}
 --- !u!114 &1981836509238415516
 MonoBehaviour:
@@ -853,7 +840,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _anim: {fileID: 1730829210651587505}
-  _naddiState: {fileID: 776214777013010764}
+  _naddi: {fileID: 8277826594249526962}
 --- !u!65 &4014314600357403911
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -887,17 +874,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbbc3297e2da84e4bad19daf5f5c3959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minVolumeModifyer: 0
-  maxVolumeModifyer: 1
-  _soundModifyer: 1
-  _groundModifyer: 1
-  _soundSum: 0
-  _LookForPlayerTrigger: 0
-  _attackPlayerTrigger: 0
-  _decay: 0.99
   MaxDistance: 0
+  LookForPlayerTrigger: 0.5
+  AttackPlayerTrigger: 1
   _playerRef: {fileID: 0}
-  valStorage: {fileID: 11400000, guid: 1d476c8f1503d455fa51047c69da2d0f, type: 2}
+  _naddi: {fileID: 8277826594249526962}
 --- !u!114 &6472540808341410993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -910,6 +891,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2600296b52cf1324780ec75ba2cc664c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _naddi: {fileID: 8277826594249526962}
+  PlayerPosLastSeen: {x: -999999, y: -9999999, z: -999999}
+  PlayerPos: {fileID: 0}
+  KilledPlayer: 0
+  ChasePlayer: 0
+  StopAgent: 0
+  CanChasePlayer: 1
+  PlayerWasInSafeZone: 0
+  PlayerInSafeZone: 0
 --- !u!114 &6556528016169402711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -923,9 +913,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _naddi: {fileID: 8277826594249526962}
-  _patrolPath: {fileID: 0}
-  SplineAnimate: {fileID: 0}
-  _naddiHearing: {fileID: 2757787377948532710}
+  StartedPatrol: 0
 --- !u!114 &932395596774269747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -939,6 +927,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _naddi: {fileID: 8277826594249526962}
+  HeardPlayer: 0
 --- !u!1 &2035062048546503139
 GameObject:
   m_ObjectHideFlags: 0
@@ -1631,10 +1620,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _viewField: {fileID: 7615789934419268650}
   _visionConeMaterial: {fileID: 2100000, guid: 6c4cba5e57d07456cb0c638f0aa4351e, type: 2}
+  _visionConeResolution: 120
   VisionObstructingLayer:
     serializedVersion: 2
     m_Bits: 1
-  _visionConeResolution: 120
 --- !u!23 &1716939155799983637
 MeshRenderer:
   m_ObjectHideFlags: 0
