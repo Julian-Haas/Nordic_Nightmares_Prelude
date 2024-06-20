@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8385885383122661960
+--- !u!114 &-6783398354968975067
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_House_02
+  m_Name: M_Cliff
   m_Shader: {fileID: -6465566751694194690, guid: 5b2fffae55f4886409449fe0f709124c, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -41,7 +41,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BlendTexture:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 3195c7689e25e4343919b6d597fb06b8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -69,7 +69,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _HeightMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: f47f972f7d216f946b6895b28ee628ed, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -89,11 +89,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: d2359fba48129be42819f25399c56406, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ObjectTex:
-        m_Texture: {fileID: 2800000, guid: 610cbcbe6a3d8a04b814da06c2243a85, type: 3}
+        m_Texture: {fileID: 2800000, guid: 27a6faed6a8590b438ca0cd36e660a98, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -105,7 +105,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RoughnessMap:
-        m_Texture: {fileID: 2800000, guid: 5d97c494f8ad87f46bfa0306184c1e41, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ShadingRamp:
@@ -133,7 +133,7 @@ Material:
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _Blend: 0
-    - _BlendDistance: 0
+    - _BlendDistance: 2.3
     - _BlendModePreserveSpecular: 1
     - _BlendStrength: 0
     - _BlendTiling: 0
@@ -149,18 +149,18 @@ Material:
     - _EmissionON: 0
     - _EnvironmentReflections: 1
     - _FeedbackEffectSlider: 0
-    - _FeedbackEffectStrength: 0.53
+    - _FeedbackEffectStrength: 2
     - _FresnelPower: 1
     - _FresnelThreshold: 0.83
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _GradientPosition: -7.19
-    - _GradientSmoothness: 2.6
+    - _GradientPosition: -2.82
+    - _GradientSmoothness: 0.05
     - _Metallic: 0
     - _NoiseOpacity: 0.15
-    - _NoiseStrength: 0.2
-    - _NoiseTexDissolve: 1.24
+    - _NoiseStrength: -3.52
+    - _NoiseTexDissolve: 11.99
     - _NoiseTiling: 0.57
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -174,7 +174,7 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _TerrainHeight: 0
+    - _TerrainHeight: 3.73
     - _UseMetalnessMap: 0
     - _UseNormalMap: 0
     - _UseRoughnessMap: 0
