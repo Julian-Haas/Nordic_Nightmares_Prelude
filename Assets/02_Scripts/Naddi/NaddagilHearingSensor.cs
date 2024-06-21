@@ -75,7 +75,12 @@ public class NaddagilHearingSensor : MonoBehaviour
             if (SoundSum > LookForPlayerTrigger && SoundSum < AttackPlayerTrigger)
                 LookForPlayerAction.Invoke(_naddagil.AttackBehaviour.PlayerPos.position);
             else if (SoundSum > AttackPlayerTrigger)
+            {
+                _naddagil.AttackBehaviour.PlayerPosLastSeen = _naddagil.AttackBehaviour.PlayerPos.position; 
                 AttackPlayerAction.Invoke();
+            }
+
+
 
             if (_playerRef.IsMoving() == false)
                 return;
