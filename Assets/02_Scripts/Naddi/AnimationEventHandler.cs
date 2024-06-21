@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class AnimationEventHandler : MonoBehaviour
 {
-    public NaddiViewField viewField;
-    public NaddiStateMaschine _state;
+    public NaddagilViewingSensor _viewingSensor;
+    public NaddagilStateMaschine _state;
 
     public void FinishedDigging()
     {
@@ -14,7 +14,7 @@ public class AnimationEventHandler : MonoBehaviour
 
     public void FinishedAttacking()
     {
-        _state.FinishedAttacking(viewField.isInsideCone()); 
+        _state.FinishedAttacking(_viewingSensor.isInsideCone()); 
     }
 
     void FinishedLookForPlayer()
