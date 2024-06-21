@@ -72,10 +72,10 @@ public class NaddagilStateMaschine : MonoBehaviour
     public void FinishedDigging()
     {
         NaddagilUtillitys.DisableRenderer(ref _naddagil);
-        DebugFileLogger.Log("FlagLogger", "Startet Patrol: " + _naddagil.PatrolBehaviour.StartedPatrol.ToString());
+        //DebugFileLogger.Log("FlagLogger", "Startet Patrol: " + _naddagil.PatrolBehaviour.StartedPatrol.ToString());
         _naddagil.PatrolBehaviour.StartedPatrol = false; 
         SetState(NaddiStates.Patrol);
-        DebugFileLogger.Log("StateLogger", "Naddi state after FinishedDigging: " + _naddagil.State.ToString());
+        //DebugFileLogger.Log("StateLogger", "Naddi state after FinishedDigging: " + _naddagil.State.ToString());
     }
 
     public void PlayerVanished() 

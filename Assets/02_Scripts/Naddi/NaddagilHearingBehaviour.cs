@@ -36,7 +36,6 @@ public class NaddagilHearingBehaviour : MonoBehaviour
     }
     private IEnumerator TurnToSoundDirection(Vector3 soundPos)
     {
-        Debug.Log("executing turn to player!");
         Quaternion desiredRotation;
         Vector3 direction = (soundPos - transform.position).normalized;
         desiredRotation = Quaternion.LookRotation(direction, transform.up);

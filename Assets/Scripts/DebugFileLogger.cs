@@ -21,7 +21,7 @@ public static class DebugFileLogger
         {
             writer.WriteLine($"{System.DateTime.Now}: {message}");
         }
-        Debug.Log("Logged something"); 
+        //Debug.Log("Logged something"); 
     }
 }
 

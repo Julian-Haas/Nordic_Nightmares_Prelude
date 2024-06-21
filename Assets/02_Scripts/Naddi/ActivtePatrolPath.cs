@@ -15,10 +15,6 @@ public class ActivtePatrolPath : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (this.gameObject.name != "Path(4)")
-            {
-                Debug.Log("schau nach warum hier der trigger ausgelöst wird!"); 
-            } 
             _pathHolder.ActivatePatrolPath(_spline);
         } 
     }

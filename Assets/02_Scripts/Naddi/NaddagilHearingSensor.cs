@@ -81,7 +81,7 @@ public class NaddagilHearingSensor : MonoBehaviour
                 return;
 
             SoundSum += 1 - (distance / MaxDistance) * _soundModifyer * _groundModifyer * Time.deltaTime;
-            Debug.Log("Sound Sum:\n"+ SoundSum); 
+            //Debug.Log("Sound Sum:\n"+ SoundSum); 
         }
     }
 
