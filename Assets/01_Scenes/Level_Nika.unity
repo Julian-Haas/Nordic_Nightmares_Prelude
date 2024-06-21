@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.419
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.29408285, g: 0.3287659, b: 0.38333294, a: 0.419}
+  m_IndirectSpecularColor: {r: 0.29408246, g: 0.32876512, b: 0.3833322, a: 0.419}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1514,6 +1514,22 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5779330205782458070, guid: a42e981550398d64ea769de03a595283, type: 3}
+      propertyPath: _naddi
+      value: 
+      objectReference: {fileID: 1507020999}
+    - target: {fileID: 5779330205782458070, guid: a42e981550398d64ea769de03a595283, type: 3}
+      propertyPath: _hearing
+      value: 
+      objectReference: {fileID: 476873084}
+    - target: {fileID: 5779330205782458070, guid: a42e981550398d64ea769de03a595283, type: 3}
+      propertyPath: _viewField
+      value: 
+      objectReference: {fileID: 476873085}
+    - target: {fileID: 5779330205782458070, guid: a42e981550398d64ea769de03a595283, type: 3}
+      propertyPath: naddiStateMachine
+      value: 
+      objectReference: {fileID: 476873083}
     - target: {fileID: 6569839212825067656, guid: a42e981550398d64ea769de03a595283, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -14044,6 +14060,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pathHolder: {fileID: 1021247471}
   _spline: {fileID: 357303890}
+  IndexesToPauseAt: 
 --- !u!1001 &393493634
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16203,6 +16220,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1247459146}
     - target: {fileID: 4532987785526474932, guid: a36da0e78661f49bc9ced92e72c44f01, type: 3}
+      propertyPath: debugSplainRef
+      value: 
+      objectReference: {fileID: 1247459146}
+    - target: {fileID: 4532987785526474932, guid: a36da0e78661f49bc9ced92e72c44f01, type: 3}
       propertyPath: _playerPosition
       value: 
       objectReference: {fileID: 559469048}
@@ -17137,9 +17158,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2120149070}
     - target: {fileID: 8277826594249526962, guid: 4ba65fecfd3fd224e8f7f0ecadbe3b3f, type: 3}
+      propertyPath: PlayerCol
+      value: 
+      objectReference: {fileID: 559469050}
+    - target: {fileID: 8277826594249526962, guid: 4ba65fecfd3fd224e8f7f0ecadbe3b3f, type: 3}
       propertyPath: PlayerPos
       value: 
       objectReference: {fileID: 559469048}
+    - target: {fileID: 8277826594249526962, guid: 4ba65fecfd3fd224e8f7f0ecadbe3b3f, type: 3}
+      propertyPath: PatrolPath
+      value: 
+      objectReference: {fileID: 1021247471}
     - target: {fileID: 8277826594249526962, guid: 4ba65fecfd3fd224e8f7f0ecadbe3b3f, type: 3}
       propertyPath: targetText
       value: 
@@ -17157,6 +17186,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 161518678}
     - target: {fileID: 8277826594249526962, guid: 4ba65fecfd3fd224e8f7f0ecadbe3b3f, type: 3}
+      propertyPath: EnableDebugInfos
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8277826594249526962, guid: 4ba65fecfd3fd224e8f7f0ecadbe3b3f, type: 3}
       propertyPath: RemainingDistanceTXT
       value: 
       objectReference: {fileID: 147575060}
@@ -17165,6 +17198,39 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ba65fecfd3fd224e8f7f0ecadbe3b3f, type: 3}
+--- !u!114 &476873083 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 776214777013010764, guid: 4ba65fecfd3fd224e8f7f0ecadbe3b3f, type: 3}
+  m_PrefabInstance: {fileID: 476873082}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a73f796ffaee439bb847ddcf7bf5f23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &476873084 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2757787377948532710, guid: 4ba65fecfd3fd224e8f7f0ecadbe3b3f, type: 3}
+  m_PrefabInstance: {fileID: 476873082}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbbc3297e2da84e4bad19daf5f5c3959, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &476873085 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7615789934419268650, guid: 4ba65fecfd3fd224e8f7f0ecadbe3b3f, type: 3}
+  m_PrefabInstance: {fileID: 476873082}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2c16d86119ae4a60b53799143d5fdcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &477272207
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25191,6 +25257,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pathHolder: {fileID: 1021247471}
   _spline: {fileID: 1263392768}
+  IndexesToPauseAt: 
 --- !u!1001 &679063591
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49077,6 +49144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pathHolder: {fileID: 1021247471}
   _spline: {fileID: 871893218}
+  IndexesToPauseAt: 
 --- !u!1001 &1330937645
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52097,7 +52165,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: ef21ed7c4fc99e84f89d20f712cc6f9b, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: d590d219a1be84e089a29cf387d13ec9, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &1420302432
 Transform:
@@ -58480,6 +58548,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pathHolder: {fileID: 1021247471}
   _spline: {fileID: 1247459146}
+  IndexesToPauseAt: 
 --- !u!1001 &1606955662
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -67135,6 +67204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pathHolder: {fileID: 1021247471}
   _spline: {fileID: 107114801}
+  IndexesToPauseAt: 
 --- !u!1001 &1832315189
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -74263,6 +74333,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pathHolder: {fileID: 1021247471}
   _spline: {fileID: 1541922160}
+  IndexesToPauseAt: 
 --- !u!1001 &2020101097
 PrefabInstance:
   m_ObjectHideFlags: 0
