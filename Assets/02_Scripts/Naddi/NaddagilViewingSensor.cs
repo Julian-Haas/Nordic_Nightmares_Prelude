@@ -1,7 +1,7 @@
 //The person responsible for this code is Nils Oskar Henningsen 
 using UnityEngine;
 
-public class NaddiViewField : MonoBehaviour
+public class NaddagilViewingSensor : MonoBehaviour
 {
     [SerializeField]
     private float _coneRadius;
@@ -15,6 +15,7 @@ public class NaddiViewField : MonoBehaviour
     private LayerMask ignoreLayer;
     [SerializeField]
     private NaddiValueStorage valueStorage; 
+
     public float ConeRadius { get { return _coneRadius; } set { _coneRadius = value;  } }
     public float HalfAngleDegree { get { return _coneHalfAngleDegree; } set { _coneHalfAngleDegree = value; } }
     public Transform ConeOrigin { get { return _coneOrigin; } }

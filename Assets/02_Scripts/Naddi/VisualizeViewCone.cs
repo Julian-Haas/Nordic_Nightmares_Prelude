@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class VisualizeViewCone : MonoBehaviour
 {
-    [SerializeField]
-    private NaddiViewField _viewField;
-    private Mesh _visionConeMesh;
-    private MeshFilter _meshFilter;
+    
+    [SerializeField, Header("Remove this Script in the final build. This is just for Debugging!")]
+    private NaddagilViewingSensor _viewField;
     [SerializeField]
     private Material _visionConeMaterial;
-    private float _viewDistance;
-    private float _coneAngle;
-    [SerializeField]
-    private LayerMask VisionObstructingLayer;
     [SerializeField]
     private int _visionConeResolution = 120;
+    [SerializeField]
+    private LayerMask VisionObstructingLayer;
+
+    private float _viewDistance;
+    private Mesh _visionConeMesh;
+    private MeshFilter _meshFilter;
+    private float _coneAngle;
 
     void Start()
     {

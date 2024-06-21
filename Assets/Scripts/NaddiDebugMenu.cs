@@ -16,9 +16,9 @@ public class NaddiDebugMenu : MonoBehaviour
         Chase
     }
     [SerializeField]
-    private NaddiHearing _hearing;
+    private NaddagilHearingSensor _hearing;
     [SerializeField]
-    private NaddiStateMaschine naddiStateMachine; 
+    private NaddagilStateMaschine naddiStateMachine; 
     [SerializeField]
     private TMP_Dropdown NaddiStatesDD;
     [SerializeField]
@@ -44,9 +44,9 @@ public class NaddiDebugMenu : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI HearingRangeValTXT;
     [SerializeField]
-    private Naddi _naddi;
+    private Naddagil _naddi;
     [SerializeField]
-    private NaddiViewField _viewField; 
+    private NaddagilViewingSensor _viewField; 
     [SerializeField]
     private NaddiValueStorage val;
     [SerializeField]
@@ -62,7 +62,7 @@ public class NaddiDebugMenu : MonoBehaviour
     void Start()
     {
         NaddiStatesDD.AddOptions(new List<string>(DebugMenuStates.GetNames(typeof(DebugMenuStates))));
-        AttackTriggerSlider.value = _hearing.AttackTrigger;
+        AttackTriggerSlider.value = _hearing.AttackPlayerTrigger;
         LookForPlayerTriggerSlider.value = _hearing.LookForPlayerTrigger;
         HalfConeRadiusSlider.value = _viewField.HalfAngleDegree;
         SpeedSlider.value = _naddi.Speed;
@@ -105,13 +105,13 @@ public class NaddiDebugMenu : MonoBehaviour
     public void RevertAttackTrigger()
     {
         AttackTriggerSlider.value=val.AttackTriggerVal;
-        _hearing.AttackTrigger = AttackTriggerSlider.value;
+        _hearing.AttackPlayerTrigger = AttackTriggerSlider.value;
         ATValTXT.text = "Value: " + AttackTriggerSlider.value.ToString();
     }
 
     public void SetAttackTriggerVal() 
     {
-        _hearing.AttackTrigger = AttackTriggerSlider.value; 
+        _hearing.AttackPlayerTrigger = AttackTriggerSlider.value; 
         ATValTXT.text = "Value: " + AttackTriggerSlider.value.ToString(); 
     }
 
