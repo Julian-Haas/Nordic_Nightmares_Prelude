@@ -79,7 +79,7 @@ public class s_PlayerCollider : MonoBehaviour, IPlayerAction
                 VELOCITY = _rb.velocity.magnitude;
                 //_emitter.MakeSound();
                 _textureCheck.CheckGroundTexture();
-                _track.LeaveTrackPoint();
+                //_track.LeaveTrackPoint();
             }
             sanityUpdate();
             updateClosestInteractable();
@@ -302,7 +302,7 @@ public class s_PlayerCollider : MonoBehaviour, IPlayerAction
     public void JuliansTestFunktion()
     {
         Cursor.visible = false;
-        Debug.Log("p gedrückt");
+        Debug.Log("p gedr?ckt");
         if (!JuliansTestBool)
         {
             Cursor.lockState = CursorLockMode.Locked;
