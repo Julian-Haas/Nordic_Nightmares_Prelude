@@ -34,6 +34,7 @@ public class s_PlayerCollider : MonoBehaviour, IPlayerAction
     private Player_Ground_Texture_Check _textureCheck;
     //private NoiseEmitter _emitter;
     private Slider _sanitySlider;
+    [SerializeField]
     private NaddiTrackTarget _track;
     [SerializeField] float _cooldownOfSanityWarnings = 5.0f;
     bool _sanityOverlayExplained = false;
@@ -62,7 +63,7 @@ public class s_PlayerCollider : MonoBehaviour, IPlayerAction
         _rb = GetComponent<Rigidbody>();
         _textureCheck = GetComponent<Player_Ground_Texture_Check>();
         _sanitySlider = GameObject.Find("SanitySlider")?.GetComponent<Slider>();
-        _track = GetComponentInChildren<NaddiTrackTarget>();
+        //_track = GetComponentInChildren<NaddiTrackTarget>();
     }
 
     public void GatheredPlank()
@@ -79,7 +80,7 @@ public class s_PlayerCollider : MonoBehaviour, IPlayerAction
                 VELOCITY = _rb.velocity.magnitude;
                 //_emitter.MakeSound();
                 _textureCheck.CheckGroundTexture();
-                _track.LeaveTrackPoint();
+               // _track.LeaveTrackPoint();
             }
             sanityUpdate();
             updateClosestInteractable();
