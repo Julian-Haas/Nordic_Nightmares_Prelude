@@ -6,7 +6,7 @@ public class DeathManager : MonoBehaviour
     public static DeathManager Instance {
         get; private set;
     }
-    [SerializeField] private Naddi _naddi;
+    [SerializeField] private Naddagil _naddi;
     SavePoint _lastSavePointTotem = null;
     Vector3 _respawnPoint;
     public s_PlayerCollider _playerScript;
