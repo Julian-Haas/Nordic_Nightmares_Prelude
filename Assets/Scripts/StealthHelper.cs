@@ -4,28 +4,31 @@ using UnityEngine;
 
 public class StealthHelper : MonoBehaviour
 {
-    public NaddiHearing naddi;
-    Vector3 position; 
+    [Header("Delete this script when Player has a Stealth functionality coppled with the Naddi")]
+    public NaddagilHearingSensor NaddiHearing;
+
+    private Vector3 position; 
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         position = transform.position; 
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            naddi.SetSoundModifyer = naddi.GetMinValumeModifyer;
+            NaddiHearing.SetSoundMofiyer(NaddiHearing.GetHalfVolumeModifyer);
         }
         else if (position == transform.position)
         {
-            naddi.SetSoundModifyer = naddi.GetMinValumeModifyer;
+            NaddiHearing.SetSoundMofiyer(NaddiHearing.MinVolumeModifyer);
         }
         else
         {
-            naddi.SetSoundModifyer = naddi.GetMaxValumeModifyer;
+            NaddiHearing.SetSoundMofiyer(NaddiHearing.MaxVolumeModifyer);
         }
     }
 

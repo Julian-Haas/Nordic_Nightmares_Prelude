@@ -14,30 +14,29 @@ public class PatrolPath : MonoBehaviour
     private SplineContainer _closestPath;
     public List<SplineContainer> Paths = new List<SplineContainer>();
     [SerializeField]
-    private Naddi _naddi;
+    private Naddagil _naddi;
     [SerializeField]
     private List<string> DistanceOutput;
-    private NaddiHearing _naddiHearing;
+    public SplineContainer debugSplainRef; 
 
-    private void Start()
-    {
-      _naddiHearing = _naddi.gameObject.GetComponent<NaddiHearing>();
-    }
     public void ActivatePatrolPath(SplineContainer newPath)
     {
         if (newPath != _closestPath)
         {
-            _naddiHearing.ResetSoundSum(); 
+            _naddi.NaddiHearing.ResetSoundSum(); 
             _closestPath.gameObject.SetActive(false);
             _closestPath = newPath;
             _closestPath.gameObject.SetActive(true);
             _naddi.StateMachiene.StartDigging();
-
         }
     }
 
     public SplineContainer GetActivePatrolPath()
     {
+        if(_closestPath.gameObject != debugSplainRef.gameObject)
+        {
+            DebugFileLogger.Log("Spline check", "Spline isnt the ref spline"); 
+        }
         return _closestPath; 
     }
     public Vector3 GetFarthesPoint()
@@ -100,5 +99,19 @@ public class PatrolPath : MonoBehaviour
         {
             throw new System.IndexOutOfRangeException("index was out of Range: " + indexStartSwapping + " Knot count: " + spline.Count);
         }
+    }
+
+    public bool ShouldPausePatrol(BezierKnot knot)
+    {
+        List<int> indexes = _closestPath.GetComponentInParent<ActivtePatrolPath>().IndexesToPauseAt;
+        List<BezierKnot> knots = NaddagilUtillitys.ConvertToList<BezierKnot>((ICollection<BezierKnot>)_closestPath.Spline.Knots); 
+        foreach(int index in indexes)
+        {
+            if (knots[index].Equals(knot))
+            {
+                return true; 
+            }
+        }
+        return false; 
     }
 }

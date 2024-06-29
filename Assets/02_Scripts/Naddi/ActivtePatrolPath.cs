@@ -9,6 +9,8 @@ public class ActivtePatrolPath : MonoBehaviour
     [SerializeField]
     private SplineContainer _spline;
 
+    public List<int> IndexesToPauseAt = new List<int>();  
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -16,4 +18,5 @@ public class ActivtePatrolPath : MonoBehaviour
             _pathHolder.ActivatePatrolPath(_spline);
         } 
     }
+
 }
