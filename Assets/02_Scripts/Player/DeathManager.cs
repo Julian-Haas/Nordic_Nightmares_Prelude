@@ -6,7 +6,7 @@ public class DeathManager : MonoBehaviour
     public static DeathManager Instance {
         get; private set;
     }
-    [SerializeField] private Naddagil _naddi;
+    [SerializeField] private Naddagil _naddagil;
     SavePoint _lastSavePointTotem = null;
     Vector3 _respawnPoint;
     public s_PlayerCollider _playerScript;
@@ -41,9 +41,9 @@ public class DeathManager : MonoBehaviour
     }
     IEnumerator RespawnCoroutine() {
         yield return new WaitForSeconds(2.0f);
-        _naddi.KilledPlayer = true;
+        _naddagil.AttackBehaviour.KilledPlayer = true;
         GameObject simplNaddiActive = GameObject.Find("SimpleNaddiManager");
-        _naddi.ResetNaddiPosition();
+        NaddagilUtillitys.ResetNaddiPosition(ref _naddagil);
 
         Sanity.Instance.ResetSanity();
         _player.transform.position = _respawnPoint;
