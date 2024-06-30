@@ -46,19 +46,19 @@ public class NaddagilUtillitys : MonoBehaviour
         naddi.MeshRenderer.enabled = false;
     }
 
-    public static List<T> ConvertToList<T>(ICollection<T> thingOfThinglol)
+    public static List<T> ConvertToList<T>(ICollection<T> knotCollection)
     {
-        if(thingOfThinglol.Count <= 0)
+        if(knotCollection.Count <= 0)
             throw new System.NullReferenceException("Collection is null");
 
-        List<T> listOfThings = new List<T>(thingOfThinglol);
+        List<T> listOfKnots = new List<T>(knotCollection);
 
-        foreach (T thing in thingOfThinglol)
+        foreach (T knot in knotCollection)
         {
-            listOfThings.Add(thing); 
+            listOfKnots.Add(knot); 
         }
 
-        return listOfThings;
+        return listOfKnots;
     }
 
     public static BezierKnot IsOnKnotPoint(ICollection<BezierKnot> knots, Vector3 position)

@@ -5443,79 +5443,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a046edecf5b2e0e438a43893493375a4, type: 3}
---- !u!1001 &160072724
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 410706426}
-    m_Modifications:
-    - target: {fileID: 91028378906847702, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_Name
-      value: NewShroomCircle
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.79
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.79
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.79
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 6.069996
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.18
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -17.800003
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
 --- !u!1001 &160381370
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14855,7 +14782,6 @@ Transform:
   - {fileID: 319093617}
   - {fileID: 741239101}
   - {fileID: 157821408}
-  - {fileID: 590448154}
   - {fileID: 1540188887}
   - {fileID: 2042801259}
   - {fileID: 868369238}
@@ -21749,11 +21675,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 6943810135593127723, guid: 246a52e1ca08c014690934785da4599b, type: 3}
   m_PrefabInstance: {fileID: 1200068282}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &590448154 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-  m_PrefabInstance: {fileID: 160072724}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &591046784 stripped
 Transform:
@@ -38729,6 +38650,71 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d80f058e8c31e49449404544b47b21c5, type: 3}
+--- !u!1 &1049173624
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1049173625}
+  - component: {fileID: 1049173626}
+  m_Layer: 0
+  m_Name: PausePatrol
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1049173625
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049173624}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1153548639}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1049173626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049173624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3262b7026b0745089e6fef65f48884a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _knotToPaurseAt:
+    Position:
+      x: 4.640106
+      y: 0.009999275
+      z: 31.958084
+    TangentIn:
+      x: 0.000002128211
+      y: 0.009999275
+      z: 31.958084
+    TangentOut:
+      x: 0
+      y: 0
+      z: 0
+    Rotation:
+      value:
+        x: 0
+        y: 0
+        z: 0
+        w: 1
+  _naddagil: {fileID: 1507020999}
+  breakDuration: 2
 --- !u!1001 &1049176903
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42554,6 +42540,7 @@ Transform:
   - {fileID: 161518684}
   - {fileID: 1507021007}
   - {fileID: 1021247470}
+  - {fileID: 1049173625}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1154417402 stripped
@@ -58497,11 +58484,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2538490821920389868, guid: 25536bfb7a0897c47b534f57073f4ed5, type: 3}
       propertyPath: m_Splines.Array.data[0].m_MetaData.Array.data[1].m_DistanceToInterpolation.Array.data[0].T
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2538490821920389868, guid: 25536bfb7a0897c47b534f57073f4ed5, type: 3}
       propertyPath: m_Splines.Array.data[0].m_MetaData.Array.data[2].m_DistanceToInterpolation.Array.data[0].T
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2538490821920389868, guid: 25536bfb7a0897c47b534f57073f4ed5, type: 3}
       propertyPath: m_Splines.Array.data[0].m_MetaData.Array.data[3].m_DistanceToInterpolation.Array.data[0].T
@@ -58549,7 +58536,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2538490821920389868, guid: 25536bfb7a0897c47b534f57073f4ed5, type: 3}
       propertyPath: m_Splines.Array.data[0].m_MetaData.Array.data[1].m_DistanceToInterpolation.Array.data[0].Distance
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2538490821920389868, guid: 25536bfb7a0897c47b534f57073f4ed5, type: 3}
       propertyPath: m_Splines.Array.data[0].m_MetaData.Array.data[1].m_DistanceToInterpolation.Array.data[1].Distance
@@ -58589,7 +58576,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2538490821920389868, guid: 25536bfb7a0897c47b534f57073f4ed5, type: 3}
       propertyPath: m_Splines.Array.data[0].m_MetaData.Array.data[2].m_DistanceToInterpolation.Array.data[0].Distance
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2538490821920389868, guid: 25536bfb7a0897c47b534f57073f4ed5, type: 3}
       propertyPath: m_Splines.Array.data[0].m_MetaData.Array.data[2].m_DistanceToInterpolation.Array.data[1].Distance

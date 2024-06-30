@@ -15,6 +15,7 @@ public class NaddagilPatrolBehaviour : MonoBehaviour
     public bool StartedPatrol = false;
     private bool isPaused = false; 
 
+    private SplineContainer _spline; 
     private void Start()
     {
         InitSplineAnimate();
@@ -25,7 +26,8 @@ public class NaddagilPatrolBehaviour : MonoBehaviour
         if (StartedPatrol == false)
         {
             NaddagilUtillitys.SetFlags(ref StartedPatrol, ref _naddagil.AttackBehaviour.CanChasePlayer, true, true);
-            SplineAnimate.Container = _naddagil.PatrolPath.GetActivePatrolPath();
+            _spline = _naddagil.PatrolPath.GetActivePatrolPath();
+            SplineAnimate.Container = _spline;
             _naddagil.AttackBehaviour.KilledPlayer = false;
             if (SplineAnimate.ElapsedTime > 0)
             {
@@ -44,24 +46,15 @@ public class NaddagilPatrolBehaviour : MonoBehaviour
             _naddagil.MeshRenderer.enabled = true;
             SplineAnimate.enabled = true;
         }
-        SplineAnimate.Play(); 
-     // Vector3 invalid = new Vector3(-999999, -999999, -999999);
-     // BezierKnot currentKnot = NaddagilUtillitys.IsOnKnotPoint((ICollection<BezierKnot>)SplineAnimate.Container.Spline.Knots, this.transform.position);
-     // Vector3 curKnotPos = currentKnot.Position;
-     // if (curKnotPos != invalid && !isPaused)
-     // {
-     //     isPaused = true; 
-     //     SplineAnimate.MaxSpeed = 0;
-     //     StartCoroutine(PauseYield()); 
-     // }
-     // else
-     // {
-     //     if (SplineAnimate.MaxSpeed > 0)
-     //     {
-     //         isPaused = false; 
-     //         SplineAnimate.Play(); //needs to be called every frame cause unity is stupid and other wise Naddi wouldnt walk along spline
-     //     }
-     // }
+        if (CheckIfShouldPause())
+        {
+            isPaused = true;
+            StartCoroutine(PauseYield());
+        }
+        if (!isPaused)
+        {
+            SplineAnimate.Play(); 
+        }
     }
 
     void InitSplineAnimate()
@@ -89,4 +82,20 @@ public class NaddagilPatrolBehaviour : MonoBehaviour
         SplineAnimate.MaxSpeed = _naddagil.Speed; 
 
     }
+
+    private bool CheckIfShouldPause()
+    {
+        if (_spline != null)
+        {
+            float splineLength = _spline.CalculateLength();
+            float distancePercentage = _naddagil.Speed * Time.deltaTime/splineLength;
+            Vector3 estimatedPos = _spline.EvaluatePosition(distancePercentage);
+            List<BezierKnot> knots = NaddagilUtillitys.ConvertToList<BezierKnot>((ICollection<BezierKnot>)(_spline.Spline.Knots)); 
+            Vector3 PausePos = knots[2].Position;
+            return Vector3.Distance(estimatedPos, PausePos) < 0.01f; 
+        }
+        return false; 
+    }
+
+    
 }
