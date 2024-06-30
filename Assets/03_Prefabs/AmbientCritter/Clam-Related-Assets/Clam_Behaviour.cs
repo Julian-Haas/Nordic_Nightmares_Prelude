@@ -153,11 +153,11 @@ public class Clam_Behaviour : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        Handles.color = Color.red;
-        Handles.DrawWireDisc(transform.position, transform.up.normalized, RadiusOfArea);
-        Handles.color = Color.green;
-        Handles.DrawWireDisc(transform.position, transform.up.normalized, RadiusOfArea + ReactionArea);
-
+      //  Handles.color = Color.red;
+      //  Handles.DrawWireDisc(transform.position, transform.up.normalized, RadiusOfArea);
+      //  Handles.color = Color.green;
+      //  Handles.DrawWireDisc(transform.position, transform.up.normalized, RadiusOfArea + ReactionArea);
+      //
         if (RandomizeClams)
         {
             if (!Application.isPlaying)
