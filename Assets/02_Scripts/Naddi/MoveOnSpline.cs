@@ -49,6 +49,7 @@ public class MoveOnSpline : MonoBehaviour
         _distancePercentage += _naddagil.Speed * Time.deltaTime / _splineLength;
         _posOnSpline = _spline.EvaluatePosition(_distancePercentage);
         transform.position = _posOnSpline;
+        RotateAlongSpline(); 
         
 
     }
@@ -67,6 +68,12 @@ public class MoveOnSpline : MonoBehaviour
     public void Pause()
     {
         isStopped = true; 
+    }
+    void RotateAlongSpline()
+    {
+        Vector3 nxtPos = _spline.EvaluatePosition(_distancePercentage + 0.05f);
+        Vector3 dir = nxtPos - _posOnSpline;
+        transform.rotation = Quaternion.LookRotation((dir), transform.up); 
     }
     public bool CheckIfShouldPause(int IndexToPause)
     {
