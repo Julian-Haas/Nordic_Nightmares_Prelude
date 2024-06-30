@@ -73,11 +73,7 @@ public class Naddagil : MonoBehaviour
 #if UNITY_EDITOR 
         if (EnableDebugInfos)
         {
-            if (PatrolBehaviour.SplineAnimate != null)
-            {
-                PatrolBehaviour.SplineAnimate.MaxSpeed = Speed;
-            }
-                AttackBehaviour.Agent.speed = Speed; 
+            AttackBehaviour.Agent.speed = Speed; 
         }
 #endif 
         HandleState();

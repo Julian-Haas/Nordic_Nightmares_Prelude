@@ -8,14 +8,15 @@ public class NaddagilPatrolBehaviour : MonoBehaviour
     [SerializeField, Header("Private Dependicys")]
     private Naddagil _naddagil;
 
-    [HideInInspector]
-    public SplineAnimate SplineAnimate { get; private set; }
+    public MoveOnSpline SplineAnimate { get; private set; }
 
     [Header("Public Flags")]
     public bool StartedPatrol = false;
     private bool isPaused = false; 
 
-    private SplineContainer _spline; 
+    private SplineContainer _spline;
+    private bool allReadyPaused = false;
+
     private void Start()
     {
         InitSplineAnimate();
@@ -27,12 +28,8 @@ public class NaddagilPatrolBehaviour : MonoBehaviour
         {
             NaddagilUtillitys.SetFlags(ref StartedPatrol, ref _naddagil.AttackBehaviour.CanChasePlayer, true, true);
             _spline = _naddagil.PatrolPath.GetActivePatrolPath();
-            SplineAnimate.Container = _spline;
+            SplineAnimate.SetSpline(ref _spline); 
             _naddagil.AttackBehaviour.KilledPlayer = false;
-            if (SplineAnimate.ElapsedTime > 0)
-            {
-                SplineAnimate.ElapsedTime = 0f;
-            }
             Vector3 newPos = _naddagil.PatrolPath.CalculateDistanceForEachKnot();
 
             //When the Naddi wants to restart Patrol because the Player hided in a SafeZone but comes out to early, switch to Chase State and return.
@@ -41,61 +38,49 @@ public class NaddagilPatrolBehaviour : MonoBehaviour
                 NaddagilUtillitys.SetFlags(ref StartedPatrol, ref _naddagil.AttackBehaviour.CanChasePlayer, false, false);
                 _naddagil.StateMachiene.FoundPlayer();
                 return;
-            }
+            } 
             transform.position = newPos;
             _naddagil.MeshRenderer.enabled = true;
             SplineAnimate.enabled = true;
         }
-        if (CheckIfShouldPause())
+        if (SplineAnimate.CheckIfShouldPause(1) && !allReadyPaused)
         {
-            isPaused = true;
+            isPaused = true; 
+            allReadyPaused = true;
             StartCoroutine(PauseYield());
         }
-        if (!isPaused)
-        {
-            SplineAnimate.Play(); 
-        }
+        if(!isPaused)
+        SplineAnimate.Play(); 
+      
     }
 
     void InitSplineAnimate()
     {
-        SplineAnimate = gameObject.AddComponent<SplineAnimate>();
-        SplineAnimate.AnimationMethod = SplineAnimate.Method.Speed;
-        SplineAnimate.enabled = false;
-        SplineAnimate.PlayOnAwake = false;
-        SplineAnimate.MaxSpeed = _naddagil.Speed;
+        SplineAnimate = gameObject.AddComponent<MoveOnSpline>();
     }
 
     public void DeactivatePatrol()
     {
         Vector3 currentPos = transform.position;
-        SplineAnimate.Pause();
+        SplineAnimate.Stop();
         SplineAnimate.enabled = false;
-        SplineAnimate.ElapsedTime = 0;
         StartedPatrol = false;
         transform.position = currentPos;
     }
 
     private IEnumerator PauseYield()
     {
+        SplineAnimate.Pause();
+        isPaused = true; 
+        _naddagil.StateMachiene.SetState(NaddiStates.Idle); 
         yield return new WaitForSeconds(2);
-        SplineAnimate.MaxSpeed = _naddagil.Speed; 
-
+        _naddagil.StateMachiene.SetState(NaddiStates.Patrol);
+        SplineAnimate.Resume();
+        isPaused=false; 
     }
 
-    private bool CheckIfShouldPause()
+    public void SetAllreadyPaused(bool val)
     {
-        if (_spline != null)
-        {
-            float splineLength = _spline.CalculateLength();
-            float distancePercentage = _naddagil.Speed * Time.deltaTime/splineLength;
-            Vector3 estimatedPos = _spline.EvaluatePosition(distancePercentage);
-            List<BezierKnot> knots = NaddagilUtillitys.ConvertToList<BezierKnot>((ICollection<BezierKnot>)(_spline.Spline.Knots)); 
-            Vector3 PausePos = knots[2].Position;
-            return Vector3.Distance(estimatedPos, PausePos) < 0.01f; 
-        }
-        return false; 
+        allReadyPaused = val; 
     }
-
-    
 }
