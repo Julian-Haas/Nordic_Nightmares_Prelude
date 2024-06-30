@@ -17,12 +17,15 @@ public class PatrolPath : MonoBehaviour
     private Naddagil _naddi;
     [SerializeField]
     private List<string> DistanceOutput;
-    public SplineContainer debugSplainRef; 
+    int _indexToPauseAt; 
+    public SplineContainer debugSplainRef;
 
-    public void ActivatePatrolPath(SplineContainer newPath)
+
+    public void ActivatePatrolPath(SplineContainer newPath, int pauseIndex)
     {
         if (newPath != _closestPath)
         {
+            _indexToPauseAt = pauseIndex; 
             _naddi.NaddiHearing.ResetSoundSum(); 
             _closestPath.gameObject.SetActive(false);
             _closestPath = newPath;
@@ -78,6 +81,8 @@ public class PatrolPath : MonoBehaviour
 
     private Spline SwapKnotPoints(Spline spline, int indexStartSwapping)
     {
+
+        BezierKnot knotToPause = spline[_indexToPauseAt]; 
         List<BezierKnot> reorderedSpline = new List<BezierKnot>();
         if (indexStartSwapping >= 0 && indexStartSwapping < spline.Count)
         {
@@ -93,25 +98,13 @@ public class PatrolPath : MonoBehaviour
             {
                 spline.SetKnot(i, reorderedSpline[i]); 
             }
+            int newPauseIndex = reorderedSpline.IndexOf(knotToPause);
+            _naddi.PatrolBehaviour.SetPauseIndex(newPauseIndex); 
             return spline; 
         }
         else
         {
             throw new System.IndexOutOfRangeException("index was out of Range: " + indexStartSwapping + " Knot count: " + spline.Count);
         }
-    }
-
-    public bool ShouldPausePatrol(BezierKnot knot)
-    {
-        List<int> indexes = _closestPath.GetComponentInParent<ActivtePatrolPath>().IndexesToPauseAt;
-        List<BezierKnot> knots = NaddagilUtillitys.ConvertToList<BezierKnot>((ICollection<BezierKnot>)_closestPath.Spline.Knots); 
-        foreach(int index in indexes)
-        {
-            if (knots[index].Equals(knot))
-            {
-                return true; 
-            }
-        }
-        return false; 
     }
 }

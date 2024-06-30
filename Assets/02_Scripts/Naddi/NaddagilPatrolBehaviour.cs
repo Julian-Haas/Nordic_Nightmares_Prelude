@@ -16,6 +16,7 @@ public class NaddagilPatrolBehaviour : MonoBehaviour
 
     private SplineContainer _spline;
     private bool allReadyPaused = false;
+    private int _pauseIndex = 0; 
 
     private void Start()
     {
@@ -43,7 +44,7 @@ public class NaddagilPatrolBehaviour : MonoBehaviour
             _naddagil.MeshRenderer.enabled = true;
             SplineAnimate.enabled = true;
         }
-        if (SplineAnimate.CheckIfShouldPause(1) && !allReadyPaused)
+        if (SplineAnimate.CheckIfShouldPause(_pauseIndex) && !allReadyPaused)
         {
             isPaused = true; 
             allReadyPaused = true;
@@ -82,5 +83,10 @@ public class NaddagilPatrolBehaviour : MonoBehaviour
     public void SetAllreadyPaused(bool val)
     {
         allReadyPaused = val; 
+    }
+
+    public void SetPauseIndex(int val)
+    {
+        _pauseIndex = val; 
     }
 }

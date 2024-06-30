@@ -8,6 +8,8 @@ public class ActivtePatrolPath : MonoBehaviour
     private PatrolPath _pathHolder;
     [SerializeField]
     private SplineContainer _spline;
+    [SerializeField]
+    private int _indexToPauseAt = 0; 
 
     public List<int> IndexesToPauseAt = new List<int>();  
 
@@ -15,7 +17,7 @@ public class ActivtePatrolPath : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            _pathHolder.ActivatePatrolPath(_spline);
+            _pathHolder.ActivatePatrolPath(_spline, _indexToPauseAt);
         } 
     }
 
