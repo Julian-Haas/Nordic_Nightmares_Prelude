@@ -9,7 +9,7 @@ public class ActivtePatrolPath : MonoBehaviour
     [SerializeField]
     private SplineContainer _spline;
     [SerializeField]
-    private int _indexToPauseAt = 0; 
+    private int _indexToPauseAt = -1; 
 
     public List<int> IndexesToPauseAt = new List<int>();  
 

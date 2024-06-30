@@ -14,6 +14,7 @@ public class PlayerControl : MonoBehaviour, PlayerInput.IPlayerMoveActions
     [SerializeField] private float NoiseRange = 5.0f;
     [SerializeField] private bool _isSneaking = false, _isInteracting = false, _timeSinceRespawnIsUp = true;
     [SerializeField] private s_PlayerCollider _playerCollider;
+    [SerializeField] private Naddagil _naddagil;
     private PlayerInput _playerInput;
     private Vector3 _input, _direction;
     private float _maxSpeed, _respawnInputBlockingTimer = 0.0f;
@@ -138,11 +139,13 @@ public class PlayerControl : MonoBehaviour, PlayerInput.IPlayerMoveActions
         {
             _speed *= _SneakingSpeedModifier;
             _isSneaking = true;
+            _naddagil.NaddiEye.PlayerIsSneaking = true; 
         }
         if (context.canceled)
         {
             _speed /= _SneakingSpeedModifier;
             _isSneaking = false;
+            _naddagil.NaddiEye.PlayerIsSneaking = false; 
         }
     }
 

@@ -77,6 +77,9 @@ public class MoveOnSpline : MonoBehaviour
     }
     public bool CheckIfShouldPause(int IndexToPause)
     {
+        Debug.Log(IndexToPause); 
+        if (IndexToPause < 0 || IndexToPause > _spline.Spline.Count - 1)
+            return false; 
         float index = SplineUtility.ConvertIndexUnit<Spline>(_spline.Spline, _distancePercentage, PathIndexUnit.Knot);
         int indexOfCurKnot = (int)index; 
         return IndexToPause == indexOfCurKnot; 

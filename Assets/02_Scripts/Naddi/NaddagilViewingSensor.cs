@@ -14,7 +14,8 @@ public class NaddagilViewingSensor : MonoBehaviour
     [SerializeField]
     private LayerMask ignoreLayer;
     [SerializeField]
-    private NaddiValueStorage valueStorage; 
+    private NaddiValueStorage valueStorage;
+    public bool PlayerIsSneaking = false; 
 
     public float ConeRadius { get { return _coneRadius; } set { _coneRadius = value;  } }
     public float HalfAngleDegree { get { return _coneHalfAngleDegree; } set { _coneHalfAngleDegree = value; } }
@@ -43,6 +44,12 @@ public class NaddagilViewingSensor : MonoBehaviour
                 Vector3[] playerSides = new Vector3[2];
                 playerSides[0] = _player.position - offset;
                 playerSides[1] = _player.position + offset;
+                float yOffset = _player.localScale.y / 4; 
+                if (PlayerIsSneaking)
+                {
+                    playerSides[0].y += yOffset;
+                    playerSides[1].y += yOffset;
+                }
                 RaycastHit hit;
                 foreach (var playerSide in playerSides) 
                 {

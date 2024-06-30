@@ -21,6 +21,8 @@ public class PlayerMove : MonoBehaviour, PlayerInput.IPlayerMoveActions
     //Vector3 _positionToDropItem;
     private GameObject _player;
     private s_PlayerCollider _playerCollider;
+    [SerializeField]
+    private Naddagil _naddagil; 
 
     void Start()
     {
@@ -89,11 +91,13 @@ public class PlayerMove : MonoBehaviour, PlayerInput.IPlayerMoveActions
         {
             _isSneaking = true;
             _MaximumMoveSpeed *= _SneakingSpeedModifier;
+            _naddagil.NaddiEye.PlayerIsSneaking = true; 
         }
         if (context.canceled)
         {
             _isSneaking = false;
             _MaximumMoveSpeed /= _SneakingSpeedModifier;
+            _naddagil.NaddiEye.PlayerIsSneaking = false;
         }
     }
 

@@ -17,7 +17,7 @@ public class PatrolPath : MonoBehaviour
     private Naddagil _naddi;
     [SerializeField]
     private List<string> DistanceOutput;
-    int _indexToPauseAt; 
+    int _indexToPauseAt = -1; 
     public SplineContainer debugSplainRef;
 
 
@@ -36,10 +36,6 @@ public class PatrolPath : MonoBehaviour
 
     public SplineContainer GetActivePatrolPath()
     {
-        if(_closestPath.gameObject != debugSplainRef.gameObject)
-        {
-            DebugFileLogger.Log("Spline check", "Spline isnt the ref spline"); 
-        }
         return _closestPath; 
     }
     public Vector3 GetFarthesPoint()
@@ -81,8 +77,11 @@ public class PatrolPath : MonoBehaviour
 
     private Spline SwapKnotPoints(Spline spline, int indexStartSwapping)
     {
-
-        BezierKnot knotToPause = spline[_indexToPauseAt]; 
+        BezierKnot knotToPause = new BezierKnot(); 
+        if (_indexToPauseAt > 0)
+        {
+             knotToPause = spline[_indexToPauseAt]; 
+        }
         List<BezierKnot> reorderedSpline = new List<BezierKnot>();
         if (indexStartSwapping >= 0 && indexStartSwapping < spline.Count)
         {
@@ -98,7 +97,11 @@ public class PatrolPath : MonoBehaviour
             {
                 spline.SetKnot(i, reorderedSpline[i]); 
             }
-            int newPauseIndex = reorderedSpline.IndexOf(knotToPause);
+            int newPauseIndex = -1; 
+            if (_indexToPauseAt > 0)
+            {
+                newPauseIndex = reorderedSpline.IndexOf(knotToPause);
+            }
             _naddi.PatrolBehaviour.SetPauseIndex(newPauseIndex); 
             return spline; 
         }

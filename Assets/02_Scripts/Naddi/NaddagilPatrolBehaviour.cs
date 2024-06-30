@@ -16,7 +16,7 @@ public class NaddagilPatrolBehaviour : MonoBehaviour
 
     private SplineContainer _spline;
     private bool allReadyPaused = false;
-    private int _pauseIndex = 0; 
+    private int _pauseIndex = -1; 
 
     private void Start()
     {

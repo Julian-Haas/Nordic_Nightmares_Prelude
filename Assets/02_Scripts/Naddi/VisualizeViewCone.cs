@@ -32,7 +32,9 @@ public class VisualizeViewCone : MonoBehaviour
 
     void Update()
     {
+#if UNITY_EDITOR
         DrawVisionCone();
+#endif
     }
 
     void DrawVisionCone()
