@@ -47,8 +47,8 @@ public class Bridge : Interactable
                         _soundmanager.PlaySound2D("event:/SFX/BridgeCompleted");
                         _player.GetComponent<PlayerControl>().PlayInteractAnimation();
                         _player.GetComponentInChildren<Guidance>().displayGuidanceTooltipWithSpecificText("Now I can cross it.");
-                        break;
                         _animator.SetTrigger("IsFeedback");
+                        break;
                     default:
                         break;
                 }
