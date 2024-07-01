@@ -110,27 +110,30 @@ public class PlayerControl : MonoBehaviour, PlayerInput.IPlayerMoveActions
 
     public void OnInteract(InputAction.CallbackContext context) {
         if(context.started) {
-            InteractableManager.Instance.Interact();
-            _isInteracting = true;
-            //PlayMovingOrIdleAnimation();
+            if(!_isInteracting) {
+                InteractableManager.Instance.Interact();
+                _isInteracting = true;
+                //PlayMovingOrIdleAnimation();
+            }
         }
-        //if (context.canceled)
-        //{
-        //    _playercollider.interact(false);
-        //    _isinteracting = false;
-        //}
+        if(context.canceled) {
+            if(_isInteracting) {
+                _isInteracting = false;
+                //PlayMovingOrIdleAnimation();
+            }
+        }
     }
 
     public void OnSneaking(InputAction.CallbackContext context) {
         if(context.started) {
             _speed *= _SneakingSpeedModifier;
             _isSneaking = true;
-            _naddagil.NaddiEye.PlayerIsSneaking = true; 
+            _naddagil.NaddiEye.PlayerIsSneaking = true;
         }
         if(context.canceled) {
             _speed /= _SneakingSpeedModifier;
             _isSneaking = false;
-            _naddagil.NaddiEye.PlayerIsSneaking = false; 
+            _naddagil.NaddiEye.PlayerIsSneaking = false;
         }
     }
 
@@ -222,10 +225,10 @@ public class PlayerControl : MonoBehaviour, PlayerInput.IPlayerMoveActions
         _animator.ResetTrigger("IsMoving");
         _animator.ResetTrigger("IsIdling");
         _animator.SetTrigger("IsCharacterLose");
-       //_animatorHidden.ResetTrigger("IsInteracting");
-       //_animatorHidden.ResetTrigger("IsMoving");
-       //_animatorHidden.ResetTrigger("IsIdling");
-       //_animatorHidden.SetTrigger("IsCharacterLose");
+        //_animatorHidden.ResetTrigger("IsInteracting");
+        //_animatorHidden.ResetTrigger("IsMoving");
+        //_animatorHidden.ResetTrigger("IsIdling");
+        //_animatorHidden.SetTrigger("IsCharacterLose");
     }
 
     private Vector3 ToIso(Vector3 input) {
