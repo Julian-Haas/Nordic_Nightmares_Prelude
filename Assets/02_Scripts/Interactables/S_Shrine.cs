@@ -12,7 +12,7 @@ public class S_Shrine : MonoBehaviour
 
     public int _shrineChargesLeft = 3;
     public int _rechargeTime = 7;
-    private int _index = 3;
+    //private int _index = 3;
 
 
     public void Start() {

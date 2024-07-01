@@ -11,7 +11,7 @@ public class s_Shrine : MonoBehaviour
     public bool _shrineIsRechargable = true;
     public bool _rechargeFromFirstUseOn = false;
     public int _rechargeTime = 7;
-    private int _index = 3;
+    //private int _index = 3;
 
     private void Start() {
         _shrineFireBowl.SetActive(false);

@@ -10,7 +10,7 @@ public class s_SoundSettings : MonoBehaviour
 {
     [SerializeField] private Slider _masterVolumeSlider, _sfxVolumeSlider, _musicVolumeSlider = null;
     [SerializeField] private TextMeshProUGUI MasterVolumeTextUI, SfXVolumeTextUI, MusicVolumeTextUI = null;
-    [SerializeField] private float maxSliderValue = 100.0f;
+    //[SerializeField] private float maxSliderValue = 100.0f;
     SoundManager _soundManager = null;
     //private float MasterVolume, SFXVolume, MusicVolume = 1;
     private void Awake()

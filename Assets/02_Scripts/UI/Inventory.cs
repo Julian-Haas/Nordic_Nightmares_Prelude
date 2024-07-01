@@ -14,7 +14,7 @@ public class Inventory : MonoBehaviour
     private bool _gatheredFirstPlank;
     private GameObject _plank = null;
     public Animator _animator;
-    bool _alreadyCollectedAPlank = false;
+    //private bool _alreadyCollectedAPlank = false;
     private void Awake() {
         if(Instance != null && Instance != this) {
             Destroy(this);
@@ -49,7 +49,7 @@ public class Inventory : MonoBehaviour
             _plank.SetActive(true);
             _animator.SetTrigger("IsFeedback");
             if(!_gatheredFirstPlank) {
-                _alreadyCollectedAPlank = true;
+                //_alreadyCollectedAPlank = true;
                 //    this.GetComponentInParent<Guidance>().displayGuidanceTooltipWithSpecificText("This could be useful.");
             }
             return true;

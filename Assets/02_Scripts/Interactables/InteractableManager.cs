@@ -15,9 +15,9 @@ public class InteractableManager : MonoBehaviour
         }
     }
     private List<Interactable> _nearbyInteractables = new List<Interactable>();
-    bool _alreadyKindledAFire = false;
-    bool _alreadyHadCollectedAPlank = false;
-    bool _alreadyHadBeenCloseToABridge = false;
+    //bool _alreadyKindledAFire = false;
+    //bool _alreadyHadCollectedAPlank = false;
+    //bool _alreadyHadBeenCloseToABridge = false;
     public void AddInteractable(Interactable interactableToAdd) {
         _nearbyInteractables.Add(interactableToAdd);
         if(_nearbyInteractables.Count == 1) {

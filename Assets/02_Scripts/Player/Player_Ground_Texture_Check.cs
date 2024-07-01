@@ -10,16 +10,16 @@ public class Player_Ground_Texture_Check : MonoBehaviour
     int layer_mask;
 
     [Header("Noise Range depending on Ground")]
-    [SerializeField] float Grass_Quiet = 0.0f;
-    [SerializeField] float Grass_Loud = 0.0f;
-    [SerializeField] float Sand_Quiet = 1.0f;
-    [SerializeField] float Sand_Loud = 3.0f;
-    [SerializeField] float Dirt_Quiet = 1.5f;
-    [SerializeField] float Dirt_Loud = 3.5f;
-    [SerializeField] float Stone_Quiet = 2.0f;
-    [SerializeField] float Stone_Loud = 4.0f;
-    [SerializeField] float Gravel_Quiet = 3.0f;
-    [SerializeField] float Gravel_Loud = 5.0f;
+    //[SerializeField] float Grass_Quiet = 0.0f;
+    //[SerializeField] float Grass_Loud = 0.0f;
+    //[SerializeField] float Sand_Quiet = 1.0f;
+    //[SerializeField] float Sand_Loud = 3.0f;
+    //[SerializeField] float Dirt_Quiet = 1.5f;
+    //[SerializeField] float Dirt_Loud = 3.5f;
+    //[SerializeField] float Stone_Quiet = 2.0f;
+    //[SerializeField] float Stone_Loud = 4.0f;
+    //[SerializeField] float Gravel_Quiet = 3.0f;
+    //[SerializeField] float Gravel_Loud = 5.0f;
 
     [SerializeField] PlayerControl playerControl;
     public string CurrentTexture;

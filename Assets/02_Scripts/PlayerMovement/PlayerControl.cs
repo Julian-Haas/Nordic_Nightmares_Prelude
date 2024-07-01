@@ -222,10 +222,10 @@ public class PlayerControl : MonoBehaviour, PlayerInput.IPlayerMoveActions
         _animator.ResetTrigger("IsMoving");
         _animator.ResetTrigger("IsIdling");
         _animator.SetTrigger("IsCharacterLose");
-        _animatorHidden.ResetTrigger("IsInteracting");
-        _animatorHidden.ResetTrigger("IsMoving");
-        _animatorHidden.ResetTrigger("IsIdling");
-        _animatorHidden.SetTrigger("IsCharacterLose");
+       //_animatorHidden.ResetTrigger("IsInteracting");
+       //_animatorHidden.ResetTrigger("IsMoving");
+       //_animatorHidden.ResetTrigger("IsIdling");
+       //_animatorHidden.SetTrigger("IsCharacterLose");
     }
 
     private Vector3 ToIso(Vector3 input) {

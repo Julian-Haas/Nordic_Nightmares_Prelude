@@ -11,11 +11,8 @@ public class MoveOnSpline : MonoBehaviour
 
     private float _distancePercentage = 0f;
     private float _splineLength = 0f;
-    private float threshold = 0.1f;
     private Vector3 _posOnSpline = new Vector3(0, 0, 0);
-    private List<BezierKnot> knots = new List<BezierKnot>();
 
-    private bool isPaused = false;
     private bool isStopped = false;
 
 
@@ -27,7 +24,6 @@ public class MoveOnSpline : MonoBehaviour
     {
         _spline = newSpline;
         _splineLength = _spline.CalculateLength();
-        knots = NaddagilUtillitys.ConvertToList<BezierKnot>((ICollection<BezierKnot>)_spline.Spline.Knots); 
     }
 
     public void Play()

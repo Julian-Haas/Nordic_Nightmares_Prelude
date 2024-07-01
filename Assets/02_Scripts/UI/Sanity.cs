@@ -16,7 +16,7 @@ public class Sanity : MonoBehaviour
     private float _sanity = 100.0f;
     private float _sanityChange;
     private bool _sanityEmptySoundPlayed = false;
-    private bool _sanityLowSoundPlaying = false;
+    //private bool _sanityLowSoundPlaying = false;
     private void Awake() {
         if(Instance != null && Instance != this) {
             Destroy(Instance);
