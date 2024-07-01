@@ -14,7 +14,8 @@ public class Bridge : Interactable
     public float _buildspeed = 0.02f;
     private bool _triedToInteractBefore = false;
     public Animator _animator;
-
+    [SerializeField]
+    private List<GameObject> _holeColliders = new List<GameObject>(2);
     void Start() {
         _type = "bridge";
         _inventory = GameObject.Find("Inventory").GetComponentInChildren<Inventory>();
@@ -24,6 +25,8 @@ public class Bridge : Interactable
         _player = GameObject.Find("PlayerAnimated");
         //_slider.value = 0.5f;
         //Debug.Log("_slider.value: " + _slider.value);
+        _holeColliders[0].SetActive(true);
+        _holeColliders[1].SetActive(false);
 
     }
 
@@ -33,6 +36,8 @@ public class Bridge : Interactable
                 switch(_bridgestate) {
                     case 0:
                         _Hole1.SetActive(true);
+                        _holeColliders[0].SetActive(false);
+                        _holeColliders[1].SetActive(true);
                         _bridgestate = 1;
                         _soundmanager.PlaySound2D("event:/SFX/BridgeStep");
                         _player.GetComponent<PlayerControl>().PlayInteractAnimation();
@@ -41,6 +46,7 @@ public class Bridge : Interactable
                         break;
                     case 1:
                         _Hole2.SetActive(true);
+                        _holeColliders[1].SetActive(false);
                         _bridgestate = 2;
                         DisplayInteractionText(false);
                         Destroy(_colliderToDelete);
