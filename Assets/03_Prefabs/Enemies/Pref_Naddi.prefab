@@ -798,6 +798,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   valueStorage: {fileID: 11400000, guid: 1d476c8f1503d455fa51047c69da2d0f, type: 2}
+  PlayerIsSneaking: 0
 --- !u!195 &3054165339838200593
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2825,6 +2826,7 @@ SkinnedMeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 8ecadaa6b687ad841847d7d721e9abf4, type: 2}
+  - {fileID: 2100000, guid: 69932b25dfe329248ab2bc56fbac770c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -329,30 +329,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7ef057e6a68f78448b13d627813b721, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  General: 5
-  InShadow: 15
-  SafeZone: 5
-  HealingZone: 15
-  _inHealingZone: 0
   _inSafeZone: 0
-  _isMad: 0
   _inShadow: 0
-  _influence: 0
-  _sanity: 0
   InGameUI: {fileID: 5112696590808982303, guid: 1f407947ef2bddd4d9c023cbb7d00e0a, type: 3}
   material: {fileID: 2100000, guid: 50d51dda98328594994dfb66ac023a70, type: 2}
   _visible: {fileID: 4025154541645202923}
   _invisible: {fileID: 2676815024736012909}
   _visibleObject: {fileID: 8758748369972004475}
   _invisibleObject: {fileID: 1994891712975373885}
-  closeInteractables: []
   CurrentGround: Regular
-  QuietVolume: 0
-  MediumVolume: 0
-  LoudVolume: 0
   VELOCITY: 0
-  _cooldownOfSanityWarnings: 5
-  _alreadyCloseToAFire: 0
   GuidanceTooltip: {fileID: 3653483537849930846}
   _EyeAnimator: {fileID: 4673196641527734000}
 --- !u!114 &3337502155100940014
@@ -416,6 +402,7 @@ MonoBehaviour:
   _isInteracting: 0
   _timeSinceRespawnIsUp: 1
   _playerCollider: {fileID: 3310213889742000377}
+  _naddagil: {fileID: 0}
   _animator: {fileID: 3251343869774041173}
   _animatorHidden: {fileID: 8611017052132962895}
   CurrentSpeed: 0
@@ -432,7 +419,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1d4afa8e5108bc40942b3046cd58436, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _naddi: {fileID: 0}
+  _naddagil: {fileID: 0}
   _playerScript: {fileID: 0}
 --- !u!1 &5011235563432924820
 GameObject:
@@ -914,7 +901,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3020941095358919480, guid: 7d3626f19f658494380ae5ce398ac571, type: 3}
       propertyPath: m_Materials.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3020941095358919480, guid: 7d3626f19f658494380ae5ce398ac571, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -923,7 +910,7 @@ PrefabInstance:
     - target: {fileID: 3020941095358919480, guid: 7d3626f19f658494380ae5ce398ac571, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: 52636538cabe7714fb028ed1fd796361, type: 2}
+      objectReference: {fileID: 2100000, guid: 69932b25dfe329248ab2bc56fbac770c, type: 2}
     - target: {fileID: 3045905628856863288, guid: 7d3626f19f658494380ae5ce398ac571, type: 3}
       propertyPath: m_Layer
       value: 2
