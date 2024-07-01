@@ -8327,7 +8327,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6346640903152727836, guid: 5fef96df39be7c34482e37ab0cc441f2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 104.08
+      value: 88.07
       objectReference: {fileID: 0}
     - target: {fileID: 6346640903152727836, guid: 5fef96df39be7c34482e37ab0cc441f2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -8335,7 +8335,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6346640903152727836, guid: 5fef96df39be7c34482e37ab0cc441f2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 179.91
+      value: 162.88
       objectReference: {fileID: 0}
     - target: {fileID: 6346640903152727836, guid: 5fef96df39be7c34482e37ab0cc441f2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -9784,6 +9784,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pathHolder: {fileID: 996640065}
   _spline: {fileID: 1855700243}
+  _indexToPauseAt: -1
+  IndexesToPauseAt: 
 --- !u!1001 &685310161
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12030,6 +12032,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pathHolder: {fileID: 996640065}
   _spline: {fileID: 843181484}
+  _indexToPauseAt: -1
+  IndexesToPauseAt: 
 --- !u!1001 &854689772
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12274,6 +12278,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pathHolder: {fileID: 996640065}
   _spline: {fileID: 1828255548}
+  _indexToPauseAt: -1
+  IndexesToPauseAt: 
 --- !u!1001 &872203320
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15107,6 +15113,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pathHolder: {fileID: 996640065}
   _spline: {fileID: 1937851600}
+  _indexToPauseAt: -1
+  IndexesToPauseAt: 
 --- !u!1001 &1243027911
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15837,6 +15845,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pathHolder: {fileID: 996640065}
   _spline: {fileID: 1805956569}
+  _indexToPauseAt: -1
+  IndexesToPauseAt: 
 --- !u!1001 &1326239163
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17224,6 +17234,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pathHolder: {fileID: 996640065}
   _spline: {fileID: 487579231}
+  _indexToPauseAt: -1
+  IndexesToPauseAt: 
 --- !u!1 &1404105313
 GameObject:
   m_ObjectHideFlags: 0
@@ -20841,6 +20853,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pathHolder: {fileID: 996640065}
   _spline: {fileID: 1387335109}
+  _indexToPauseAt: -1
+  IndexesToPauseAt: 
 --- !u!1001 &1705887160
 PrefabInstance:
   m_ObjectHideFlags: 0
