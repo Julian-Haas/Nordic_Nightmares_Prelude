@@ -41,6 +41,28 @@ public class s_PlayerCollider : MonoBehaviour
             if(_rb.velocity.magnitude >= 0.000001f) { // && !_inSafeZone ???
                 VELOCITY = _rb.velocity.magnitude;
                 _textureCheck.CheckGroundTexture();
+               // _track.LeaveTrackPoint();
+            }
+            sanityUpdate();
+            updateClosestInteractable();
+        }
+        GuidanceTooltip.transform.rotation = new Quaternion(0.109381668f, -0.875426114f, 0.234569758f, 0.408217877f);
+    }
+    private void updateClosestInteractable()
+    {
+        Interactable objectToSwap;
+        for (int i = 0; i < closeInteractables.Count - 1; i++)
+        {
+            if ((this.transform.position - closeInteractables[i].transform.position).sqrMagnitude > (this.transform.position - closeInteractables[i + 1].transform.position).sqrMagnitude)
+            {
+                if (i == 0)
+                {
+                    closeInteractables[0].GetComponentInParent<Interactable>()?.DisplayInteractionText(false);
+                    closeInteractables[1].GetComponentInParent<Interactable>()?.DisplayInteractionText(true);
+                }
+                objectToSwap = closeInteractables[i];
+                closeInteractables[i] = closeInteractables[i + 1];
+                closeInteractables[i+1] = objectToSwap;
             }
         }
         GuidanceTooltip.transform.rotation = new Quaternion(0.109381668f,-0.875426114f,0.234569758f,0.408217877f);
