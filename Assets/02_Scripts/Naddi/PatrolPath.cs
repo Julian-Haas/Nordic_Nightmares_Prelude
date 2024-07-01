@@ -28,6 +28,7 @@ public class PatrolPath : MonoBehaviour
             _closestPath = newPath;
             _closestPath.gameObject.SetActive(true);
             _naddi.StateMachiene.StartDigging();
+
         }
     }
 
