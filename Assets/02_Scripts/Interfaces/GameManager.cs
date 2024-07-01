@@ -13,8 +13,8 @@ public class GameManager : MonoBehaviour
         }
         else {
             Instance = this;
+            //DontDestroyOnLoad(this);
         }
-        DontDestroyOnLoad(this);
         Application.targetFrameRate = 100;
     }
     void OnSceneLoaded(Scene scene,LoadSceneMode mode) {

@@ -23,7 +23,7 @@ public class Sanity : MonoBehaviour
         }
         else {
             Instance = this;
-            DontDestroyOnLoad(Instance);
+            //DontDestroyOnLoad(Instance);
         }
     }
     private void Start() {

@@ -29,11 +29,12 @@ public class SoundManager : MonoBehaviour
     }
     private void Awake() {
         if(Instance != null && Instance != this) {
+            Debug.Log("test");
             Destroy(gameObject);
         }
         else {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         MusicBus = FMODUnity.RuntimeManager.GetBus("bus:/Music");
         //MusicBusSetVolume(0.1f);

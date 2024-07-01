@@ -28,7 +28,7 @@ public class s_PlayerCollider : MonoBehaviour
         }
         else {
             Instance = this;
-            DontDestroyOnLoad(this);
+            //DontDestroyOnLoad(this);
         }
     }
     private void Start() {

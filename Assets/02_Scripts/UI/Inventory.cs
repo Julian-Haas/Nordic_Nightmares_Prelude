@@ -9,9 +9,9 @@ public class Inventory : MonoBehaviour
     public static Inventory Instance {
         get; private set;
     }
-    private bool _isHavingPlank;
-    private bool _isHavingSeashell;
-    private bool _gatheredFirstPlank;
+    private bool _isHavingPlank = false;
+    private bool _isHavingSeashell = false;
+    private bool _gatheredFirstPlank = false;
     private GameObject _plank = null;
     public Animator _animator;
     //private bool _alreadyCollectedAPlank = false;
@@ -23,7 +23,7 @@ public class Inventory : MonoBehaviour
         else {
             Instance = this;
         }
-        DontDestroyOnLoad(this);
+        //DontDestroyOnLoad(this);
     }
     void Start() {
         _plank = s_PlayerCollider.Instance.transform.Find("A_Character_03").transform.Find("Rig_Player").transform.Find("Mch_snap_Wood").transform.Find("Wood_property").transform.Find("PlankFeedback").gameObject;

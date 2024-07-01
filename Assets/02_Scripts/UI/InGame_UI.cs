@@ -137,10 +137,10 @@ public class InGame_UI : MonoBehaviour
     }
 
     public void BackToMainMenu() {
-        _soundManager.musicInstance.SetParameter("Sanity",1.0f);
-        _soundManager.musicInstance.SetParameter("Level",0.5f);
-        _soundManager.musicInstance.SetParameter("NaddiR",1.0f);
-        _soundManager.musicInstance.SetParameter("NaddiHunt",0.0f);
+        //_soundManager.musicInstance.SetParameter("Sanity",1.0f);
+        //_soundManager.musicInstance.SetParameter("Level",0.5f);
+        //_soundManager.musicInstance.SetParameter("NaddiR",1.0f);
+        //_soundManager.musicInstance.SetParameter("NaddiHunt",0.0f);
 
 
         SceneManager.LoadScene(0);
