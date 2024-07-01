@@ -13,7 +13,6 @@ public class Inventory : MonoBehaviour
     private bool _isHavingSeashell;
     private bool _gatheredFirstPlank;
     private GameObject _plank = null;
-    public SoundManager _soundmanager;
     public Animator _animator;
     bool _alreadyCollectedAPlank = false;
     private void Awake() {
@@ -30,7 +29,6 @@ public class Inventory : MonoBehaviour
         _plank = s_PlayerCollider.Instance.transform.Find("A_Character_03").transform.Find("Rig_Player").transform.Find("Mch_snap_Wood").transform.Find("Wood_property").transform.Find("PlankFeedback").gameObject;
         _plank.SetActive(false);
         _animator = _plank.GetComponent<Animator>();
-        _soundmanager = GameObject.Find("SoundManager").GetComponentInChildren<SoundManager>();
     }
     public bool TryToUsePlank() {
         if(_isHavingPlank) {
@@ -46,7 +44,7 @@ public class Inventory : MonoBehaviour
     public bool TryToGatherPlank() {
         if(!_isHavingPlank) {
             _isHavingPlank = true;
-            _soundmanager.PlaySound2D("event:/SFX/PickUpPlank");
+            SoundManager.Instance.PlaySound2D("event:/SFX/PickUpPlank");
             s_PlayerCollider.Instance.GetComponent<PlayerControl>().PlayInteractAnimation();
             _plank.SetActive(true);
             _animator.SetTrigger("IsFeedback");
@@ -57,7 +55,7 @@ public class Inventory : MonoBehaviour
             return true;
         }
         else {
-            _soundmanager.PlaySound2D("event:/SFX/InventoryFull");
+            SoundManager.Instance.PlaySound2D("event:/SFX/InventoryFull");
             return false;
         }
     }
@@ -71,7 +69,7 @@ public class Inventory : MonoBehaviour
             return true;
         }
         else {
-            _soundmanager.PlaySound2D("event:/SFX/InventoryFull");
+            SoundManager.Instance.PlaySound2D("event:/SFX/InventoryFull");
             return false;
         }
     }
