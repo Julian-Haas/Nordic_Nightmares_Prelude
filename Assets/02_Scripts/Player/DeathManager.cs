@@ -20,8 +20,8 @@ public class DeathManager : MonoBehaviour
         }
         else {
             Instance = this;
+            //DontDestroyOnLoad(this);
         }
-        DontDestroyOnLoad(this);
     }
     void Start() {
         _player = this.transform.root.gameObject;

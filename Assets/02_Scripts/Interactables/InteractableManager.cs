@@ -11,7 +11,7 @@ public class InteractableManager : MonoBehaviour
         }
         else {
             Instance = this;
-            DontDestroyOnLoad(this);
+            //DontDestroyOnLoad(this);
         }
     }
     private List<Interactable> _nearbyInteractables = new List<Interactable>();
