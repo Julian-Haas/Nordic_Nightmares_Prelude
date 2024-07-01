@@ -9,8 +9,9 @@ public class NaddagilAttackBehaviour : MonoBehaviour
     [Header("Public References")]
     public Vector3 PlayerPosLastSeen = new Vector3(-999999, -9999999, -999999);
     public Transform PlayerPos;
-
-    public NavMeshAgent Agent { get; private set; }
+    [SerializeField]
+    private NavMeshAgent _agent;
+    public NavMeshAgent Agent { get { return _agent; } }
     [Header("Public Flags")]
     public bool KilledPlayer = false;
     public bool ChasePlayer = false;
@@ -23,7 +24,7 @@ public class NaddagilAttackBehaviour : MonoBehaviour
     private Vector3 invalidVector = new Vector3(-999999, -9999999, -999999);
     private void Awake()
     {
-        Agent = this.GetComponent<NavMeshAgent>(); 
+        _agent = this.GetComponent<NavMeshAgent>(); 
     }
     private void Update()
     {
