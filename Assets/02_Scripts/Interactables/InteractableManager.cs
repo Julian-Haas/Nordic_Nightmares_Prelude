@@ -5,7 +5,6 @@ using UnityEngine;
 public class InteractableManager : MonoBehaviour
 {
     public static InteractableManager Instance;
-    private bool _pressedButton = false; 
     private void Awake() {
         if(Instance != null && Instance != this) {
             Destroy(this);
@@ -66,16 +65,8 @@ public class InteractableManager : MonoBehaviour
         }
     }
     public void Interact() {
-        if(_nearbyInteractables.Count > 0 && _pressedButton==false) {
-            _pressedButton = true; 
+        if(_nearbyInteractables.Count > 0) {
             _nearbyInteractables[0].Interact();
-            StartCoroutine(ButtonCoolDown()); 
         }
-    }
-
-    IEnumerator ButtonCoolDown()
-    {
-        yield return new WaitForSeconds(0.001f);
-        _pressedButton = false; 
     }
 }
