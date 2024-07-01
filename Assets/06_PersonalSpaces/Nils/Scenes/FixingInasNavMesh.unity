@@ -4422,6 +4422,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 871791648}
   m_SourcePrefab: {fileID: 100100000, guid: 5d3e7ade67decdc4594dc59467d8e61d, type: 3}
+--- !u!1 &413445089 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4075594498802940006, guid: 5fef96df39be7c34482e37ab0cc441f2, type: 3}
+  m_PrefabInstance: {fileID: 559469047}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &414811911
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7576,7 +7581,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3310213889742000377, guid: 5fef96df39be7c34482e37ab0cc441f2, type: 3}
   m_PrefabInstance: {fileID: 559469047}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 413445089}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b7ef057e6a68f78448b13d627813b721, type: 3}
@@ -15472,10 +15477,21 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6308979654165976805, guid: 5fef96df39be7c34482e37ab0cc441f2, type: 3}
   m_PrefabInstance: {fileID: 559469047}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 413445089}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 143753821ff68ea4aa5d9aa9f43d661c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1368373700 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3203938350443981488, guid: 5fef96df39be7c34482e37ab0cc441f2, type: 3}
+  m_PrefabInstance: {fileID: 559469047}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413445089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1d4afa8e5108bc40942b3046cd58436, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1369984573
@@ -19024,6 +19040,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1796193357}
     m_Modifications:
+    - target: {fileID: 2469246380865247839, guid: 0d1f7a10b97f3d64196edf74c70580c9, type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 413445089}
+    - target: {fileID: 2469246380865247839, guid: 0d1f7a10b97f3d64196edf74c70580c9, type: 3}
+      propertyPath: _DeathManager
+      value: 
+      objectReference: {fileID: 1368373700}
+    - target: {fileID: 2469246380865247839, guid: 0d1f7a10b97f3d64196edf74c70580c9, type: 3}
+      propertyPath: _soundmanager
+      value: 
+      objectReference: {fileID: 1516203560}
     - target: {fileID: 3392101354139518407, guid: 0d1f7a10b97f3d64196edf74c70580c9, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.x
       value: 79.035866
