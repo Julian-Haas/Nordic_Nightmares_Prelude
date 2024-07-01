@@ -42,7 +42,7 @@ public class WillOTheWisp : Triggerable
         GUIStyle style = new GUIStyle();
         style.normal.textColor = Color.red;
         style.fontSize = 20;
-        Handles.Label(position,label,style);
+        //Handles.Label(position,label,style); 
     }
 
     public void AddWaypoint(GameObject waypoint) {

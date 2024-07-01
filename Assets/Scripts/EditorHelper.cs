@@ -7,13 +7,13 @@ public class EditorHelper
     /// <summary>
     ///   <para>clears the Debug console!</para>
     /// </summary>
-    public static void ClearConsoleLogs()
-    {
-        var assembly = Assembly.GetAssembly(typeof(UnityEditor.ActiveEditorTracker));
-        var type = assembly.GetType("UnityEditorInternal.LogEntries");
-        var method = type.GetMethod("Clear");
-        method.Invoke(new object(), null);
-    }
+   //public static void ClearConsoleLogs()
+   //{
+   //    var assembly = Assembly.GetAssembly(typeof(UnityEditor.ActiveEditorTracker));
+   //    var type = assembly.GetType("UnityEditorInternal.LogEntries");
+   //    var method = type.GetMethod("Clear");
+   //    method.Invoke(new object(), null);
+   //}
     /// <summary>
     ///   <para>static functions used to update a specific TextmeshPro Debug text. Value should be convertable to string!</para>
     /// </summary>

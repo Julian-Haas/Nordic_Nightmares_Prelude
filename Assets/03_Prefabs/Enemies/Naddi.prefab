@@ -45,8 +45,6 @@ GameObject:
   - component: {fileID: 1369002412375257207}
   - component: {fileID: 4090525194590763019}
   - component: {fileID: 691554927131531518}
-  - component: {fileID: 7860407066506927727}
-  - component: {fileID: 2412219056371656657}
   m_Layer: 2
   m_Name: Body
   m_TagString: Untagged
@@ -171,55 +169,6 @@ CapsuleCollider:
   m_Height: 8.62
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 4.1}
---- !u!114 &7860407066506927727
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5379291876346952737}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 105eb4f4bc195474488d94b1dfdba3d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PathWalkSpeed: 0
-  ChaseSpeed: 0
-  RotationSpeed: 0
-  StareTime: 0
-  _pathFollower: {fileID: 0}
-  _naddisHead: {fileID: 2412019543852191605}
-  _leftEllbow: {fileID: 531199325873029252}
-  _rightEllbow: {fileID: 7528857300624949425}
-  _path: {fileID: 0}
-  _tracker: {fileID: 2412219056371656657}
-  _animator: {fileID: 4394294738053522408}
-  _trackerPlayer: {fileID: 0}
-  _player: {fileID: 0}
-  _pathWalking: 1
-  _chasePlayer: 0
-  _stareAtPlayer: 0
-  _returnToPath: 0
-  _huntScream: 0
-  _direction: {x: 0, y: 0, z: 0}
-  _closestTrack: {x: 0, y: 0, z: 0}
---- !u!114 &2412219056371656657
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5379291876346952737}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fb6128da5192f64cbbca658d6a07685, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TrackPointCount: 50
-  TimeBetweenTrackpoints: 0.5
-  MinDistanceBetweenTrackpoints: 2
-  _track: []
-  _blocksView: []
 --- !u!1001 &5528650023014290077
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1483,19 +1432,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 205949029256126258}
   m_SourcePrefab: {fileID: 100100000, guid: de2f917b513d5a14db38268ab98bc4c9, type: 3}
---- !u!1 &531199325873029252 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5469207367229772313, guid: de2f917b513d5a14db38268ab98bc4c9, type: 3}
-  m_PrefabInstance: {fileID: 5528650023014290077}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1674825554539311853 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6595408476430082160, guid: de2f917b513d5a14db38268ab98bc4c9, type: 3}
-  m_PrefabInstance: {fileID: 5528650023014290077}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &2412019543852191605 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7908465091268632040, guid: de2f917b513d5a14db38268ab98bc4c9, type: 3}
   m_PrefabInstance: {fileID: 5528650023014290077}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &3718554624394121752 stripped
@@ -1547,16 +1486,6 @@ CapsuleCollider:
   m_Height: 4.4
   m_Direction: 2
   m_Center: {x: 0, y: 1.56, z: -1.6}
---- !u!95 &4394294738053522408 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 8089061068480229749, guid: de2f917b513d5a14db38268ab98bc4c9, type: 3}
-  m_PrefabInstance: {fileID: 5528650023014290077}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &7528857300624949425 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2648796303179616812, guid: de2f917b513d5a14db38268ab98bc4c9, type: 3}
-  m_PrefabInstance: {fileID: 5528650023014290077}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6580902513821160748
 PrefabInstance:
   m_ObjectHideFlags: 0

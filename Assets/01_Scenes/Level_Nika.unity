@@ -6201,79 +6201,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a046edecf5b2e0e438a43893493375a4, type: 3}
---- !u!1001 &160072724
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 410706426}
-    m_Modifications:
-    - target: {fileID: 91028378906847702, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_Name
-      value: NewShroomCircle
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.79
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.79
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.79
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 6.069996
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.18
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -17.800003
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
 --- !u!1001 &160381370
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15779,6 +15706,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pathHolder: {fileID: 1021247471}
   _spline: {fileID: 357303890}
+  _indexToPauseAt: -1
   IndexesToPauseAt: 
 --- !u!1001 &393493634
 PrefabInstance:
@@ -16409,7 +16337,6 @@ Transform:
   - {fileID: 319093617}
   - {fileID: 741239101}
   - {fileID: 157821408}
-  - {fileID: 590448154}
   - {fileID: 1540188887}
   - {fileID: 2042801259}
   - {fileID: 868369238}
@@ -22210,6 +22137,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1507020999}
     - target: {fileID: 3203938350443981488, guid: 5fef96df39be7c34482e37ab0cc441f2, type: 3}
+      propertyPath: _naddagil
+      value: 
+      objectReference: {fileID: 1507020999}
+    - target: {fileID: 3203938350443981488, guid: 5fef96df39be7c34482e37ab0cc441f2, type: 3}
       propertyPath: _playerScript
       value: 
       objectReference: {fileID: 559469050}
@@ -22313,6 +22244,10 @@ PrefabInstance:
       propertyPath: _speed
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 6308979654165976805, guid: 5fef96df39be7c34482e37ab0cc441f2, type: 3}
+      propertyPath: _naddagil
+      value: 
+      objectReference: {fileID: 1507020999}
     - target: {fileID: 6346640903152727836, guid: 5fef96df39be7c34482e37ab0cc441f2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 113.98
@@ -23914,11 +23849,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 6943810135593127723, guid: 246a52e1ca08c014690934785da4599b, type: 3}
   m_PrefabInstance: {fileID: 1200068282}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &590448154 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4731802194340462727, guid: 9ee6e46a3e046f3418e7d5b97c57da98, type: 3}
-  m_PrefabInstance: {fileID: 160072724}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &591046784 stripped
 Transform:
@@ -27990,6 +27920,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pathHolder: {fileID: 1021247471}
   _spline: {fileID: 1263392768}
+  _indexToPauseAt: -1
   IndexesToPauseAt: 
 --- !u!1001 &679063591
 PrefabInstance:
@@ -53681,6 +53612,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pathHolder: {fileID: 1021247471}
   _spline: {fileID: 871893218}
+  _indexToPauseAt: -1
   IndexesToPauseAt: 
 --- !u!1001 &1330937645
 PrefabInstance:
@@ -63506,6 +63438,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pathHolder: {fileID: 1021247471}
   _spline: {fileID: 1247459146}
+  _indexToPauseAt: -1
   IndexesToPauseAt: 
 --- !u!1001 &1606955662
 PrefabInstance:
@@ -73313,6 +73246,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pathHolder: {fileID: 1021247471}
   _spline: {fileID: 107114801}
+  _indexToPauseAt: -1
   IndexesToPauseAt: 
 --- !u!1001 &1832315189
 PrefabInstance:
@@ -81347,6 +81281,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pathHolder: {fileID: 1021247471}
   _spline: {fileID: 1541922160}
+  _indexToPauseAt: -1
   IndexesToPauseAt: 
 --- !u!1001 &2020101097
 PrefabInstance:
