@@ -6,7 +6,7 @@ public class UtburdurSimple : MonoBehaviour
     public bool IsFlying = false;
     private Vector3 _direction;
     private Animator _animator;
-    private s_SoundManager _soundManager;
+    private SoundManager _soundManager;
     public float _idleTimer;
     GameObject _player;
 
@@ -16,7 +16,7 @@ public class UtburdurSimple : MonoBehaviour
         DissolveDistance = 50.0f;
         _animator = GetComponentInChildren<Animator>();
         _animator.SetBool("IsFlying", false);
-        _soundManager = GameObject.Find("SoundManager").GetComponent<s_SoundManager>();
+        _soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
         _soundManager.PlaySound3D("event:/SFX/UtburdurIdle", transform.position);
     }
 

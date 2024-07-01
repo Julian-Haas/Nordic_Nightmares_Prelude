@@ -3,61 +3,60 @@ using UnityEngine;
 
 public class DeathManager : MonoBehaviour
 {
-    [SerializeField]
-    private Naddagil _naddi; 
+    public static DeathManager Instance {
+        get; private set;
+    }
+    [SerializeField] private Naddagil _naddagil;
     SavePoint _lastSavePointTotem = null;
     Vector3 _respawnPoint;
     public s_PlayerCollider _playerScript;
-    private s_SoundManager _soundManager;
     private Animator _DeathScreenAnimator;
-    private DeathManager _deathManager;
     private GameObject _player;
 
-    void Start()
-    {
-        _soundManager = GameObject.Find("SoundManager").GetComponentInChildren<s_SoundManager>();
+    private void Awake() {
+        if(Instance != null && Instance != this) {
+            Destroy(this);
+            return;
+        }
+        else {
+            Instance = this;
+        }
+        DontDestroyOnLoad(this);
+    }
+    void Start() {
         _player = this.transform.root.gameObject;
-        _deathManager = this;
         _playerScript = this.GetComponent<s_PlayerCollider>();
         _respawnPoint = this.transform.root.position;
         _DeathScreenAnimator = GameObject.Find("InGame_Canvas").transform.Find("DeathScreenOverlay").GetComponent<Animator>();
     }
-
-    public void PlayerDies(bool NaddiCauseOfDeath)
-    {
-        _DeathScreenAnimator.SetBool("IsDeathScreen", true);
-        if (NaddiCauseOfDeath)
-        {
-            _soundManager.PlaySound3D("event:/SFX/BiteDeath", _player.transform.position);
+    public void PlayerDies(bool NaddiCauseOfDeath) {
+        _DeathScreenAnimator.SetBool("IsDeathScreen",true);
+        if(NaddiCauseOfDeath) {
+            SoundManager.Instance.PlaySound3D("event:/SFX/BiteDeath",_player.transform.position);
         }
-        else
-        {
-            _soundManager.PlaySound2D("event:/SFX/WaterDeath");
+        else {
+            SoundManager.Instance.PlaySound2D("event:/SFX/WaterDeath");
         }
         StartCoroutine(RespawnCoroutine());
     }
-    IEnumerator RespawnCoroutine()
-    {
+    IEnumerator RespawnCoroutine() {
         yield return new WaitForSeconds(2.0f);
-        _naddi.AttackBehaviour.KilledPlayer = true;
+        _naddagil.AttackBehaviour.KilledPlayer = true;
         GameObject simplNaddiActive = GameObject.Find("SimpleNaddiManager");
-        NaddagilUtillitys.ResetNaddiPosition(ref _naddi);
-        _playerScript._sanity = 100.0f;
+        NaddagilUtillitys.ResetNaddiPosition(ref _naddagil);
+
+        Sanity.Instance.ResetSanity();
         _player.transform.position = _respawnPoint;
-        _DeathScreenAnimator.SetBool("IsDeathScreen", false);
+        _DeathScreenAnimator.SetBool("IsDeathScreen",false);
         yield return new WaitForSeconds(0.1f);
-        _soundManager.PlaySound3D("event:/SFX/PlayerAwakes", _player.transform.position);
+        SoundManager.Instance.PlaySound3D("event:/SFX/PlayerAwakes",_player.transform.position);
         _playerScript.gameObject.GetComponent<PlayerControl>()?.PlayRespawnAnimation();
     }
-
-    public void ActivateSavepoint(SavePoint SavepointToActivate, GameObject RespawnPoint)
-    {
+    public void ActivateSavepoint(SavePoint SavepointToActivate,GameObject RespawnPoint) {
         _respawnPoint = RespawnPoint.transform.position;
-        if (_lastSavePointTotem != null)
-        {
+        if(_lastSavePointTotem != null) {
             _lastSavePointTotem.DeactivateSavePoint();
         }
         _lastSavePointTotem = SavepointToActivate;
     }
-
 }
